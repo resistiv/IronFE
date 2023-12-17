@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IronFE.Tests
+namespace IronFE.Test
 {
     /// <summary>
     /// Tests functionality of all pre-defined CRC configurations.
