@@ -53,13 +53,16 @@ namespace IronFE.Hash
             crcRegister = this.parameters.InitialValue;
         }
 
+        /// <summary>
+        /// Gets the resultant CRC calculated from the input data.
+        /// </summary>
         public ulong Result
         {
             get
             {
                 if (parameters.ReflectOutput)
                 {
-                    return parameters.OutputXor ^ crcRegister;
+                    return parameters.OutputXor ^ BitReverser.ReverseValue(crcRegister, parameters.Width);
                 }
                 else
                 {
@@ -68,6 +71,10 @@ namespace IronFE.Hash
             }
         }
 
+        /// <summary>
+        /// Updates the CRC with a <see cref="byte"/> of input data.
+        /// </summary>
+        /// <param name="b">The next <see cref="byte"/> in the input stream.</param>
         public void UpdateCrc(byte b)
         {
             if (parameters.ReflectInput)
@@ -80,13 +87,13 @@ namespace IronFE.Hash
             for (int i = 0; i < 8; i++)
             {
                 crcRegister <<= 1;
-
                 if ((crcRegister & msb) != 0)
                 {
                     crcRegister ^= parameters.Polynomial;
                 }
 
-                crcRegister &= (1UL << parameters.Width) - 1UL;
+                // crcRegister &= (1UL << parameters.Width) - 1UL;
+                crcRegister &= (msb << 1) - 1UL;
             }
         }
     }
