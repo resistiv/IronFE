@@ -1,19 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 using IronFE.Tool;
 
-namespace IronFE.Test
+namespace IronFE.Benchmark
 {
-    public class Config : ManualConfig
-    {
-        public Config()
-        {
-            AddJob(Job.MediumRun.WithToolchain(InProcessNoEmitToolchain.Instance));
-        }
-    }
-
     [Config(typeof(Config))]
     [MemoryDiagnoser]
     public class BitReverserBenchmark
