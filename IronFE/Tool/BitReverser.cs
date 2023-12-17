@@ -55,24 +55,24 @@
                       ReverseByteTable[(i >> 24) & 0xFF]);
 
         public static long ReverseInt64(long l)
-            => ReverseByteTable[l & 0xFF] << 56 |
-               ReverseByteTable[(l >> 8) & 0xFF] << 48 |
-               ReverseByteTable[(l >> 16) & 0xFF] << 40 |
-               ReverseByteTable[(l >> 24) & 0xFF] << 32 |
-               ReverseByteTable[(l >> 32) & 0xFF] << 24 |
-               ReverseByteTable[(l >> 40) & 0xFF] << 16 |
-               ReverseByteTable[(l >> 48) & 0xFF] << 8 |
-               ReverseByteTable[(l >> 56) & 0xFF];
+            => (long)ReverseByteTable[l & 0xFF] << 56 |
+               (long)ReverseByteTable[(l >> 8) & 0xFF] << 48 |
+               (long)ReverseByteTable[(l >> 16) & 0xFF] << 40 |
+               (long)ReverseByteTable[(l >> 24) & 0xFF] << 32 |
+               (long)ReverseByteTable[(l >> 32) & 0xFF] << 24 |
+               (long)ReverseByteTable[(l >> 40) & 0xFF] << 16 |
+               (long)ReverseByteTable[(l >> 48) & 0xFF] << 8 |
+                     ReverseByteTable[(l >> 56) & 0xFF];
 
         public static ulong ReverseUInt64(ulong l)
-            => (ulong)(ReverseByteTable[l & 0xFF] << 56 |
-                       ReverseByteTable[(l >> 8) & 0xFF] << 48 |
-                       ReverseByteTable[(l >> 16) & 0xFF] << 40 |
-                       ReverseByteTable[(l >> 24) & 0xFF] << 32 |
-                       ReverseByteTable[(l >> 32) & 0xFF] << 24 |
-                       ReverseByteTable[(l >> 40) & 0xFF] << 16 |
-                       ReverseByteTable[(l >> 48) & 0xFF] << 8 |
-                       ReverseByteTable[(l >> 56) & 0xFF]);
+            => (ulong)ReverseByteTable[l & 0xFF] << 56 |
+               (ulong)ReverseByteTable[(l >> 8) & 0xFF] << 48 |
+               (ulong)ReverseByteTable[(l >> 16) & 0xFF] << 40 |
+               (ulong)ReverseByteTable[(l >> 24) & 0xFF] << 32 |
+               (ulong)ReverseByteTable[(l >> 32) & 0xFF] << 24 |
+               (ulong)ReverseByteTable[(l >> 40) & 0xFF] << 16 |
+               (ulong)ReverseByteTable[(l >> 48) & 0xFF] << 8 |
+                      ReverseByteTable[(l >> 56) & 0xFF];
 
         /// <summary>
         /// Reverses the bottom <paramref name="bitCount"/> bits of a given <paramref name="value"/>.
