@@ -62,7 +62,16 @@ namespace IronFE.Hash
             {
                 if (parameters.ReflectOutput)
                 {
-                    return parameters.OutputXor ^ BitReverser.ReverseValue(crcRegister, parameters.Width);
+                    // Optimize common cases with table-based reverses to improve runtime
+                    var result = parameters.Width switch
+                    {
+                        8 => BitReverser.ReverseByte((byte)(crcRegister & 0xFF)),
+                        16 => BitReverser.ReverseUInt16((ushort)(crcRegister & 0xFFFF)),
+                        32 => BitReverser.ReverseUInt32((uint)(crcRegister & 0xFFFFFFFF)),
+                        64 => BitReverser.ReverseUInt64(crcRegister),
+                        _ => BitReverser.ReverseValue(crcRegister, parameters.Width),
+                    };
+                    return parameters.OutputXor ^ result;
                 }
                 else
                 {
