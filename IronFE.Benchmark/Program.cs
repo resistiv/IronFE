@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using IronFE.Test;
 
 namespace IronFE.Benchmark
 {
