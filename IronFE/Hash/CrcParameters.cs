@@ -15,7 +15,7 @@ namespace IronFE.Hash
         /// <summary>
         /// Gets the width, in bits, of this CRC.
         /// </summary>
-        public int Width { get; } = width >= 8 && width <= 32 ? width : throw new ArgumentOutOfRangeException(nameof(width), "Width must be between 8 and 32, inclusive.");
+        public int Width { get; } = width >= 8 && width <= 64 ? width : throw new ArgumentOutOfRangeException(nameof(width), "Width must be between 8 and 64, inclusive.");
 
         /// <summary>
         /// Gets the generator polynomial of this CRC.

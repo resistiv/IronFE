@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using IronFE.Tool;
 
 namespace IronFE.Hash
 {
@@ -14,15 +15,16 @@ namespace IronFE.Hash
             {
                 {
                     CrcType.Crc16Arc,
-                    new("CRC-16-ARC", 16, 0x8005, 0UL, true, true, 0UL)
+                    new("CRC-16/ARC", 16, 0x8005, 0UL, true, true, 0UL)
                 },
                 {
-                    CrcType.Crc16Ccitt,
-                    new("CRC-16-CCITT", 16, 0x1021, 0xFFFF, false, false, 0UL)
+                    CrcType.Crc16Xmodem,
+                    new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },
             }.ToFrozenDictionary();
 
         private readonly CrcParameters parameters;
+        private ulong crcRegister;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Crc"/> class with a pre-defined CRC configuration, identified by its <see cref="CrcType"/>.
@@ -33,6 +35,7 @@ namespace IronFE.Hash
             if (PredefinedCrcs.TryGetValue(type, out CrcParameters param))
             {
                 parameters = param;
+                crcRegister = parameters.InitialValue;
             }
             else
             {
@@ -47,6 +50,44 @@ namespace IronFE.Hash
         public Crc(CrcParameters parameters)
         {
             this.parameters = parameters;
+            crcRegister = this.parameters.InitialValue;
+        }
+
+        public ulong Result
+        {
+            get
+            {
+                if (parameters.ReflectOutput)
+                {
+                    return parameters.OutputXor ^ crcRegister;
+                }
+                else
+                {
+                    return parameters.OutputXor ^ crcRegister;
+                }
+            }
+        }
+
+        public void UpdateCrc(byte b)
+        {
+            if (parameters.ReflectInput)
+            {
+                b = BitReverser.ReverseByte(b);
+            }
+
+            crcRegister ^= (ulong)b << (parameters.Width - 8);
+            ulong msb = 1UL << (parameters.Width - 1);
+            for (int i = 0; i < 8; i++)
+            {
+                crcRegister <<= 1;
+
+                if ((crcRegister & msb) != 0)
+                {
+                    crcRegister ^= parameters.Polynomial;
+                }
+
+                crcRegister &= (1UL << parameters.Width) - 1UL;
+            }
         }
     }
 }
@@ -54,4 +95,5 @@ namespace IronFE.Hash
 /*
  * Useful Resources:
  * http://www.ross.net/crc/crcpaper.html
+ * https://reveng.sourceforge.io/crc-catalogue/
  */
