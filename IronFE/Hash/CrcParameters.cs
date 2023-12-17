@@ -5,6 +5,9 @@ namespace IronFE.Hash
     /// <summary>
     /// Stores the parameters for a particular CRC.
     /// </summary>
+    /// <remarks>
+    /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
+    /// </remarks>
     public readonly struct CrcParameters(string name, int width, ulong polynomial, ulong initialValue, bool reflectInput, bool reflectOutput, ulong outputXor)
     {
         /// <summary>

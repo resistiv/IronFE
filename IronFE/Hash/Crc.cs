@@ -74,6 +74,9 @@ namespace IronFE.Hash
         /// <summary>
         /// Updates the CRC with a <see cref="byte"/> of input data.
         /// </summary>
+        /// <remarks>
+        /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
+        /// </remarks>
         /// <param name="b">The next <see cref="byte"/> in the input stream.</param>
         public void UpdateCrc(byte b)
         {
