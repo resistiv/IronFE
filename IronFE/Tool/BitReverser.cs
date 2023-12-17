@@ -77,6 +77,9 @@
         /// <summary>
         /// Reverses the bottom <paramref name="bitCount"/> bits of a given <paramref name="value"/>.
         /// </summary>
+        /// <remarks>
+        /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
+        /// </remarks>
         /// <param name="value">A value whose bottom-most bits are to be reversed.</param>
         /// <param name="bitCount">The number of bits to reverse.</param>
         /// <returns>A <see cref="ulong"/> with its bottom <paramref name="bitCount"/> bits reversed.</returns>
@@ -84,15 +87,15 @@
         {
             ulong result = value;
 
-            for (int i = 0; i < bitCount; i++)
+            while (bitCount != 0)
             {
-                if ((value & 1UL) == 1)
+                if ((value & 1) == 1)
                 {
-                    result |= 1UL << (bitCount - 1 - i);
+                    result |= 1UL << (--bitCount);
                 }
                 else
                 {
-                    result &= ~(1UL << (bitCount - 1 - i));
+                    result &= ~(1UL << (--bitCount));
                 }
 
                 value >>= 1;
