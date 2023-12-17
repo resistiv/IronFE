@@ -3,6 +3,9 @@
     /// <summary>
     /// Handles bit reversion across primitive data types.
     /// </summary>
+    /// <remarks>
+    /// This class is not an endianness converter; it reverses/reflects the <i>bits</i> of data types, rather than the <i>bytes</i>.
+    /// </remarks>
     public static class BitReverser
     {
         private static readonly byte[] ReverseByteTable =
@@ -25,9 +28,11 @@
             0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF,
         };
 
-        public static byte ReverseByte(byte b) => ReverseByteTable[b];
+        public static byte ReverseByte(byte b)
+            => ReverseByteTable[b];
 
-        public static sbyte ReverseSByte(sbyte b) => (sbyte)ReverseByteTable[b & 0xFF];
+        public static sbyte ReverseSByte(sbyte b)
+            => (sbyte)ReverseByteTable[b & 0xFF];
 
         public static short ReverseInt16(short s)
             => (short)(ReverseByteTable[s & 0xFF] << 8 |
@@ -68,6 +73,33 @@
                        ReverseByteTable[(l >> 40) & 0xFF] << 16 |
                        ReverseByteTable[(l >> 48) & 0xFF] << 8 |
                        ReverseByteTable[(l >> 56) & 0xFF]);
+
+        /// <summary>
+        /// Reverses the bottom <paramref name="bitCount"/> bits of a given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">A value whose bottom-most bits are to be reversed.</param>
+        /// <param name="bitCount">The number of bits to reverse.</param>
+        /// <returns>A <see cref="ulong"/> with its bottom <paramref name="bitCount"/> bits reversed.</returns>
+        public static ulong ReverseValue(ulong value, int bitCount)
+        {
+            ulong result = value;
+
+            for (int i = 0; i < bitCount; i++)
+            {
+                if ((value & 1UL) == 1)
+                {
+                    result |= 1UL << (bitCount - 1 - i);
+                }
+                else
+                {
+                    result &= ~(1UL << (bitCount - 1 - i));
+                }
+
+                value >>= 1;
+            }
+
+            return result;
+        }
 
         /*
         private static byte[] GenerateReverseByteTable()
