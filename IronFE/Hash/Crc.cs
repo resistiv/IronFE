@@ -98,13 +98,13 @@ namespace IronFE.Hash
             ulong msb = 1UL << (parameters.Width - 1);
             for (int i = 0; i < 8; i++)
             {
+                bool xorPoly = (crcRegister & msb) != 0;
                 crcRegister <<= 1;
-                if ((crcRegister & msb) != 0)
+                if (xorPoly)
                 {
                     crcRegister ^= parameters.Polynomial;
                 }
 
-                // crcRegister &= (1UL << parameters.Width) - 1UL;
                 crcRegister &= (msb << 1) - 1UL;
             }
         }
