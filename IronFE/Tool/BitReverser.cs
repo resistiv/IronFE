@@ -1,7 +1,7 @@
 ﻿namespace IronFE.Tool
 {
     /// <summary>
-    /// Handles bit reversion across primitive data types.
+    /// Handles bit reversing across primitive data types.
     /// </summary>
     /// <remarks>
     /// This class is not an endianness converter; it reverses/reflects the <i>bits</i> of data types, rather than the <i>bytes</i>.
@@ -28,32 +28,67 @@
             0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF,
         };
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="byte"/>.
+        /// </summary>
+        /// <param name="b">A <see cref="byte"/> to reverse.</param>
+        /// <returns>A reversed <see cref="byte"/>.</returns>
         public static byte ReverseByte(byte b)
             => ReverseByteTable[b];
 
+        /// <summary>
+        /// Reverses the bits of an <see cref="sbyte"/>.
+        /// </summary>
+        /// <param name="b">An <see cref="sbyte"/> to reverse.</param>
+        /// <returns>A reversed <see cref="sbyte"/>.</returns>
         public static sbyte ReverseSByte(sbyte b)
             => (sbyte)ReverseByteTable[b & 0xFF];
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="short"/>.
+        /// </summary>
+        /// <param name="s">A <see cref="short"/> to reverse.</param>
+        /// <returns>A reversed <see cref="short"/>.</returns>
         public static short ReverseInt16(short s)
             => (short)(ReverseByteTable[s & 0xFF] << 8 |
                        ReverseByteTable[(s >> 8) & 0xFF]);
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="ushort"/>.
+        /// </summary>
+        /// <param name="s">A <see cref="ushort"/> to reverse.</param>
+        /// <returns>A reversed <see cref="ushort"/>.</returns>
         public static ushort ReverseUInt16(ushort s)
             => (ushort)(ReverseByteTable[s & 0xFF] << 8 |
                        ReverseByteTable[(s >> 8) & 0xFF]);
 
+        /// <summary>
+        /// Reverses the bits of an <see cref="int"/>.
+        /// </summary>
+        /// <param name="i">An <see cref="int"/> to reverse.</param>
+        /// <returns>A reversed <see cref="int"/>.</returns>
         public static int ReverseInt32(int i)
             => ReverseByteTable[i & 0xFF] << 24 |
                ReverseByteTable[(i >> 8) & 0xFF] << 16 |
                ReverseByteTable[(i >> 16) & 0xFF] << 8 |
                ReverseByteTable[(i >> 24) & 0xFF];
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="uint"/>.
+        /// </summary>
+        /// <param name="i">A <see cref="uint"/> to reverse.</param>
+        /// <returns>A reversed <see cref="uint"/>.</returns>
         public static uint ReverseUInt32(uint i)
             => (uint)(ReverseByteTable[i & 0xFF] << 24 |
                       ReverseByteTable[(i >> 8) & 0xFF] << 16 |
                       ReverseByteTable[(i >> 16) & 0xFF] << 8 |
                       ReverseByteTable[(i >> 24) & 0xFF]);
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="long"/>.
+        /// </summary>
+        /// <param name="l">A <see cref="long"/> to reverse.</param>
+        /// <returns>A reversed <see cref="long"/>.</returns>
         public static long ReverseInt64(long l)
             => (long)ReverseByteTable[l & 0xFF] << 56 |
                (long)ReverseByteTable[(l >> 8) & 0xFF] << 48 |
@@ -64,6 +99,11 @@
                (long)ReverseByteTable[(l >> 48) & 0xFF] << 8 |
                      ReverseByteTable[(l >> 56) & 0xFF];
 
+        /// <summary>
+        /// Reverses the bits of a <see cref="ulong"/>.
+        /// </summary>
+        /// <param name="l">A <see cref="ulong"/> to reverse.</param>
+        /// <returns>A reversed <see cref="ulong"/>.</returns>
         public static ulong ReverseUInt64(ulong l)
             => (ulong)ReverseByteTable[l & 0xFF] << 56 |
                (ulong)ReverseByteTable[(l >> 8) & 0xFF] << 48 |
