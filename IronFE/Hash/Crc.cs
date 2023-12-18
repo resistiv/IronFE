@@ -35,7 +35,7 @@ namespace IronFE.Hash
             if (PredefinedCrcs.TryGetValue(type, out CrcParameters param))
             {
                 parameters = param;
-                crcRegister = parameters.InitialValue;
+                ResetCrc();
             }
             else
             {
@@ -50,7 +50,7 @@ namespace IronFE.Hash
         public Crc(CrcParameters parameters)
         {
             this.parameters = parameters;
-            crcRegister = this.parameters.InitialValue;
+            ResetCrc();
         }
 
         /// <summary>
@@ -107,6 +107,14 @@ namespace IronFE.Hash
 
                 crcRegister &= (msb << 1) - 1UL;
             }
+        }
+
+        /// <summary>
+        /// Sets the CRC register to the <see cref="CrcParameters"/>-defined initial value.
+        /// </summary>
+        public void ResetCrc()
+        {
+            crcRegister = parameters.InitialValue;
         }
     }
 }
