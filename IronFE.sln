@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronFE.Test", "IronFE.Tests\IronFE.Test.csproj", "{34091E3C-EAC2-43C5-B938-50750AC520D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IronFE.Tests", "IronFE.Tests\IronFE.Tests.csproj", "{34091E3C-EAC2-43C5-B938-50750AC520D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronFE.Benchmark", "IronFE.Benchmark\IronFE.Benchmark.csproj", "{99868847-F0E9-4305-8B1D-ADCFEE83364F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IronFE.Benchmarks", "IronFE.Benchmarks\IronFE.Benchmarks.csproj", "{99868847-F0E9-4305-8B1D-ADCFEE83364F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

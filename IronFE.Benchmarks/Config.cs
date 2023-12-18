@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 
-namespace IronFE.Benchmark
+namespace IronFE.Benchmarks
 {
     public class Config : ManualConfig
     {

@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace IronFE.Benchmark
+namespace IronFE.Benchmarks
 {
     public class Program
     {

@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using IronFE.Tool;
 
-namespace IronFE.Benchmark
+namespace IronFE.Benchmarks
 {
     [Config(typeof(Config))]
     [MemoryDiagnoser]
