@@ -2,13 +2,13 @@ using System;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IronFE.Test
+namespace IronFE.Tests
 {
     /// <summary>
     /// Tests functionality of all pre-defined CRC configurations.
     /// </summary>
     [TestClass]
-    public class CrcTester
+    public class CrcTests
     {
         private const string CheckString = "123456789";
 
@@ -19,12 +19,7 @@ namespace IronFE.Test
         public void Crc16Arc()
         {
             Crc arc = new(CrcType.Crc16Arc);
-
-            foreach (char c in CheckString)
-            {
-                arc.UpdateCrc(Convert.ToByte(c));
-            }
-
+            UpdateWithCheckString(arc);
             Assert.AreEqual((ushort)(arc.Result & 0xFFFF), (ushort)0xBB3D);
         }
 
@@ -35,13 +30,20 @@ namespace IronFE.Test
         public void Crc16Xmodem()
         {
             Crc xmodem = new(CrcType.Crc16Xmodem);
+            UpdateWithCheckString(xmodem);
+            Assert.AreEqual((ushort)(xmodem.Result & 0xFFFF), (ushort)0x31C3);
+        }
 
+        /// <summary>
+        /// Updates a <see cref="Crc"/>'s value with the default check string.
+        /// </summary>
+        /// <param name="crc">A <see cref="Crc"/> to update.</param>
+        private static void UpdateWithCheckString(Crc crc)
+        {
             foreach (char c in CheckString)
             {
-                xmodem.UpdateCrc(Convert.ToByte(c));
+                crc.UpdateCrc(Convert.ToByte(c));
             }
-
-            Assert.AreEqual((ushort)(xmodem.Result & 0xFFFF), (ushort)0x31C3);
         }
     }
 }
