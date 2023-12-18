@@ -62,7 +62,7 @@ namespace IronFE.Hash
             {
                 if (parameters.ReflectOutput)
                 {
-                    // Optimize common cases with table-based reverses to improve runtime
+                    // Optimize common cases with table-based reverses
                     var result = parameters.Width switch
                     {
                          8 => BitReverser.ReverseByte((byte)(crcRegister & 0xFF)),
