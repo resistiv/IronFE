@@ -1,6 +1,6 @@
+using System;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace IronFE.Test
 {
@@ -10,13 +10,17 @@ namespace IronFE.Test
     [TestClass]
     public class CrcTester
     {
+        private const string CheckString = "123456789";
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/ARC CRC.
+        /// </summary>
         [TestMethod]
         public void Crc16Arc()
         {
             Crc arc = new(CrcType.Crc16Arc);
-            string test = "123456789";
 
-            foreach (char c in test)
+            foreach (char c in CheckString)
             {
                 arc.UpdateCrc(Convert.ToByte(c));
             }
@@ -24,13 +28,15 @@ namespace IronFE.Test
             Assert.AreEqual((ushort)(arc.Result & 0xFFFF), (ushort)0xBB3D);
         }
 
+        /// <summary>
+        /// Tests the functionality of the CRC-16/XMODEM CRC.
+        /// </summary>
         [TestMethod]
         public void Crc16Xmodem()
         {
             Crc xmodem = new(CrcType.Crc16Xmodem);
-            string test = "123456789";
 
-            foreach (char c in test)
+            foreach (char c in CheckString)
             {
                 xmodem.UpdateCrc(Convert.ToByte(c));
             }
