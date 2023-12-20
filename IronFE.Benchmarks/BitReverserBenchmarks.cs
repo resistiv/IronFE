@@ -5,7 +5,7 @@ namespace IronFE.Benchmarks
 {
     [Config(typeof(Config))]
     [MemoryDiagnoser]
-    public class BitReverserBenchmark
+    public class BitReverserBenchmarks
     {
         private int reverseCount = 5000000;
 

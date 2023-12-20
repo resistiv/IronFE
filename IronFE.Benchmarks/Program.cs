@@ -6,7 +6,8 @@ namespace IronFE.Benchmarks
     {
         public static void Main(string[] args)
         {
-            BenchmarkRunner.Run<BitReverserBenchmark>();
+            //BenchmarkRunner.Run<BitReverserBenchmarks>();
+            BenchmarkRunner.Run<CrcBenchmarks>();
         }
     }
 }
