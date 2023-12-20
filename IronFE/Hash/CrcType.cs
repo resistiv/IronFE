@@ -244,6 +244,20 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/MCRF4XX configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-mcrf4xx">CRC-16/MCRF4XX</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Mcrf4xx
+        {
+            get
+            {
+                return new("CRC-16/MCRF4XX", 16, 0x1021, 0xFFFF, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

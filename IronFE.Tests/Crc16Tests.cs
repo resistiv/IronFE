@@ -200,6 +200,17 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/MCRF4XX CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Mcrf4xx()
+        {
+            Crc mcrf4xx = new(CrcType.Crc16Mcrf4xx);
+            mcrf4xx.Update(CheckString);
+            Assert.AreEqual((ushort)0x6F91, (ushort)mcrf4xx.Result);
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
