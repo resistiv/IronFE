@@ -272,6 +272,48 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/NRSC-5 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-nrsc-5">CRC-16/NRSC-5</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Nrsc5
+        {
+            get
+            {
+                return new("CRC-16/NRSC-5", 16, 0x080B, 0xFFFF, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/OPENSAFETY-A configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-opensafety-a">CRC-16/OPENSAFETY-A</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16OpenSafetyA
+        {
+            get
+            {
+                return new("CRC-16/OPENSAFETY-A", 16, 0x5935, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/OPENSAFETY-B configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-opensafety-b">CRC-16/OPENSAFETY-A</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16OpenSafetyB
+        {
+            get
+            {
+                return new("CRC-16/OPENSAFETY-B", 16, 0x755B, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

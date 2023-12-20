@@ -222,6 +222,39 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/NRSC-5 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Nrsc5()
+        {
+            Crc nrsc5 = new(CrcType.Crc16Nrsc5);
+            nrsc5.Update(CheckString);
+            Assert.AreEqual((ushort)0xA066, (ushort)nrsc5.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/OPENSAFETY-A CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16OpenSafetyA()
+        {
+            Crc openSafetyA = new(CrcType.Crc16OpenSafetyA);
+            openSafetyA.Update(CheckString);
+            Assert.AreEqual((ushort)0x5D38, (ushort)openSafetyA.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/OPENSAFETY-B CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16OpenSafetyB()
+        {
+            Crc openSafetyB = new(CrcType.Crc16OpenSafetyB);
+            openSafetyB.Update(CheckString);
+            Assert.AreEqual((ushort)0x20FE, (ushort)openSafetyB.Result);
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
