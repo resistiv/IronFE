@@ -20,7 +20,7 @@ namespace IronFE.Tests
         {
             Crc arc = new(CrcType.Crc16Arc);
             arc.Update(CheckString);
-            Assert.AreEqual((ushort)0xBB3D, (ushort)(arc.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xBB3D, (ushort)arc.Result);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace IronFE.Tests
         {
             Crc cdma2000 = new(CrcType.Crc16Cdma2000);
             cdma2000.Update(CheckString);
-            Assert.AreEqual((ushort)0x4C06, (ushort)(cdma2000.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x4C06, (ushort)cdma2000.Result);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace IronFE.Tests
         {
             Crc cms = new(CrcType.Crc16Cms);
             cms.Update(CheckString);
-            Assert.AreEqual((ushort)0xAEE7, (ushort)(cms.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xAEE7, (ushort)cms.Result);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace IronFE.Tests
         {
             Crc dds110 = new(CrcType.Crc16Dds110);
             dds110.Update(CheckString);
-            Assert.AreEqual((ushort)0x9ECF, (ushort)(dds110.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x9ECF, (ushort)dds110.Result);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace IronFE.Tests
         {
             Crc dectR = new(CrcType.Crc16DectR);
             dectR.Update(CheckString);
-            Assert.AreEqual((ushort)0x007E, (ushort)(dectR.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x007E, (ushort)dectR.Result);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace IronFE.Tests
         {
             Crc dectX = new(CrcType.Crc16DectX);
             dectX.Update(CheckString);
-            Assert.AreEqual((ushort)0x007F, (ushort)(dectX.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x007F, (ushort)dectX.Result);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace IronFE.Tests
         {
             Crc dnp = new(CrcType.Crc16Dnp);
             dnp.Update(CheckString);
-            Assert.AreEqual((ushort)0xEA82, (ushort)(dnp.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xEA82, (ushort)dnp.Result);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace IronFE.Tests
         {
             Crc en13757 = new(CrcType.Crc16En13757);
             en13757.Update(CheckString);
-            Assert.AreEqual((ushort)0xC2B7, (ushort)(en13757.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xC2B7, (ushort)en13757.Result);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace IronFE.Tests
         {
             Crc genibus = new(CrcType.Crc16Genibus);
             genibus.Update(CheckString);
-            Assert.AreEqual((ushort)0xD64E, (ushort)(genibus.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xD64E, (ushort)genibus.Result);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace IronFE.Tests
         {
             Crc gsm = new(CrcType.Crc16Gsm);
             gsm.Update(CheckString);
-            Assert.AreEqual((ushort)0xCE3C, (ushort)(gsm.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xCE3C, (ushort)gsm.Result);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace IronFE.Tests
         {
             Crc ibm3740 = new(CrcType.Crc16Ibm3740);
             ibm3740.Update(CheckString);
-            Assert.AreEqual((ushort)0x29B1, (ushort)(ibm3740.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x29B1, (ushort)ibm3740.Result);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace IronFE.Tests
         {
             Crc ibmSdlc = new(CrcType.Crc16IbmSdlc);
             ibmSdlc.Update(CheckString);
-            Assert.AreEqual((ushort)0x906E, (ushort)(ibmSdlc.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x906E, (ushort)ibmSdlc.Result);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace IronFE.Tests
         {
             Crc isoIec144433A = new(CrcType.Crc16IsoIec144433A);
             isoIec144433A.Update(CheckString);
-            Assert.AreEqual((ushort)0xBF05, (ushort)(isoIec144433A.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xBF05, (ushort)isoIec144433A.Result);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace IronFE.Tests
         {
             Crc kermit = new(CrcType.Crc16Kermit);
             kermit.Update(CheckString);
-            Assert.AreEqual((ushort)0x2189, (ushort)(kermit.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x2189, (ushort)kermit.Result);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace IronFE.Tests
         {
             Crc lj1200 = new(CrcType.Crc16Lj1200);
             lj1200.Update(CheckString);
-            Assert.AreEqual((ushort)0xBDF4, (ushort)(lj1200.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xBDF4, (ushort)lj1200.Result);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace IronFE.Tests
         {
             Crc m17 = new(CrcType.Crc16M17);
             m17.Update(CheckString);
-            Assert.AreEqual((ushort)0x772B, (ushort)(m17.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x772B, (ushort)m17.Result);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace IronFE.Tests
         {
             Crc maximDow = new(CrcType.Crc16MaximDow);
             maximDow.Update(CheckString);
-            Assert.AreEqual((ushort)0x44C2, (ushort)(maximDow.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x44C2, (ushort)maximDow.Result);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace IronFE.Tests
         {
             Crc xmodem = new(CrcType.Crc16Xmodem);
             xmodem.Update(CheckString);
-            Assert.AreEqual((ushort)0x31C3, (ushort)(xmodem.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x31C3, (ushort)xmodem.Result);
         }
     }
 }
