@@ -178,6 +178,17 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/M17 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16M17()
+        {
+            Crc m17 = new(CrcType.Crc16M17);
+            m17.Update(CheckString);
+            Assert.AreEqual((ushort)0x772B, (ushort)(m17.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
