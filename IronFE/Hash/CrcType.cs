@@ -258,6 +258,20 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/MODBUS configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-modbus">CRC-16/MODBUS</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Modbus
+        {
+            get
+            {
+                return new("CRC-16/MODBUS", 16, 0x8005, 0xFFFF, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

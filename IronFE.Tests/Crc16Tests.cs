@@ -211,6 +211,17 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/MODBUS CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Modbus()
+        {
+            Crc modbus = new(CrcType.Crc16Modbus);
+            modbus.Update(CheckString);
+            Assert.AreEqual((ushort)0x4B37, (ushort)modbus.Result);
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
