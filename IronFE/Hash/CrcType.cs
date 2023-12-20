@@ -22,6 +22,14 @@
         Crc16Cdma2000,
 
         /// <summary>
+        /// Represents the CRC-16/CMS configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-cms">CRC-16/CMS</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Cms,
+
+        /// <summary>
         /// Represents the CRC-16/DDS-110 configuration.
         /// </summary>
         /// <remarks>

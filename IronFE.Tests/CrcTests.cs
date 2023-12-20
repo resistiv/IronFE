@@ -46,6 +46,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/CMS CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Cms()
+        {
+            Crc cms = new(CrcType.Crc16Cms);
+            Crc cmsTable = new(CrcType.Crc16Cms, false);
+
+            cms.Update(CheckString);
+            cmsTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0xAEE7, (ushort)(cms.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xAEE7, (ushort)(cmsTable.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/DDS-110 CRC.
         /// </summary>
         [TestMethod]
