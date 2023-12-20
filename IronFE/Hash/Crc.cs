@@ -34,6 +34,14 @@ namespace IronFE.Hash
                     new("CRC-16/DECT-R", 16, 0x0589, 0UL, false, false, 0x0001)
                 },
                 {
+                    CrcType.Crc16DectX,
+                    new("CRC-16/DECT-X", 16, 0x0589, 0UL, false, false, 0UL)
+                },
+                {
+                    CrcType.Crc16Dnp,
+                    new("CRC-16/DNP", 16, 0x3D65, 0UL, true, true, 0xFFFF)
+                },
+                {
                     CrcType.Crc16Xmodem,
                     new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },

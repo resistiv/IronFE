@@ -46,6 +46,22 @@
         Crc16DectR,
 
         /// <summary>
+        /// Represents the CRC-16/DECT-X configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-dect-x">CRC-16/DECT-X</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16DectX,
+
+        /// <summary>
+        /// Represents the CRC-16/DNP configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-dnp">CRC-16/DNP</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Dnp,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>
