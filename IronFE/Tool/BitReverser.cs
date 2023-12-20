@@ -125,6 +125,21 @@
         /// <returns>A <see cref="ulong"/> with its bottom <paramref name="bitCount"/> bits reversed.</returns>
         public static ulong ReverseValue(ulong value, int bitCount)
         {
+            // Optimize for cases that can be made table-based
+            switch (bitCount)
+            {
+                case 0:
+                    return value;
+                case 8:
+                    return (value & 0xFFFFFFFFFFFFFF00) | ReverseByte((byte)(value & 0xFF));
+                case 16:
+                    return (value & 0xFFFFFFFFFFFF0000) | ReverseUInt16((ushort)(value & 0xFFFF));
+                case 32:
+                    return (value & 0xFFFFFFFF00000000) | ReverseUInt32((uint)(value & 0xFFFFFFFF));
+                case 64:
+                    return ReverseUInt64(value);
+            }
+
             ulong result = value;
 
             while (bitCount != 0)
