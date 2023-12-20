@@ -188,6 +188,20 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/KERMIT configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-kermit">CRC-16/KERMIT</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Kermit
+        {
+            get
+            {
+                return new("CRC-16/KERMIT", 16, 0x1021, 0UL, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

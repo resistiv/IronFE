@@ -156,6 +156,17 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/KERMIT CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Kermit()
+        {
+            Crc kermit = new(CrcType.Crc16Kermit);
+            kermit.Update(CheckString);
+            Assert.AreEqual((ushort)0x2189, (ushort)(kermit.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
