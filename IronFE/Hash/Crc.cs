@@ -58,6 +58,10 @@ namespace IronFE.Hash
                     new("CRC-16/IBM-3740", 16, 0x1021, 0xFFFF, false, false, 0UL)
                 },
                 {
+                    CrcType.Crc16IbmSdlc,
+                    new("CRC-16/IBM-SDLC", 16, 0x1021, 0xFFFF, true, true, 0xFFFF)
+                },
+                {
                     CrcType.Crc16Xmodem,
                     new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },

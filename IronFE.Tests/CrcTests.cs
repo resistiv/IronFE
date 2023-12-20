@@ -189,6 +189,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/IBM-SDLC CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16IbmSdlc()
+        {
+            Crc ibmSdlc = new(CrcType.Crc16IbmSdlc);
+            Crc ibmSdlcManual = new(CrcType.Crc16IbmSdlc, false);
+
+            ibmSdlc.Update(CheckString);
+            ibmSdlcManual.Update(CheckString);
+
+            Assert.AreEqual((ushort)0x906E, (ushort)(ibmSdlc.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x906E, (ushort)(ibmSdlcManual.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
