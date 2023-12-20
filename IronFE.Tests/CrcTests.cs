@@ -157,6 +157,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/GSM CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Gsm()
+        {
+            Crc gsm = new(CrcType.Crc16Gsm);
+            Crc gsmTable = new(CrcType.Crc16Gsm, false);
+
+            gsm.Update(CheckString);
+            gsmTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0xCE3C, (ushort)(gsm.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xCE3C, (ushort)(gsmTable.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]

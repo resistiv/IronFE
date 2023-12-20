@@ -78,6 +78,14 @@
         Crc16Genibus,
 
         /// <summary>
+        /// Represents the CRC-16/GSM configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-gsm">CRC-16/GSM</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Gsm,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

@@ -50,6 +50,10 @@ namespace IronFE.Hash
                     new("CRC-16/GENIBUS", 16, 0x1021, 0xFFFF, false, false, 0xFFFF)
                 },
                 {
+                    CrcType.Crc16Gsm,
+                    new("CRC-16/GSM", 16, 0x1021, 0UL, false, false, 0xFFFF)
+                },
+                {
                     CrcType.Crc16Xmodem,
                     new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },
