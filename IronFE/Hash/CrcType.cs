@@ -70,6 +70,14 @@
         Crc16En13757,
 
         /// <summary>
+        /// Represents the CRC-16/GENIBUS configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-genibus">CRC-16/GENIBUS</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Genibus,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

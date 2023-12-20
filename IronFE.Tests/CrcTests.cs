@@ -141,6 +141,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/GENIBUS CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Genibus()
+        {
+            Crc genibus = new(CrcType.Crc16Genibus);
+            Crc genibusTable = new(CrcType.Crc16Genibus, false);
+
+            genibus.Update(CheckString);
+            genibusTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0xD64E, (ushort)(genibus.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xD64E, (ushort)(genibusTable.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
