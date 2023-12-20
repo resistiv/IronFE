@@ -1,4 +1,4 @@
-using System;
+using System.Text;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,7 +10,7 @@ namespace IronFE.Tests
     [TestClass]
     public class CrcTests
     {
-        private const string CheckString = "123456789";
+        private static readonly byte[] CheckString = Encoding.ASCII.GetBytes("123456789");
 
         /// <summary>
         /// Tests the functionality of the CRC-16/ARC CRC.
@@ -19,8 +19,13 @@ namespace IronFE.Tests
         public void Crc16Arc()
         {
             Crc arc = new(CrcType.Crc16Arc);
-            UpdateWithCheckString(arc);
-            Assert.AreEqual((ushort)(arc.Result & 0xFFFF), (ushort)0xBB3D);
+            Crc arcTable = new(CrcType.Crc16Arc, false);
+
+            arc.Update(CheckString);
+            arcTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0xBB3D, (ushort)(arc.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xBB3D, (ushort)(arcTable.Result & 0xFFFF));
         }
 
         /// <summary>
@@ -30,20 +35,13 @@ namespace IronFE.Tests
         public void Crc16Xmodem()
         {
             Crc xmodem = new(CrcType.Crc16Xmodem);
-            UpdateWithCheckString(xmodem);
-            Assert.AreEqual((ushort)(xmodem.Result & 0xFFFF), (ushort)0x31C3);
-        }
+            Crc xmodemTable = new(CrcType.Crc16Xmodem, false);
 
-        /// <summary>
-        /// Updates a <see cref="Crc"/>'s value with the default check string.
-        /// </summary>
-        /// <param name="crc">A <see cref="Crc"/> to update.</param>
-        private static void UpdateWithCheckString(Crc crc)
-        {
-            foreach (char c in CheckString)
-            {
-                crc.UpdateCrc(Convert.ToByte(c));
-            }
+            xmodem.Update(CheckString);
+            xmodemTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0x31C3, (ushort)(xmodem.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x31C3, (ushort)(xmodemTable.Result & 0xFFFF));
         }
     }
 }
