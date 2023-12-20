@@ -14,6 +14,14 @@
         Crc16Arc,
 
         /// <summary>
+        /// Represents the CRC-16/CDMA2000 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-cdma2000">CRC-16/CDMA2000</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Cdma2000,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

@@ -1,4 +1,5 @@
 using System.Text;
+using System.Xml.Linq;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,6 +27,22 @@ namespace IronFE.Tests
 
             Assert.AreEqual((ushort)0xBB3D, (ushort)(arc.Result & 0xFFFF));
             Assert.AreEqual((ushort)0xBB3D, (ushort)(arcTable.Result & 0xFFFF));
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/CDMA2000 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Cdma2000()
+        {
+            Crc cdma2000 = new(CrcType.Crc16Cdma2000);
+            Crc cdma2000Table = new(CrcType.Crc16Cdma2000, false);
+
+            cdma2000.Update(CheckString);
+            cdma2000Table.Update(CheckString);
+
+            Assert.AreEqual((ushort)0x4C06, (ushort)(cdma2000.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x4C06, (ushort)(cdma2000Table.Result & 0xFFFF));
         }
 
         /// <summary>
