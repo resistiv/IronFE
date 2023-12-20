@@ -1,6 +1,5 @@
-﻿using IronFE.Tool;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using IronFE.Tool;
 
 namespace IronFE.Hash
 {
@@ -28,13 +27,11 @@ namespace IronFE.Hash
             if (TableDictionary.TryGetValue(parameters, out ulong[]? value))
             {
                 crcTable = value;
-                Console.WriteLine("Found a generated table, re-using.");
             }
             else
             {
                 crcTable = GenerateTable();
                 TableDictionary.Add(parameters, crcTable);
-                Console.WriteLine("No pre-generated table; had to generate.");
             }
         }
 
@@ -144,8 +141,6 @@ namespace IronFE.Hash
 
             return table;
         }
-    
-        
     }
 }
 
