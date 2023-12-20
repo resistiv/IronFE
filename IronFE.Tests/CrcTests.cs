@@ -1,5 +1,4 @@
 using System.Text;
-using System.Xml.Linq;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
