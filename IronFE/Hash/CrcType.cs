@@ -30,6 +30,14 @@
         Crc16Dds110,
 
         /// <summary>
+        /// Represents the CRC-16/DECT-R configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-dect-r">CRC-16/DECT-R</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16DectR,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

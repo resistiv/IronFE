@@ -62,6 +62,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/DECT-R CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16DectR()
+        {
+            Crc dectR = new(CrcType.Crc16DectR);
+            Crc dectRTable = new(CrcType.Crc16DectR, false);
+
+            dectR.Update(CheckString);
+            dectRTable.Update(CheckString);
+
+            Assert.AreEqual((ushort)0x007E, (ushort)(dectR.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x007E, (ushort)(dectRTable.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
