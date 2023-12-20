@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Frozen;
+﻿using IronFE.Tool;
+using System;
 using System.Collections.Generic;
-using IronFE.Tool;
 
 namespace IronFE.Hash
 {
@@ -10,122 +9,32 @@ namespace IronFE.Hash
     /// </summary>
     public class Crc
     {
-        private static readonly FrozenDictionary<CrcType, CrcParameters> PredefinedCrcs =
-            new Dictionary<CrcType, CrcParameters>
-            {
-                {
-                    CrcType.Crc16Arc,
-                    new("CRC-16/ARC", 16, 0x8005, 0UL, true, true, 0UL)
-                },
-                {
-                    CrcType.Crc16Cdma2000,
-                    new("CRC-16/CDMA2000", 16, 0xC867, 0xFFFF, false, false, 0UL)
-                },
-                {
-                    CrcType.Crc16Cms,
-                    new("CRC-16/CMS", 16, 0x8005, 0xFFFF, false, false, 0UL)
-                },
-                {
-                    CrcType.Crc16Dds110,
-                    new("CRC-16/DDS-110", 16, 0x8005, 0x800D, false, false, 0UL)
-                },
-                {
-                    CrcType.Crc16DectR,
-                    new("CRC-16/DECT-R", 16, 0x0589, 0UL, false, false, 0x0001)
-                },
-                {
-                    CrcType.Crc16DectX,
-                    new("CRC-16/DECT-X", 16, 0x0589, 0UL, false, false, 0UL)
-                },
-                {
-                    CrcType.Crc16Dnp,
-                    new("CRC-16/DNP", 16, 0x3D65, 0UL, true, true, 0xFFFF)
-                },
-                {
-                    CrcType.Crc16En13757,
-                    new("CRC-16/EN-13757", 16, 0x3D65, 0UL, false, false, 0xFFFF)
-                },
-                {
-                    CrcType.Crc16Genibus,
-                    new("CRC-16/GENIBUS", 16, 0x1021, 0xFFFF, false, false, 0xFFFF)
-                },
-                {
-                    CrcType.Crc16Gsm,
-                    new("CRC-16/GSM", 16, 0x1021, 0UL, false, false, 0xFFFF)
-                },
-                {
-                    CrcType.Crc16Ibm3740,
-                    new("CRC-16/IBM-3740", 16, 0x1021, 0xFFFF, false, false, 0UL)
-                },
-                {
-                    CrcType.Crc16IbmSdlc,
-                    new("CRC-16/IBM-SDLC", 16, 0x1021, 0xFFFF, true, true, 0xFFFF)
-                },
-                {
-                    CrcType.Crc16Xmodem,
-                    new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
-                },
-            }.ToFrozenDictionary();
+        private static readonly Dictionary<CrcParameters, ulong[]> TableDictionary = [];
 
         private readonly CrcParameters parameters;
         private readonly ulong[] crcTable;
-        private readonly bool useTable;
         private ulong crcRegister;
 
-        private delegate void UpdateDelegate(byte b);
-        private readonly UpdateDelegate updateDelegate;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Crc"/> class with a pre-defined CRC configuration, identified by its <see cref="CrcType"/>, using the table-based lookup method.
+        /// Initializes a new instance of the <see cref="Crc"/> class with a <see cref="CrcParameters"/> struct.
         /// </summary>
-        /// <param name="type">A <see cref="CrcType"/> corresponding to a pre-defined CRC configuration.</param>
-        public Crc(CrcType type)
-            : this(type, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Crc"/> class with a pre-defined CRC configuration, identified by its <see cref="CrcType"/>, and the choice to use a table-based lookup or manual calculation for CRC updates.
-        /// </summary>
-        /// <remarks>Using a table-based lookup is better for scenarios processing upwards of 256 bytes; the initial generation of the table can be more costly than beneficial for smaller quantities of data, because it is 256 bytes itself.</remarks>
-        /// <param name="type">A <see cref="CrcType"/> corresponding to a pre-defined CRC configuration.</param>
-        /// <param name="useTable">Whether to use the default table-based lookup to calculate updates, or to use manual calculation.</param>
-        public Crc(CrcType type, bool useTable)
-            : this(PredefinedCrcs.TryGetValue(type, out CrcParameters parameters) ? parameters : throw new ArgumentException("The provided CrcType was not found to belong to a pre-defined CRC."), useTable)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Crc"/> class with a user-defined instance of <see cref="CrcParameters"/> using the table-based lookup method.
-        /// </summary>
-        /// <param name="parameters">A user-defined <see cref="CrcParameters"/> instance containing a particular CRC configuration.</param>
+        /// <param name="parameters">A <see cref="CrcParameters"/> struct containing a particular CRC configuration.</param>
         public Crc(CrcParameters parameters)
-            : this(parameters, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Crc"/> class with a user-defined instance of <see cref="CrcParameters"/> and the choice to use a table-based lookup or manual calculation for CRC updates.
-        /// </summary>
-        /// <remarks>Using a table-based lookup is better for scenarios processing upwards of 256 bytes; the initial generation of the table can be more costly than beneficial for smaller quantities of data, because it is 256 bytes itself.</remarks>
-        /// <param name="parameters">A user-defined <see cref="CrcParameters"/> instance containing a particular CRC configuration.</param>
-        /// <param name="useTable">Whether to use the default table-based lookup to calculate updates, or to use manual calculation.</param>
-        public Crc(CrcParameters parameters, bool useTable)
         {
             this.parameters = parameters;
             Reset();
-            crcTable = GenerateTable();
 
-            this.useTable = useTable;
-            if (this.useTable)
+            // Re-use previously generated tables to reduce construction time
+            if (TableDictionary.TryGetValue(parameters, out ulong[]? value))
             {
-                crcTable = GenerateTable();
-                updateDelegate = new UpdateDelegate(UpdateUsingTable);
+                crcTable = value;
+                Console.WriteLine("Found a generated table, re-using.");
             }
             else
             {
-                crcTable = [];
-                updateDelegate = new UpdateDelegate(UpdateManually);
+                crcTable = GenerateTable();
+                TableDictionary.Add(parameters, crcTable);
+                Console.WriteLine("No pre-generated table; had to generate.");
             }
         }
 
@@ -136,8 +45,7 @@ namespace IronFE.Hash
         {
             get
             {
-                // If we're using a table, only reverse when input & output flips differ; otherwise, when manually calculating, flip output when needed
-                if ((useTable && (parameters.ReflectInput ^ parameters.ReflectOutput)) || (!useTable && parameters.ReflectOutput))
+                if (parameters.ReflectInput ^ parameters.ReflectOutput)
                 {
                     return parameters.OutputXor ^ BitReverser.ReverseValue(crcRegister, parameters.Width);
                 }
@@ -155,7 +63,19 @@ namespace IronFE.Hash
         /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
         /// </remarks>
         /// <param name="b">The next <see cref="byte"/> from the input stream.</param>
-        public void Update(byte b) => updateDelegate(b);
+        public void Update(byte b)
+        {
+            if (parameters.ReflectInput)
+            {
+                crcRegister = crcTable[(crcRegister ^ b) & 0xFF] ^ (crcRegister >> 8);
+            }
+            else
+            {
+                crcRegister = crcTable[((crcRegister >> (parameters.Width - 8)) ^ b) & 0xFF] ^ (crcRegister << 8);
+            }
+
+            crcRegister &= (((1UL << (parameters.Width - 1)) - 1UL) << 1) | 1;
+        }
 
         /// <summary>
         /// Updates the CRC with an array of input data.
@@ -174,55 +94,11 @@ namespace IronFE.Hash
         /// </summary>
         public void Reset()
         {
+            crcRegister = parameters.InitialValue;
+
             if (parameters.ReflectInput)
             {
-                crcRegister = BitReverser.ReverseValue(parameters.InitialValue, parameters.Width);
-            }
-            else
-            {
-                crcRegister = parameters.InitialValue;
-            }
-        }
-
-        /// <summary>
-        /// Updates the CRC using the table-based lookup.
-        /// </summary>
-        /// <param name="b">The next <see cref="byte"/> from the input stream.</param>
-        private void UpdateUsingTable(byte b)
-        {
-            if (parameters.ReflectInput)
-            {
-                crcRegister = crcTable[(crcRegister ^ b) & 0xFF] ^ (crcRegister >> 8);
-            }
-            else
-            {
-                crcRegister = crcTable[((crcRegister >> (parameters.Width - 8)) ^ b) & 0xFF] ^ (crcRegister << 8);
-            }
-        }
-
-        /// <summary>
-        /// Updates the CRC using manual calculation.
-        /// </summary>
-        /// <param name="b">The next <see cref="byte"/> from the input stream.</param>
-        private void UpdateManually(byte b)
-        {
-            if (parameters.ReflectInput)
-            {
-                b = BitReverser.ReverseByte(b);
-            }
-
-            crcRegister ^= (ulong)b << (parameters.Width - 8);
-            ulong msb = 1UL << (parameters.Width - 1);
-            for (int i = 0; i < 8; i++)
-            {
-                bool xorPoly = (crcRegister & msb) != 0;
-                crcRegister <<= 1;
-                if (xorPoly)
-                {
-                    crcRegister ^= parameters.Polynomial;
-                }
-
-                crcRegister &= (msb << 1) - 1UL;
+                crcRegister = BitReverser.ReverseValue(crcRegister, parameters.Width);
             }
         }
 
@@ -233,7 +109,9 @@ namespace IronFE.Hash
         private ulong[] GenerateTable()
         {
             ulong[] table = new ulong[256];
+
             ulong msb = 1UL << (parameters.Width - 1);
+            ulong mask = ((msb - 1UL) << 1) | 1;
 
             for (int b = 0; b < table.Length; b++)
             {
@@ -246,11 +124,13 @@ namespace IronFE.Hash
                 ulong register = (ulong)input << (parameters.Width - 8);
                 for (int i = 0; i < 8; i++)
                 {
-                    bool xorPoly = (register & msb) != 0;
-                    register <<= 1;
-                    if (xorPoly)
+                    if ((register & msb) != 0)
                     {
-                        register ^= parameters.Polynomial;
+                        register = (register << 1) ^ parameters.Polynomial;
+                    }
+                    else
+                    {
+                        register <<= 1;
                     }
                 }
 
@@ -259,11 +139,13 @@ namespace IronFE.Hash
                     register = BitReverser.ReverseValue(register, parameters.Width);
                 }
 
-                table[b] = register & (msb << 1) - 1UL;
+                table[b] = register & mask;
             }
 
             return table;
         }
+    
+        
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IronFE.Hash
 {
@@ -8,7 +9,7 @@ namespace IronFE.Hash
     /// <remarks>
     /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
     /// </remarks>
-    public readonly struct CrcParameters(string name, int width, ulong polynomial, ulong initialValue, bool reflectInput, bool reflectOutput, ulong outputXor)
+    public readonly struct CrcParameters(string name, int width, ulong polynomial, ulong initialValue, bool reflectInput, bool reflectOutput, ulong outputXor) : IEquatable<CrcParameters>
     {
         /// <summary>
         /// Gets the formal or expanded name of this CRC.
@@ -44,5 +45,30 @@ namespace IronFE.Hash
         /// Gets the value that is XOR'd with the resultant register value before being output.
         /// </summary>
         public ulong OutputXor { get; } = outputXor < (1UL << width) ? outputXor : throw new ArgumentOutOfRangeException(nameof(outputXor), $"Output XOR mask must fit within the given bit width ({width} bits).");
+
+        /// <inheritdoc/>
+        public override bool Equals([NotNullWhen(true)] object? obj)
+        {
+            if (obj is CrcParameters parameters)
+            {
+                return Equals(parameters);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(CrcParameters other)
+        {
+            return Name.Equals(other.Name) &&
+                   Width == other.Width &&
+                   Polynomial == other.Polynomial &&
+                   InitialValue == other.InitialValue &&
+                   ReflectInput == other.ReflectInput &&
+                   ReflectOutput == other.ReflectOutput &&
+                   OutputXor == other.OutputXor;
+        }
     }
 }
