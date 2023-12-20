@@ -22,6 +22,14 @@
         Crc16Cdma2000,
 
         /// <summary>
+        /// Represents the CRC-16/DDS-110 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-dds-110">CRC-16/DDS-110</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16Dds110,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

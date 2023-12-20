@@ -22,6 +22,10 @@ namespace IronFE.Hash
                     new("CRC-16/CDMA2000", 16, 0xC867, 0xFFFF, false, false, 0UL)
                 },
                 {
+                    CrcType.Crc16Dds110,
+                    new("CRC-16/DDS-110", 16, 0x8005, 0x800D, false, false, 0UL)
+                },
+                {
                     CrcType.Crc16Xmodem,
                     new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },

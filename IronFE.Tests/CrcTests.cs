@@ -46,6 +46,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/DDS-110 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Dds110()
+        {
+            Crc dds110 = new(CrcType.Crc16Dds110);
+            Crc dds110Table = new(CrcType.Crc16Dds110, false);
+
+            dds110.Update(CheckString);
+            dds110Table.Update(CheckString);
+
+            Assert.AreEqual((ushort)0x9ECF, (ushort)(dds110.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0x9ECF, (ushort)(dds110Table.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
