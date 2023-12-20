@@ -189,6 +189,17 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/MAXIM-DOW CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16MaximDow()
+        {
+            Crc maximDow = new(CrcType.Crc16MaximDow);
+            maximDow.Update(CheckString);
+            Assert.AreEqual((ushort)0x44C2, (ushort)(maximDow.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]

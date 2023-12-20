@@ -230,6 +230,20 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/MAXIM-DOW configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-maxim-dow">CRC-16/MAXIM-DOW</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16MaximDow
+        {
+            get
+            {
+                return new("CRC-16/MAXIM-DOW", 16, 0x8005, 0UL, true, true, 0xFFFF);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>
