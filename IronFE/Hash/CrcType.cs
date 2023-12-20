@@ -62,6 +62,14 @@
         Crc16Dnp,
 
         /// <summary>
+        /// Represents the CRC-16/EN-13757 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-en-13757">CRC-16/EN-13757</see> in the RevEng catalogue.
+        /// </remarks>
+        Crc16En13757,
+
+        /// <summary>
         /// Represents the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

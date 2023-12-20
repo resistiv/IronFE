@@ -126,6 +126,22 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/EN-13757 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16En13757()
+        {
+            Crc en13757 = new(CrcType.Crc16En13757);
+            Crc en13757Table = new(CrcType.Crc16En13757, false);
+
+            en13757.Update(CheckString);
+            en13757Table.Update(CheckString);
+
+            Assert.AreEqual((ushort)0xC2B7, (ushort)(en13757.Result & 0xFFFF));
+            Assert.AreEqual((ushort)0xC2B7, (ushort)(en13757Table.Result & 0xFFFF));
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]

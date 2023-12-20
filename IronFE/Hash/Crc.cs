@@ -42,6 +42,10 @@ namespace IronFE.Hash
                     new("CRC-16/DNP", 16, 0x3D65, 0UL, true, true, 0xFFFF)
                 },
                 {
+                    CrcType.Crc16En13757,
+                    new("CRC-16/EN-13757", 16, 0x3D65, 0UL, false, false, 0xFFFF)
+                },
+                {
                     CrcType.Crc16Xmodem,
                     new("CRC-16/XMODEM", 16, 0x1021, 0UL, false, false, 0UL)
                 },
