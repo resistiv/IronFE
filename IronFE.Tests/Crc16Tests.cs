@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace IronFE.Tests
 {
     /// <summary>
-    /// Tests functionality of all pre-defined CRC configurations.
+    /// Tests functionality of pre-defined CRC-16 configurations.
     /// </summary>
     [TestClass]
-    public class CrcTests
+    public class Crc16Tests
     {
         private static readonly byte[] CheckString = Encoding.ASCII.GetBytes("123456789");
 
@@ -164,6 +164,17 @@ namespace IronFE.Tests
             Crc kermit = new(CrcType.Crc16Kermit);
             kermit.Update(CheckString);
             Assert.AreEqual((ushort)0x2189, (ushort)(kermit.Result & 0xFFFF));
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/LJ1200 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Lj1200()
+        {
+            Crc lj1200 = new(CrcType.Crc16Lj1200);
+            lj1200.Update(CheckString);
+            Assert.AreEqual((ushort)0xBDF4, (ushort)(lj1200.Result & 0xFFFF));
         }
 
         /// <summary>

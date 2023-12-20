@@ -202,6 +202,20 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/LJ1200 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-lj1200">CRC-16/LJ1200</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Lj1200
+        {
+            get
+            {
+                return new("CRC-16/LJ1200", 16, 0x6F63, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>
