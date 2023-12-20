@@ -46,6 +46,16 @@ namespace IronFE.Hash
         /// </summary>
         public ulong OutputXor { get; } = outputXor < (1UL << width) ? outputXor : throw new ArgumentOutOfRangeException(nameof(outputXor), $"Output XOR mask must fit within the given bit width ({width} bits).");
 
+        public static bool operator ==(CrcParameters left, CrcParameters right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(CrcParameters left, CrcParameters right)
+        {
+            return !(left == right);
+        }
+
         /// <inheritdoc/>
         public override bool Equals([NotNullWhen(true)] object? obj)
         {
@@ -69,6 +79,12 @@ namespace IronFE.Hash
                    ReflectInput == other.ReflectInput &&
                    ReflectOutput == other.ReflectOutput &&
                    OutputXor == other.OutputXor;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Width, Polynomial, InitialValue, ReflectInput, ReflectOutput, OutputXor);
         }
     }
 }
