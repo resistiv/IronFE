@@ -20,7 +20,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc autosar = new(Crc8.Autosar);
             autosar.Update(CheckString);
-            Assert.AreEqual((ushort)0xDF, (ushort)autosar.Result);
+            Assert.AreEqual((byte)0xDF, (byte)autosar.Result);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc bluetooth = new(Crc8.Bluetooth);
             bluetooth.Update(CheckString);
-            Assert.AreEqual((ushort)0x26, (ushort)bluetooth.Result);
+            Assert.AreEqual((byte)0x26, (byte)bluetooth.Result);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc cdma2000 = new(Crc8.Cdma2000);
             cdma2000.Update(CheckString);
-            Assert.AreEqual((ushort)0xDA, (ushort)cdma2000.Result);
+            Assert.AreEqual((byte)0xDA, (byte)cdma2000.Result);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc darc = new(Crc8.Darc);
             darc.Update(CheckString);
-            Assert.AreEqual((ushort)0x15, (ushort)darc.Result);
+            Assert.AreEqual((byte)0x15, (byte)darc.Result);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc dvbS2 = new(Crc8.DvbS2);
             dvbS2.Update(CheckString);
-            Assert.AreEqual((ushort)0xBC, (ushort)dvbS2.Result);
+            Assert.AreEqual((byte)0xBC, (byte)dvbS2.Result);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc gsmA = new(Crc8.GsmA);
             gsmA.Update(CheckString);
-            Assert.AreEqual((ushort)0x37, (ushort)gsmA.Result);
+            Assert.AreEqual((byte)0x37, (byte)gsmA.Result);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc gsmB = new(Crc8.GsmB);
             gsmB.Update(CheckString);
-            Assert.AreEqual((ushort)0x94, (ushort)gsmB.Result);
+            Assert.AreEqual((byte)0x94, (byte)gsmB.Result);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc hitag = new(Crc8.Hitag);
             hitag.Update(CheckString);
-            Assert.AreEqual((ushort)0xB4, (ushort)hitag.Result);
+            Assert.AreEqual((byte)0xB4, (byte)hitag.Result);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc i4321 = new(Crc8.I4321);
             i4321.Update(CheckString);
-            Assert.AreEqual((ushort)0xA1, (ushort)i4321.Result);
+            Assert.AreEqual((byte)0xA1, (byte)i4321.Result);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc iCode = new(Crc8.ICode);
             iCode.Update(CheckString);
-            Assert.AreEqual((ushort)0x7E, (ushort)iCode.Result);
+            Assert.AreEqual((byte)0x7E, (byte)iCode.Result);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc lte = new(Crc8.Lte);
             lte.Update(CheckString);
-            Assert.AreEqual((ushort)0xEA, (ushort)lte.Result);
+            Assert.AreEqual((byte)0xEA, (byte)lte.Result);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc maximDow = new(Crc8.MaximDow);
             maximDow.Update(CheckString);
-            Assert.AreEqual((ushort)0xA1, (ushort)maximDow.Result);
+            Assert.AreEqual((byte)0xA1, (byte)maximDow.Result);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc mifareMad = new(Crc8.MifareMad);
             mifareMad.Update(CheckString);
-            Assert.AreEqual((ushort)0x99, (ushort)mifareMad.Result);
+            Assert.AreEqual((byte)0x99, (byte)mifareMad.Result);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc nrsc5 = new(Crc8.Nrsc5);
             nrsc5.Update(CheckString);
-            Assert.AreEqual((ushort)0xF7, (ushort)nrsc5.Result);
+            Assert.AreEqual((byte)0xF7, (byte)nrsc5.Result);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc openSafety = new(Crc8.OpenSafety);
             openSafety.Update(CheckString);
-            Assert.AreEqual((ushort)0x3E, (ushort)openSafety.Result);
+            Assert.AreEqual((byte)0x3E, (byte)openSafety.Result);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc rohc = new(Crc8.Rohc);
             rohc.Update(CheckString);
-            Assert.AreEqual((ushort)0xD0, (ushort)rohc.Result);
+            Assert.AreEqual((byte)0xD0, (byte)rohc.Result);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc saeJ1850 = new(Crc8.SaeJ1850);
             saeJ1850.Update(CheckString);
-            Assert.AreEqual((ushort)0x4B, (ushort)saeJ1850.Result);
+            Assert.AreEqual((byte)0x4B, (byte)saeJ1850.Result);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc smBus = new(Crc8.SmBus);
             smBus.Update(CheckString);
-            Assert.AreEqual((ushort)0xF4, (ushort)smBus.Result);
+            Assert.AreEqual((byte)0xF4, (byte)smBus.Result);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc tech3250 = new(Crc8.Tech3250);
             tech3250.Update(CheckString);
-            Assert.AreEqual((ushort)0x97, (ushort)tech3250.Result);
+            Assert.AreEqual((byte)0x97, (byte)tech3250.Result);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace IronFE.Tests.CrcTests
         {
             Crc wcdma = new(Crc8.Wcdma);
             wcdma.Update(CheckString);
-            Assert.AreEqual((ushort)0x25, (ushort)wcdma.Result);
+            Assert.AreEqual((byte)0x25, (byte)wcdma.Result);
         }
     }
 }
