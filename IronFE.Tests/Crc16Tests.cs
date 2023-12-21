@@ -310,6 +310,39 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/TMS37157 CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Tms37157()
+        {
+            Crc tms37157 = new(CrcType.Crc16Tms37157);
+            tms37157.Update(CheckString);
+            Assert.AreEqual((ushort)0x26B1, (ushort)tms37157.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/UMTS CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Umts()
+        {
+            Crc umts = new(CrcType.Crc16Umts);
+            umts.Update(CheckString);
+            Assert.AreEqual((ushort)0xFEE8, (ushort)umts.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/USB CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Usb()
+        {
+            Crc usb = new(CrcType.Crc16Usb);
+            usb.Update(CheckString);
+            Assert.AreEqual((ushort)0xB4C8, (ushort)usb.Result);
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]

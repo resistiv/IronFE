@@ -384,6 +384,48 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/TMS37157 configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-tms37157">CRC-16/TMS37157</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Tms37157
+        {
+            get
+            {
+                return new("CRC-16/TMS37157", 16, 0x1021, 0x89EC, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/UMTS configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-umts">CRC-16/UMTS</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Umts
+        {
+            get
+            {
+                return new("CRC-16/UMTS", 16, 0x8005, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/USB configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-usb">CRC-16/USB</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Usb
+        {
+            get
+            {
+                return new("CRC-16/USB", 16, 0x8005, 0xFFFF, true, true, 0xFFFF);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>
