@@ -95,7 +95,7 @@ namespace IronFE.Hash
 
             if (parameters.ReflectInput)
             {
-                crcRegister = BitReverser.ReverseValue(crcRegister, parameters.Width);
+                crcRegister = BitReverser.ReverseValueFast(crcRegister, parameters.Width);
             }
         }
 
@@ -133,7 +133,7 @@ namespace IronFE.Hash
 
                 if (parameters.ReflectInput)
                 {
-                    register = BitReverser.ReverseValue(register, parameters.Width);
+                    register = BitReverser.ReverseValueFast(register, parameters.Width);
                 }
 
                 table[b] = register & mask;
