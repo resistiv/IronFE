@@ -1,4 +1,6 @@
-﻿namespace IronFE.Tool
+﻿using Microsoft.Win32;
+
+namespace IronFE.Tool
 {
     /// <summary>
     /// Handles bit reversing across primitive data types.
@@ -118,28 +120,13 @@
         /// Reverses the bottom <paramref name="bitCount"/> bits of a given <paramref name="value"/>.
         /// </summary>
         /// <remarks>
-        /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
+        /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993). This method is loop-based rather than table-based, and is therefore slower than the methods in the <see cref="BitReverser"/> class with dedicated data types.
         /// </remarks>
         /// <param name="value">A value whose bottom-most bits are to be reversed.</param>
         /// <param name="bitCount">The number of bits to reverse.</param>
         /// <returns>A <see cref="ulong"/> with its bottom <paramref name="bitCount"/> bits reversed.</returns>
         public static ulong ReverseValue(ulong value, int bitCount)
         {
-            // Optimize for cases that can be made table-based
-            switch (bitCount)
-            {
-                case 0:
-                    return value;
-                case 8:
-                    return (value & 0xFFFFFFFFFFFFFF00) | ReverseByte((byte)(value & 0xFF));
-                case 16:
-                    return (value & 0xFFFFFFFFFFFF0000) | ReverseUInt16((ushort)(value & 0xFFFF));
-                case 32:
-                    return (value & 0xFFFFFFFF00000000) | ReverseUInt32((uint)(value & 0xFFFFFFFF));
-                case 64:
-                    return ReverseUInt64(value);
-            }
-
             ulong result = value;
 
             while (bitCount != 0)
@@ -157,6 +144,28 @@
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Reverses the bottom <paramref name="bitCount"/> bits of a given <paramref name="value"/>, using optimized table-based routines when applicable.
+        /// </summary>
+        /// <remarks>
+        /// Adapted from Ross Williams' <i>A Painless Guide to CRC Error Detection Algorithms</i> (1993).
+        /// </remarks>
+        /// <param name="value">A value whose bottom-most bits are to be reversed.</param>
+        /// <param name="bitCount">The number of bits to reverse.</param>
+        /// <returns>A <see cref="ulong"/> with its bottom <paramref name="bitCount"/> bits reversed.</returns>
+        public static ulong ReverseValueFast(ulong value, int bitCount)
+        {
+            // Optimize for cases that can be made table-based
+            return bitCount switch
+            {
+                 8 => (value & 0xFFFFFFFFFFFFFF00) | ReverseByte((byte)(value & 0xFF)),
+                16 => (value & 0xFFFFFFFFFFFF0000) | ReverseUInt16((ushort)(value & 0xFFFF)),
+                32 => (value & 0xFFFFFFFF00000000) | ReverseUInt32((uint)(value & 0xFFFFFFFF)),
+                64 => ReverseUInt64(value),
+                 _ => ReverseValue(value, bitCount),
+            };
         }
 
         /*
