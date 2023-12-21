@@ -314,6 +314,76 @@
         }
 
         /// <summary>
+        /// Gets the CRC-16/PROFIBUS configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-profibus">CRC-16/PROFIBUS</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Profibus
+        {
+            get
+            {
+                return new("CRC-16/PROFIBUS", 16, 0x1DCF, 0xFFFF, false, false, 0xFFFF);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/RIELLO configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-riello">CRC-16/RIELLO</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Riello
+        {
+            get
+            {
+                return new("CRC-16/RIELLO", 16, 0x1021, 0xB2AA, true, true, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/SPI-FUJITSU configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-spi-fujitsu">CRC-16/SPI-FUJITSU</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16SpiFujitsu
+        {
+            get
+            {
+                return new("CRC-16/SPI-FUJITSU", 16, 0x1021, 0x1D0F, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/T10-DIF configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-t10-dif">CRC-16/T10-DIF</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16T10Dif
+        {
+            get
+            {
+                return new("CRC-16/T10-DIF", 16, 0x8BB7, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CRC-16/TELEDISK configuration.
+        /// </summary>
+        /// <remarks>
+        /// See <see href="https://reveng.sourceforge.io/crc-catalogue/16.htm#crc.cat.crc-16-teledisk">CRC-16/TELEDISK</see> in the RevEng catalogue.
+        /// </remarks>
+        public static CrcParameters Crc16Teledisk
+        {
+            get
+            {
+                return new("CRC-16/TELEDISK", 16, 0xA097, 0UL, false, false, 0UL);
+            }
+        }
+
+        /// <summary>
         /// Gets the CRC-16/XMODEM configuration.
         /// </summary>
         /// <remarks>

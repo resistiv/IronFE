@@ -255,6 +255,61 @@ namespace IronFE.Tests
         }
 
         /// <summary>
+        /// Tests the functionality of the CRC-16/PROFIBUS CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Profibus()
+        {
+            Crc profibus = new(CrcType.Crc16Profibus);
+            profibus.Update(CheckString);
+            Assert.AreEqual((ushort)0xA819, (ushort)profibus.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/RIELLO CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Riello()
+        {
+            Crc riello = new(CrcType.Crc16Riello);
+            riello.Update(CheckString);
+            Assert.AreEqual((ushort)0x63D0, (ushort)riello.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/SPI-FUJITSU CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16SpiFujitsu()
+        {
+            Crc spiFujitsu = new(CrcType.Crc16SpiFujitsu);
+            spiFujitsu.Update(CheckString);
+            Assert.AreEqual((ushort)0xE5CC, (ushort)spiFujitsu.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/T10-DIF CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16T10Dif()
+        {
+            Crc t10Dif = new(CrcType.Crc16T10Dif);
+            t10Dif.Update(CheckString);
+            Assert.AreEqual((ushort)0xD0DB, (ushort)t10Dif.Result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the CRC-16/TELEDISK CRC.
+        /// </summary>
+        [TestMethod]
+        public void Crc16Teledisk()
+        {
+            Crc teledisk = new(CrcType.Crc16Teledisk);
+            teledisk.Update(CheckString);
+            Assert.AreEqual((ushort)0x0FB3, (ushort)teledisk.Result);
+        }
+
+        /// <summary>
         /// Tests the functionality of the CRC-16/XMODEM CRC.
         /// </summary>
         [TestMethod]
