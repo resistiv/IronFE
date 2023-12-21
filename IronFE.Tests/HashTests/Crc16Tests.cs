@@ -2,7 +2,7 @@ using System.Text;
 using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IronFE.Tests.CrcTests
+namespace IronFE.Tests.HashTests
 {
     /// <summary>
     /// Tests functionality of pre-defined CRC-16 configurations.

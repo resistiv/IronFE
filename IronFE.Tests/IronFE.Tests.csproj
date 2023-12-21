@@ -24,4 +24,8 @@
     <ProjectReference Include="..\IronFE\IronFE.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ToolTests\" />
+  </ItemGroup>
+
 </Project>
