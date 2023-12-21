@@ -79,10 +79,10 @@
         /// <param name="i">A <see cref="uint"/> to reverse.</param>
         /// <returns>A reversed <see cref="uint"/>.</returns>
         public static uint ReverseUInt32(uint i)
-            => (uint)(ReverseByteTable[i & 0xFF] << 24 |
-                      ReverseByteTable[(i >> 8) & 0xFF] << 16 |
-                      ReverseByteTable[(i >> 16) & 0xFF] << 8 |
-                      ReverseByteTable[(i >> 24) & 0xFF]);
+            => (uint)ReverseByteTable[i & 0xFF] << 24 |
+               (uint)ReverseByteTable[(i >> 8) & 0xFF] << 16 |
+               (uint)ReverseByteTable[(i >> 16) & 0xFF] << 8 |
+                     ReverseByteTable[(i >> 24) & 0xFF];
 
         /// <summary>
         /// Reverses the bits of a <see cref="long"/>.
