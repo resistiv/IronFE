@@ -10,15 +10,6 @@ namespace IronFE.Reader
     public static class BinaryReaderCrcExtensions
     {
         /// <summary>
-        /// Reads a <see cref="bool"/> from the current <see cref="Stream"/> and calculates it into the specified <see cref="Crc"/>.
-        /// </summary>
-        /// <param name="reader">A <see cref="BinaryReader"/> instance to read data from.</param>
-        /// <param name="crc">The <see cref="Crc"/> instance to calculate the read data into.</param>
-        /// <returns><c>true</c> if the byte is nonzero; otherwise, <c>false</c>.</returns>
-        public static bool ReadBooleanWithCrc(this BinaryReader reader, Crc crc)
-            => reader.ReadByteWithCrc(crc) != 0;
-
-        /// <summary>
         /// Reads a <see cref="byte"/> from the current <see cref="Stream"/> and calculates it into the specified <see cref="Crc"/>.
         /// </summary>
         /// <param name="reader">A <see cref="BinaryReader"/> instance to read data from.</param>
@@ -40,6 +31,14 @@ namespace IronFE.Reader
         public static sbyte ReadSByteWithCrc(this BinaryReader reader, Crc crc)
             => (sbyte)reader.ReadByteWithCrc(crc);
 
+        /// <summary>
+        /// Reads a <see cref="bool"/> from the current <see cref="Stream"/> and calculates it into the specified <see cref="Crc"/>.
+        /// </summary>
+        /// <param name="reader">A <see cref="BinaryReader"/> instance to read data from.</param>
+        /// <param name="crc">The <see cref="Crc"/> instance to calculate the read data into.</param>
+        /// <returns><c>true</c> if the byte is nonzero; otherwise, <c>false</c>.</returns>
+        public static bool ReadBooleanWithCrc(this BinaryReader reader, Crc crc)
+            => reader.ReadByteWithCrc(crc) != 0;
 
         /// <summary>
         /// Reads the specified number of <see cref="byte"/>s from the current <see cref="Stream"/> into a byte array and calculates it into the specified <see cref="Crc"/>.
