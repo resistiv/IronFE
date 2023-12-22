@@ -44,7 +44,7 @@ namespace IronFE.Tool
         /// <param name="b">An <see cref="sbyte"/> to reverse.</param>
         /// <returns>A reversed <see cref="sbyte"/>.</returns>
         public static sbyte ReverseSByte(sbyte b)
-            => (sbyte)ReverseByteTable[b & 0xFF];
+            => unchecked((sbyte)ReverseByte((byte)b));
 
         /// <summary>
         /// Reverses the bits of a <see cref="short"/>.
@@ -52,8 +52,7 @@ namespace IronFE.Tool
         /// <param name="s">A <see cref="short"/> to reverse.</param>
         /// <returns>A reversed <see cref="short"/>.</returns>
         public static short ReverseInt16(short s)
-            => (short)(ReverseByteTable[s & 0xFF] << 8 |
-                       ReverseByteTable[(s >> 8) & 0xFF]);
+            => unchecked((short)ReverseUInt16((ushort)s));
 
         /// <summary>
         /// Reverses the bits of a <see cref="ushort"/>.
