@@ -168,6 +168,8 @@ namespace IronFE.Tool
         }
 
         /*
+        These functions are left commented out to show how the ReverseByteTable array was generated.
+
         private static byte[] GenerateReverseByteTable()
         {
             byte[] result = new byte[256];
