@@ -3,6 +3,9 @@
     /// <summary>
     /// Stores pre-defined CRC-64 parameter configurations.
     /// </summary>
+    /// <remarks>
+    /// Adapted from Greg Cook's <see href="https://reveng.sourceforge.io/crc-catalogue/">Catalogue of parametrised CRC algorithms</see>.
+    /// </remarks>
     public static class Crc64
     {
         /// <summary>
