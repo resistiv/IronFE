@@ -13,7 +13,10 @@ namespace IronFE.Tests.ReaderTests
     {
         // Decimal bytes: 1.125M
         private readonly byte[] data = [0x65, 0x04, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x03, 0];
+
+        // Calculated externally using 7zip's CRC-32
         private readonly uint expectedCrc = 0x0EF22D64U;
+
         private BinaryReader reader = null;
         private Crc crc = null;
 
