@@ -8,7 +8,7 @@ namespace IronFE.Hash
     /// </summary>
     public class Crc
     {
-        private static readonly Dictionary<CrcParameters, ulong[]> TableDictionary = [];
+        private static readonly Dictionary<CrcParameters, ulong[]> TableDictionary = new();
 
         private readonly CrcParameters parameters;
         private readonly ulong[] crcTable;
