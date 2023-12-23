@@ -11,20 +11,20 @@ namespace IronFE.Time
         private static readonly DateTime MaxDateTime = new(2107, 12, 31, 23, 59, 58);
 
         /// <summary>
-        /// Converts the date component of a <see cref="DateTime"/> into the DOS packed date format.
+        /// Converts the date component of the current <see cref="DateTime"/> object to a DOS packed date.
         /// </summary>
         /// <param name="dateTime">A <see cref="DateTime"/>.</param>
-        /// <returns>A DOS packed date component.</returns>
-        public static ushort DateTimeToDosDate(DateTime dateTime)
+        /// <returns>A 16-bit unsigned integer that encodes the <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/>, and <see cref="DateTime.Day"/> properties.</returns>
+        public static ushort ToDosDate(this DateTime dateTime)
         {
             // Outside of supported DOS date range
             if (dateTime.Date < MinDateTime.Date)
             {
-                throw new ArgumentException("The provided DateTime contained a date less than the DOS minimum of 1980/01/01.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date earlier than 1980/01/01 to DOS format.");
             }
             else if (dateTime.Date > MaxDateTime.Date)
             {
-                throw new ArgumentException("The provided DateTime contained a date greater than the DOS maximum of 2107/12/31.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date later than 2107/12/31 to DOS format.");
             }
 
             ushort outDate = 0;
@@ -37,14 +37,14 @@ namespace IronFE.Time
         }
 
         /// <summary>
-        /// Converts the time component of a <see cref="DateTime"/> into the DOS packed time format.
+        /// Converts the time component of the current <see cref="DateTime"/> object to a DOS packed time.
         /// </summary>
         /// <remarks>
-        /// This method will result in a lossy conversion of seconds because the DOS format stores seconds in increments of 2.
+        /// This method will result in a lossy conversion of seconds because the DOS format stores seconds in increments of 2 rather than 1.
         /// </remarks>
         /// <param name="dateTime">A <see cref="DateTime"/>.</param>
-        /// <returns>A DOS packed time component.</returns>
-        public static ushort DateTimeToDosTime(DateTime dateTime)
+        /// <returns>A 16-bit unsigned integer that encodes the <see cref="DateTime.Hour"/>, <see cref="DateTime.Minute"/>, and <see cref="DateTime.Second"/> properties.</returns>
+        public static ushort ToDosTime(this DateTime dateTime)
         {
             ushort outTime = 0;
 
@@ -56,11 +56,33 @@ namespace IronFE.Time
         }
 
         /// <summary>
+        /// Converts the current <see cref="DateTime"/> object to a DOS packed date and time.
+        /// </summary>
+        /// <remarks>
+        /// This method will result in a lossy conversion of seconds because the DOS format stores seconds in increments of 2 rather than 1.
+        /// </remarks>
+        /// <param name="dateTime">A <see cref="DateTime"/>.</param>
+        /// <param name="order">The order in which the date and time are stored within the encoded DOS date time.</param>
+        /// <returns>A 32-bit unsigned integer that encodes the <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/>, <see cref="DateTime.Day"/>, <see cref="DateTime.Hour"/>, <see cref="DateTime.Minute"/>, and <see cref="DateTime.Second"/> properties.</returns>
+        public static uint ToDosDateTime(this DateTime dateTime, DosDateTimeOrder order)
+        {
+            ushort date = dateTime.ToDosDate();
+            ushort time = dateTime.ToDosTime();
+
+            return order switch
+            {
+                DosDateTimeOrder.DateTime => ((uint)date << 16) | time,
+                DosDateTimeOrder.TimeDate => ((uint)time << 16) | date,
+                _ => throw new ArgumentException("Invalid DosDateTimeOrder."),
+            };
+        }
+
+        /// <summary>
         /// Converts a DOS packed date component into a standard <see cref="DateTime"/>.
         /// </summary>
         /// <param name="dosDate">A DOS packed date component.</param>
         /// <returns>A <see cref="DateTime"/> representing the DOS date.</returns>
-        public static DateTime DosDateToDateTime(ushort dosDate)
+        public static DateTime DateToDateTime(ushort dosDate)
         {
             int year = ((dosDate >> 9) & 0x7F) + 1980;
             int month = (dosDate >> 5) & 0x0F;
@@ -86,12 +108,13 @@ namespace IronFE.Time
         /// </summary>
         /// <param name="dosTime">A DOS packed time component.</param>
         /// <returns>A <see cref="TimeSpan"/> representing the DOS time.</returns>
-        public static TimeSpan DosTimeToTimeSpan(ushort dosTime)
+        public static TimeSpan TimeToTimeSpan(ushort dosTime)
         {
             int hour = (dosTime >> 11) & 0x1F;
             int minute = (dosTime >> 5) & 0x3F;
             int second = (dosTime & 0x1F) * 2;
 
+            // Bounds checking is left to the TimeSpan constructor
             return new TimeSpan(hour, minute, second);
         }
 
@@ -101,8 +124,18 @@ namespace IronFE.Time
         /// <param name="dosDate">A DOS packed date component.</param>
         /// <param name="dosTime">A DOS packed time component.</param>
         /// <returns>A <see cref="DateTime"/> representing the DOS date and time.</returns>
-        public static DateTime DosDateTimeToDateTime(ushort dosDate, ushort dosTime)
-            => DosDateToDateTime(dosDate) + DosTimeToTimeSpan(dosTime);
+        public static DateTime ToDateTime(ushort dosDate, ushort dosTime)
+            => DateToDateTime(dosDate) + TimeToTimeSpan(dosTime);
+
+        /// <summary>
+        /// Converts a DOS packed date and time into a <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="dosDateTime">A DOS packed date and time.</param>
+        /// <param name="order">The order in which the date and time are stored within <paramref name="dosDateTime"/>.</param>
+        /// <returns>A <see cref="DateTime"/> representing the DOS date and time.</returns>
+        public static DateTime ToDateTime(uint dosDateTime, DosDateTimeOrder order)
+            => DateToDateTime((ushort)(((order == DosDateTimeOrder.DateTime) ? (dosDateTime >> 16) : dosDateTime) & 0xFFFF)) +
+               TimeToTimeSpan((ushort)(((order == DosDateTimeOrder.DateTime) ? dosDateTime : (dosDateTime >> 16)) & 0xFFFF));
     }
 }
 
