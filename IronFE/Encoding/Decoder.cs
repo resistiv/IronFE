@@ -59,11 +59,6 @@ namespace IronFE.Encoding
         /// <param name="outStream">A <see cref="Stream"/> to write decoded output to.</param>
         public abstract void Decode(ref Stream outStream);
 
-        /// <summary>
-        /// Resets the internal state of this <see cref="Decoder"/>.
-        /// </summary>
-        public abstract void Reset();
-
         /// <inheritdoc/>
         public void Dispose()
         {
