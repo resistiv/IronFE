@@ -1,5 +1,4 @@
-﻿using System.Text;
-using IronFE.Hash;
+﻿using IronFE.Hash;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronFE.Tests.HashTests
@@ -10,7 +9,7 @@ namespace IronFE.Tests.HashTests
     [TestClass]
     public class Crc32Tests
     {
-        private static readonly byte[] CheckString = Encoding.ASCII.GetBytes("123456789");
+        private static readonly byte[] CheckString = System.Text.Encoding.ASCII.GetBytes("123456789");
 
         /// <summary>
         /// Tests the functionality of the CRC-32/AIXM CRC.
