@@ -12,11 +12,21 @@ namespace IronFE.Encoding
         private bool disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Decoder"/> class over a specified <see cref="Stream"/> which will be left open by the instance.
+        /// Initializes a new instance of the <see cref="Decoder"/> class over a specified <see cref="Stream"/> which will assume the rest of the stream is encoded and will not close the stream when disposed of.
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
         public Decoder(Stream stream)
-            : this(stream, true)
+            : this(stream, stream.Length - stream.Position)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Decoder"/> class over a specified <see cref="Stream"/> of a given length which will not close the stream when disposed of.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
+        /// <param name="streamLength">The length of the encoded data section in <paramref name="stream"/>.</param>
+        public Decoder(Stream stream, long streamLength)
+            : this(stream, streamLength, true)
         {
         }
 
@@ -24,10 +34,12 @@ namespace IronFE.Encoding
         /// Initializes a new instance of the <see cref="Decoder"/> class over a specified <see cref="Stream"/> which will be left open by the instance.
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
+        /// <param name="streamLength">The length of the encoded data section in <paramref name="stream"/>.</param>
         /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this instance is disposed.</param>
-        public Decoder(Stream stream, bool leaveOpen)
+        public Decoder(Stream stream, long streamLength, bool leaveOpen)
         {
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream), "Cannot pass a null Stream to a Decoder.");
+            StreamLength = streamLength;
             this.leaveOpen = leaveOpen;
         }
 
@@ -35,6 +47,11 @@ namespace IronFE.Encoding
         /// Gets the underlying <see cref="Stream"/> of this <see cref="Decoder"/>.
         /// </summary>
         public Stream BaseStream { get; }
+
+        /// <summary>
+        /// Gets the length of the encoded data section of the underlying <see cref="Stream"/>.
+        /// </summary>
+        public long StreamLength { get; }
 
         /// <summary>
         /// Decodes the underlying <see cref="Stream"/> of this <see cref="Decoder"/> and writes the output to <paramref name="outStream"/>.
