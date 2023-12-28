@@ -22,7 +22,7 @@ namespace IronFE.Encoding.Compression
         /// Initializes a new instance of the <see cref="Rle90Decoder"/> class over a specified <see cref="Stream"/> which will assume the rest of the stream is encoded and will not close the stream when disposed of.
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
-        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding.</param>
+        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding (<c>true</c> for BinHex, <c>false</c> for ARC).</param>
         public Rle90Decoder(Stream stream, bool bufferLiteralMarker)
             : base(stream)
         {
@@ -36,7 +36,7 @@ namespace IronFE.Encoding.Compression
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
         /// <param name="streamLength">The length of the encoded data section in <paramref name="stream"/>.</param>
-        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding.</param>
+        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding (<c>true</c> for BinHex, <c>false</c> for ARC).</param>
         public Rle90Decoder(Stream stream, long streamLength, bool bufferLiteralMarker)
             : base(stream, streamLength)
         {
@@ -51,7 +51,7 @@ namespace IronFE.Encoding.Compression
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
         /// <param name="streamLength">The length of the encoded data section in <paramref name="stream"/>.</param>
         /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this instance is disposed.</param>
-        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding.</param>
+        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding (<c>true</c> for BinHex, <c>false</c> for ARC).</param>
         public Rle90Decoder(Stream stream, long streamLength, bool leaveOpen, bool bufferLiteralMarker)
             : base(stream, streamLength, leaveOpen)
         {
