@@ -65,7 +65,7 @@ namespace IronFE.Encoding.Compression
         /// </summary>
         /// <param name="outStream">A <see cref="Stream"/> to write decoded output to.</param>
         /// <exception cref="EndOfStreamException">Thrown when the end of stream is reached after reading the RLE marker.</exception>
-        public override void Decode(ref Stream outStream)
+        public override void Decode(Stream outStream)
         {
             byte lastByte = 0x00;
 

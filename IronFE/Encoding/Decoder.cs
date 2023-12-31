@@ -41,6 +41,6 @@ namespace IronFE.Encoding
         /// Decodes the underlying <see cref="Stream"/> of this <see cref="Decoder"/> and writes the output to <paramref name="outStream"/>.
         /// </summary>
         /// <param name="outStream">A <see cref="Stream"/> to write decoded output to.</param>
-        public abstract void Decode(ref Stream outStream);
+        public abstract void Decode(Stream outStream);
     }
 }

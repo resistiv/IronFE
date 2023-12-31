@@ -41,6 +41,6 @@ namespace IronFE.Encoding
         /// Encodes the underlying <see cref="Stream"/> of this <see cref="Encoder"/> and writes the output to <paramref name="outStream"/>.
         /// </summary>
         /// <param name="outStream">A <see cref="Stream"/> to write encoded output to.</param>
-        public abstract void Encode(ref Stream outStream);
+        public abstract void Encode(Stream outStream);
     }
 }
