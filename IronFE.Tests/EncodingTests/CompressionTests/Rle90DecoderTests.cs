@@ -9,6 +9,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     /// </summary>
     [TestClass]
     [DeploymentItem(@"TestData\Encoding\Compression\Rle90ArcEncoded.bin", "TestData")]
+    [DeploymentItem(@"TestData\Encoding\Compression\Rle90BinHexEncoded.bin", "TestData")]
     public class Rle90DecoderTests : EncodingTests
     {
         /// <summary>
@@ -49,9 +50,22 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * in that they don't buffer the RLE marker and run it if a run is
              * indeed found. macutils, binhex.py (and binascii, by extension),
              * and others have all displayed this behaviour.
+             * For now, we'll once again abuse ARC 5.21p to do our bidding
+             * (output method 3 and buffer RLE marker when compressing).
              */
 
-            throw new System.NotImplementedException();
+            MemoryStream encodedStream = new(File.ReadAllBytes(@"TestData\Rle90BinHexEncoded.bin"));
+            MemoryStream decodedStream = new();
+
+            Rle90Decoder decoder = new(encodedStream, true);
+            decoder.Decode(decodedStream);
+
+            decoder.Dispose();
+            encodedStream.Dispose();
+
+            File.WriteAllBytes("binhex.out.bin", decodedStream.ToArray());
+
+            CollectionAssert.AreEqual(InputData, decodedStream.ToArray());
         }
     }
 }
