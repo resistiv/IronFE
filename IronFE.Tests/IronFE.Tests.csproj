@@ -11,6 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData\Encoding\Compression\Rle90ArcEncoded.bin" />
+    <None Remove="TestData\Encoding\InputData.bin" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\Encoding\Compression\Rle90ArcEncoded.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Encoding\InputData.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
@@ -23,6 +37,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IronFE\IronFE.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="EncodingTests\TestData\Rle90ArcEncoded.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="EncodingTests\TestData\InputData.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
