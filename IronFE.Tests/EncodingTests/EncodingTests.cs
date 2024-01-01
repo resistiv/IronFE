@@ -7,7 +7,7 @@ namespace IronFE.Tests.EncodingTests
     /// <summary>
     /// Provides a basis for tests on encodings.
     /// </summary>
-    [DeploymentItem(@"TestData\Encoding\InputData.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/InputData.bin", "TestData")]
     public abstract class EncodingTests
     {
         /// <summary>
@@ -17,7 +17,7 @@ namespace IronFE.Tests.EncodingTests
 
         static EncodingTests()
         {
-            InputData = File.ReadAllBytes(@"TestData\InputData.bin");
+            InputData = File.ReadAllBytes("TestData/InputData.bin");
 
             // InputData.bin generation routine
             /*List<byte> input = new();

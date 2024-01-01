@@ -8,8 +8,8 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     /// Tests functionality of the <see cref="Rle90Decoder"/> class.
     /// </summary>
     [TestClass]
-    [DeploymentItem(@"TestData\Encoding\Compression\Rle90ArcEncoded.bin", "TestData")]
-    [DeploymentItem(@"TestData\Encoding\Compression\Rle90BinHexEncoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Compression/Rle90ArcEncoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Compression/Rle90BinHexEncoded.bin", "TestData")]
     public class Rle90DecoderTests : EncodingTests
     {
         /// <summary>
@@ -26,7 +26,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * was stripped of the ARC header and archive end marker.
              */
 
-            MemoryStream encodedStream = new(File.ReadAllBytes(@"TestData\Rle90ArcEncoded.bin"));
+            MemoryStream encodedStream = new(File.ReadAllBytes("TestData/Rle90ArcEncoded.bin"));
             MemoryStream decodedStream = new();
 
             Rle90Decoder decoder = new(encodedStream, false);
@@ -54,7 +54,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * (output method 3 and buffer RLE marker when compressing).
              */
 
-            MemoryStream encodedStream = new(File.ReadAllBytes(@"TestData\Rle90BinHexEncoded.bin"));
+            MemoryStream encodedStream = new(File.ReadAllBytes("TestData/Rle90BinHexEncoded.bin"));
             MemoryStream decodedStream = new();
 
             Rle90Decoder decoder = new(encodedStream, true);
@@ -62,8 +62,6 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
 
             decoder.Dispose();
             encodedStream.Dispose();
-
-            File.WriteAllBytes("binhex.out.bin", decodedStream.ToArray());
 
             CollectionAssert.AreEqual(InputData, decodedStream.ToArray());
         }
