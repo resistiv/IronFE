@@ -13,7 +13,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     public class Rle90DecoderTests : EncodingTests
     {
         /// <summary>
-        /// Tests the functionality of the <see cref="Rle90Decoder.Decode(Stream)"/> function given ARC-compressed data.
+        /// Tests the functionality of the <see cref="Rle90Decoder.Decode(Stream)"/> method given ARC-compressed data.
         /// </summary>
         [TestMethod]
         public void DecodeRle90Arc()
@@ -39,7 +39,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         }
 
         /// <summary>
-        /// Tests the functionality of the <see cref="Rle90Decoder.Decode(Stream)"/> function given BinHex-encoded data.
+        /// Tests the functionality of the <see cref="Rle90Decoder.Decode(Stream)"/> method given BinHex-encoded data.
         /// </summary>
         [TestMethod]
         public void DecodeRle90BinHex()
