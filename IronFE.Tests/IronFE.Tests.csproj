@@ -15,7 +15,6 @@
     <None Remove="TestData\Encoding\Compression\Rle90BinHexEncoded.bin" />
     <None Remove="TestData\Encoding\InputData.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4Encoded.bin" />
-    <None Remove="TestData\Format\Transport\BinHex4.hqx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,9 +28,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Encoding\Transport\BinHex4Encoded.bin">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestData\Format\Transport\BinHex4.hqx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
