@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection.PortableExecutable;
 
 namespace IronFE.Encoding.Transport
 {
@@ -74,12 +73,18 @@ namespace IronFE.Encoding.Transport
                 throw new InvalidDataException("Expected BinHex 4.0 marker at the beginning of stream.");
             }
 
-            ushort bitBuffer = 0;
-            byte bitsLeft = 0;
+            int bitBuffer = 0;
+            int bitsLeft = 0;
             byte currentByte;
             while (reader.BaseStream.Position < streamEnd)
             {
                 currentByte = reader.ReadByte();
+
+                // Line breaks
+                if ((char)currentByte == '\n' || (char)currentByte == '\r')
+                {
+                    continue;
+                }
 
                 // EOS
                 if (currentByte == StreamMarker)
@@ -87,21 +92,15 @@ namespace IronFE.Encoding.Transport
                     return;
                 }
 
-                // Whitespace
-                if (char.IsWhiteSpace((char)currentByte))
-                {
-                    continue;
-                }
-
                 // Get lower 6 bits from table
-                byte bits = SixBitTable[currentByte];
+                int bits = SixBitTable[currentByte];
                 if (bits == InvalidTableEntry)
                 {
                     throw new InvalidDataException($"Unexpected character '{(char)currentByte}' in BinHex 4.0 stream.");
                 }
 
                 // Load in the new bits
-                bitBuffer = (ushort)((bitBuffer << 6) | bits);
+                bitBuffer = (bitBuffer << 6) | bits;
                 bitsLeft += 6;
 
                 // Do we have enough for a byte?
@@ -109,6 +108,7 @@ namespace IronFE.Encoding.Transport
                 {
                     bitsLeft -= 8;
                     outStream.WriteByte((byte)((bitBuffer >> bitsLeft) & 0xFF));
+                    bitBuffer &= (1 << bitsLeft) - 1;
                 }
             }
 
@@ -145,9 +145,9 @@ namespace IronFE.Encoding.Transport
             }
 
             // Write over valid entries with appropriate values
-            for (int i = 0; i < CharBank.Length; i++)
+            for (byte i = 0; i < CharBank.Length; i++)
             {
-                table[CharBank[i]] = (byte)i;
+                table[CharBank[i]] = i;
             }
 
             return table;
