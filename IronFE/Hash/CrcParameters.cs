@@ -17,7 +17,7 @@ namespace IronFE.Hash
         public string Name { get; } =
             !string.IsNullOrEmpty(name) ?
             name :
-            throw new ArgumentNullException(nameof(name), "CRC name must be defined.");
+            throw new ArgumentNullException(nameof(name), Properties.Strings.CrcParametersNameNull);
 
         /// <summary>
         /// Gets the width, in bits, of this CRC.
@@ -25,7 +25,7 @@ namespace IronFE.Hash
         public int Width { get; } =
             width >= 8 && width <= 64 ?
             width :
-            throw new ArgumentOutOfRangeException(nameof(width), "Width must be between 8 and 64, inclusive.");
+            throw new ArgumentOutOfRangeException(nameof(width), Properties.Strings.CrcParametersWidthOutOfRange);
 
         /// <summary>
         /// Gets the generator polynomial of this CRC.
@@ -33,7 +33,7 @@ namespace IronFE.Hash
         public ulong Polynomial { get; } =
             polynomial <= ((((1UL << (width - 1)) - 1) << 1) | 1) ?
             polynomial :
-            throw new ArgumentOutOfRangeException(nameof(polynomial), $"Polynomial must fit within the given bit width ({width} bits).");
+            throw new ArgumentOutOfRangeException(nameof(polynomial), string.Format(Properties.Strings.CrcParametersPolynomialOutOfRange, width));
 
         /// <summary>
         /// Gets the initial value of the division register of this CRC.
@@ -41,7 +41,7 @@ namespace IronFE.Hash
         public ulong InitialValue { get; } =
             initialValue <= ((((1UL << (width - 1)) - 1) << 1) | 1) ?
             initialValue :
-            throw new ArgumentOutOfRangeException(nameof(initialValue), $"Initial value must fit within the given bit width ({width} bits).");
+            throw new ArgumentOutOfRangeException(nameof(initialValue), string.Format(Properties.Strings.CrcParametersInitialValueOutOfRange, width));
 
         /// <summary>
         /// Gets a value indicating whether input data is reflected before being processed.
@@ -59,7 +59,7 @@ namespace IronFE.Hash
         public ulong OutputXor { get; } =
             outputXor <= ((((1UL << (width - 1)) - 1) << 1) | 1) ?
             outputXor :
-            throw new ArgumentOutOfRangeException(nameof(outputXor), $"Output XOR mask must fit within the given bit width ({width} bits).");
+            throw new ArgumentOutOfRangeException(nameof(outputXor), string.Format(Properties.Strings.CrcParametersOutputXorOutOfRange, width));
 
         /// <summary>
         /// Compares equality of two <see cref="CrcParameters"/> objects.

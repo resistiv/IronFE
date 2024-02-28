@@ -19,11 +19,11 @@ namespace IronFE.Time
         {
             if (dateTime < MinDateTime)
             {
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date & time earlier that 1904/01/01 00:00:00 to HFS+ format.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), string.Format(Properties.Strings.HfsPlusDateTimeOutOfRangeMin, MinDateTime));
             }
             else if (dateTime > MaxDateTime)
             {
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date & time later that 2040/02/06 06:28:15 to HFS+ format.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), string.Format(Properties.Strings.HfsPlusDateTimeOutOfRangeMax, MaxDateTime));
             }
 
             return (uint)dateTime.Subtract(MinDateTime).TotalSeconds;

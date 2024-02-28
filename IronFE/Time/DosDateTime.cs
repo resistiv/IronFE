@@ -20,11 +20,11 @@ namespace IronFE.Time
             // Outside of supported DOS date range
             if (dateTime.Date < MinDateTime.Date)
             {
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date earlier than 1980/01/01 to DOS format.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), string.Format(Properties.Strings.DosDateTimeOutOfRangeMin, MinDateTime));
             }
             else if (dateTime.Date > MaxDateTime.Date)
             {
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Cannot convert a date later than 2107/12/31 to DOS format.");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), string.Format(Properties.Strings.DosDateTimeOutOfRangeMax, MaxDateTime));
             }
 
             ushort outDate = 0;
@@ -73,7 +73,7 @@ namespace IronFE.Time
             {
                 DosDateTimeOrder.DateTime => ((uint)date << 16) | time,
                 DosDateTimeOrder.TimeDate => ((uint)time << 16) | date,
-                _ => throw new ArgumentException("Invalid DosDateTimeOrder."),
+                _ => throw new ArgumentException(Properties.Strings.DosDateTimeInvalidDosDateTimeOrder),
             };
         }
 
