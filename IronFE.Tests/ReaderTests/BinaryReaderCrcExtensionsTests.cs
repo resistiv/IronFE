@@ -42,144 +42,144 @@ namespace IronFE.Tests.ReaderTests
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadByteWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadByte(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadByteWithCrc()
         {
             for (int i = 0; i < data.Length; i++)
             {
-                _ = reader.ReadByteWithCrc(crc);
+                _ = reader.ReadByte(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadSByteWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadSByte(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadSByteWithCrc()
         {
             for (int i = 0; i < data.Length; i++)
             {
-                _ = reader.ReadSByteWithCrc(crc);
+                _ = reader.ReadSByte(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadBooleanWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadBoolean(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadBooleanWithCrc()
         {
             for (int i = 0; i < data.Length; i++)
             {
-                _ = reader.ReadBooleanWithCrc(crc);
+                _ = reader.ReadBoolean(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadBytesWithCrc(BinaryReader, int, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadBytes(BinaryReader, int, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadBytesWithCrc()
         {
-            _ = reader.ReadBytesWithCrc(data.Length, crc);
+            _ = reader.ReadBytes(data.Length, crc);
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt16WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt16(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadInt16WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(short); i++)
             {
-                _ = reader.ReadInt16WithCrc(crc);
+                _ = reader.ReadInt16(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt16WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt16(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadUInt16WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(short); i++)
             {
-                _ = reader.ReadUInt16WithCrc(crc);
+                _ = reader.ReadUInt16(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt32WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt32(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadInt32WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(int); i++)
             {
-                _ = reader.ReadInt32WithCrc(crc);
+                _ = reader.ReadInt32(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt32WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt32(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadUInt32WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(int); i++)
             {
-                _ = reader.ReadUInt32WithCrc(crc);
+                _ = reader.ReadUInt32(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt64WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadInt64(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadInt64WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(long); i++)
             {
-                _ = reader.ReadInt64WithCrc(crc);
+                _ = reader.ReadInt64(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt64WithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadUInt64(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadUInt64WithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(long); i++)
             {
-                _ = reader.ReadUInt64WithCrc(crc);
+                _ = reader.ReadUInt64(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadHalfWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadHalf(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadHalfWithCrc()
@@ -187,49 +187,49 @@ namespace IronFE.Tests.ReaderTests
             // Use sizeof ushort because Half cannot be sized safely
             for (int i = 0; i < data.Length / sizeof(ushort); i++)
             {
-                _ = reader.ReadHalfWithCrc(crc);
+                _ = reader.ReadHalf(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadSingleWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadSingle(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadSingleWithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(float); i++)
             {
-                _ = reader.ReadSingleWithCrc(crc);
+                _ = reader.ReadSingle(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadDoubleWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadDouble(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadDoubleWithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(double); i++)
             {
-                _ = reader.ReadDoubleWithCrc(crc);
+                _ = reader.ReadDouble(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
         }
 
         /// <summary>
-        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadDecimalWithCrc(BinaryReader, Crc)"/>.
+        /// Tests the functionality of <see cref="BinaryReaderCrcExtensions.ReadDecimal(BinaryReader, Crc)"/>.
         /// </summary>
         [TestMethod]
         public void ReadDecimalWithCrc()
         {
             for (int i = 0; i < data.Length / sizeof(decimal); i++)
             {
-                _ = reader.ReadDecimalWithCrc(crc);
+                _ = reader.ReadDecimal(crc);
             }
 
             Assert.AreEqual(expectedCrc, (uint)crc.Result);
