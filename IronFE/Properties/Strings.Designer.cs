@@ -106,6 +106,24 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This operation is not supported within a DecodingStream..
+        /// </summary>
+        internal static string DecodingStreamNotSupported {
+            get {
+                return ResourceManager.GetString("DecodingStreamNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DecodingStream class does not support unreadable Stream objects..
+        /// </summary>
+        internal static string DecodingStreamNotSupportedUnreadableStream {
+            get {
+                return ResourceManager.GetString("DecodingStreamNotSupportedUnreadableStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid DosDateTimeOrder value..
         /// </summary>
         internal static string DosDateTimeInvalidDosDateTimeOrder {

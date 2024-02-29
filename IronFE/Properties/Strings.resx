@@ -135,6 +135,12 @@
   <data name="CrcParametersWidthOutOfRange" xml:space="preserve">
     <value>CRC width must be between 8 and 64 bits, inclusive.</value>
   </data>
+  <data name="DecodingStreamNotSupported" xml:space="preserve">
+    <value>This operation is not supported within a DecodingStream.</value>
+  </data>
+  <data name="DecodingStreamNotSupportedUnreadableStream" xml:space="preserve">
+    <value>DecodingStream class does not support unreadable Stream objects.</value>
+  </data>
   <data name="DosDateTimeInvalidDosDateTimeOrder" xml:space="preserve">
     <value>Invalid DosDateTimeOrder value.</value>
   </data>
