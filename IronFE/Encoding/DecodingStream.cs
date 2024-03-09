@@ -8,20 +8,26 @@ namespace IronFE.Encoding
     /// </summary>
     public abstract class DecodingStream : Stream
     {
-        /// <summary>
-        /// The default size of the internal buffer used for residual decoding bytes.
-        /// </summary>
-        protected const int DefaultBufferSize = 8192;
-        protected byte[] buffer;
         protected Stream stream;
 
         private readonly bool leaveOpen;
+        private bool disposed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecodingStream"/> class over a specified <see cref="Stream"/> object.
+        /// </summary>
+        /// <remarks>This constructor will leave the underlying <see cref="Stream"/> object open when disposing.</remarks>
+        /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
         protected DecodingStream(Stream stream)
-            : this(stream, false)
+            : this(stream, true)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecodingStream"/> class.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
+        /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this is object is disposed.</param>
         protected DecodingStream(Stream stream, bool leaveOpen)
         {
             ArgumentNullException.ThrowIfNull(stream);
@@ -33,7 +39,6 @@ namespace IronFE.Encoding
 
             this.stream = stream;
             this.leaveOpen = leaveOpen;
-            this.buffer = new byte[DefaultBufferSize];
         }
 
         /// <summary>
@@ -41,22 +46,17 @@ namespace IronFE.Encoding
         /// </summary>
         public Stream BaseStream => stream;
 
-
         /// <inheritdoc/>
         public override bool CanRead => true;
-
 
         /// <inheritdoc/>
         public override bool CanSeek => false;
 
-
         /// <inheritdoc/>
         public override bool CanWrite => false;
 
-
         /// <inheritdoc/>
         public override long Length => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
-
 
         /// <inheritdoc/>
         public override long Position
@@ -73,13 +73,42 @@ namespace IronFE.Encoding
             throw new NotImplementedException();
         }
 
-
         /// <inheritdoc/>
         public override int Read(byte[] buffer, int offset, int count)
         {
             ObjectDisposedException.ThrowIf(stream is null, this);
             ValidateBufferArguments(buffer, offset, count);
             return ReadInternal(buffer, offset, count);
+        }
+
+        /// <inheritdoc/>
+        public override long Seek(long offset, SeekOrigin origin)
+            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
+
+        /// <inheritdoc/>
+        public override void SetLength(long value)
+            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
+
+        /// <inheritdoc/>
+        public override void Write(byte[] buffer, int offset, int count)
+            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
+
+        /// <summary>
+        /// Disposes resources used by this <see cref="DecodingStream"/>.
+        /// </summary>
+        /// <param name="disposing">Whether or not managed resources are to be disposed of.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing && !leaveOpen)
+                {
+                    BaseStream.Dispose();
+                }
+
+                disposed = true;
+                base.Dispose(disposing);
+            }
         }
 
         /// <summary>
@@ -90,20 +119,5 @@ namespace IronFE.Encoding
         /// <param name="count">The maximum number of bytes to be read from the underlying <see cref="Stream"/>.</param>
         /// <returns>The total number of bytes read into <paramref name="buffer"/>.</returns>
         protected abstract int ReadInternal(byte[] buffer, int offset, int count);
-
-
-        /// <inheritdoc/>
-        public override long Seek(long offset, SeekOrigin origin)
-            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
-
-
-        /// <inheritdoc/>
-        public override void SetLength(long value)
-            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
-
-
-        /// <inheritdoc/>
-        public override void Write(byte[] buffer, int offset, int count)
-            => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
     }
 }
