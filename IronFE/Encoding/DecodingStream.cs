@@ -8,9 +8,8 @@ namespace IronFE.Encoding
     /// </summary>
     public abstract class DecodingStream : Stream
     {
-        protected Stream stream;
-
         private readonly bool leaveOpen;
+        private readonly Stream stream;
         private bool disposed = false;
 
         /// <summary>
@@ -67,11 +66,7 @@ namespace IronFE.Encoding
 
         /// <inheritdoc/>
         public override void Flush()
-        {
-            BaseStream.Flush();
-
-            throw new NotImplementedException();
-        }
+            => BaseStream.Flush();
 
         /// <inheritdoc/>
         public override int Read(byte[] buffer, int offset, int count)
