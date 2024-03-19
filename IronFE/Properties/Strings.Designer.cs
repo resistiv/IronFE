@@ -167,5 +167,14 @@ namespace IronFE.Properties {
                 return ResourceManager.GetString("HfsPlusDateTimeOutOfRangeMin", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected run length in RLE90 stream, but encountered end of stream..
+        /// </summary>
+        internal static string Rle90EosExpectedRunLength {
+            get {
+                return ResourceManager.GetString("Rle90EosExpectedRunLength", resourceCulture);
+            }
+        }
     }
 }

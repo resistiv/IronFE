@@ -160,4 +160,7 @@
     <value>Cannot convert a DateTime earlier than {0:G} to HFS+ format.</value>
     <comment>{0:G} substituted for the minimum HFS+ date, 1904-01-01 00:00:00, in the local culture.</comment>
   </data>
+  <data name="Rle90EosExpectedRunLength" xml:space="preserve">
+    <value>Expected run length in RLE90 stream, but encountered end of stream.</value>
+  </data>
 </root>
