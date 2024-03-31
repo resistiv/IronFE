@@ -31,6 +31,36 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
 
             byte[] buffer = new byte[InputData.Length];
             decoder.Read(buffer, 0, InputData.Length);
+            decoder.Dispose();
+
+            CollectionAssert.AreEqual(InputData, buffer);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method given ARC-compressed data read in a piecewise manner.
+        /// </summary>
+        /// <remarks>
+        /// The goal of this test is to evaluate the buffering system the ReadInternal() function implements in order to ensure no errors occur with read boundaries.
+        /// </remarks>
+        [TestMethod]
+        public void DecodeRle90ArcPiecewise()
+        {
+            /*
+             * The test data for this test was generated using a modified
+             * version of SEA's ARC 5.21p, the modification being that the
+             * output was forced to be compression method 3 (just RLE90). The
+             * file InputData.bin was fed through ARC and the resulting file
+             * was stripped of the ARC header and archive end marker.
+             */
+
+            FileStream rle90file = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
+            Rle90DecodingStream decoder = new(rle90file, false);
+
+            byte[] buffer = new byte[InputData.Length];
+            for (int i = 0; i < InputData.Length; i++)
+            {
+                buffer[i] = (byte)decoder.ReadByte();
+            }
 
             CollectionAssert.AreEqual(InputData, buffer);
         }
