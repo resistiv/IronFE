@@ -10,23 +10,21 @@ namespace IronFE.Encoding
     {
         private readonly bool leaveOpen;
         private readonly Stream stream;
-        private bool disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecodingStream"/> class over a specified <see cref="Stream"/> object.
+        /// Initializes a new instance of the <see cref="DecodingStream"/> class over a specified <see cref="Stream"/>, which will close the underlying stream when disposed.
         /// </summary>
-        /// <remarks>This constructor will leave the underlying <see cref="Stream"/> object open when disposing.</remarks>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
         protected DecodingStream(Stream stream)
-            : this(stream, true)
+            : this(stream, false)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecodingStream"/> class.
+        /// Initializes a new instance of the <see cref="DecodingStream"/> class over a specified <see cref="Stream"/>, which can be closed or left open upon disposal.
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing data to be decoded.</param>
-        /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this is object is disposed.</param>
+        /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this instance is disposed.</param>
         protected DecodingStream(Stream stream, bool leaveOpen)
         {
             ArgumentNullException.ThrowIfNull(stream);
@@ -66,7 +64,11 @@ namespace IronFE.Encoding
 
         /// <inheritdoc/>
         public override void Flush()
-            => BaseStream.Flush();
+        {
+            BaseStream.Flush();
+
+            throw new NotImplementedException();
+        }
 
         /// <inheritdoc/>
         public override int Read(byte[] buffer, int offset, int count)
@@ -87,24 +89,6 @@ namespace IronFE.Encoding
         /// <inheritdoc/>
         public override void Write(byte[] buffer, int offset, int count)
             => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
-
-        /// <summary>
-        /// Disposes resources used by this <see cref="DecodingStream"/>.
-        /// </summary>
-        /// <param name="disposing">Whether or not managed resources are to be disposed of.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing && !leaveOpen)
-                {
-                    BaseStream.Dispose();
-                }
-
-                disposed = true;
-                base.Dispose(disposing);
-            }
-        }
 
         /// <summary>
         /// Reads a sequence of bytes through an internal decoding operation on the underlying <see cref="Stream"/> object.
