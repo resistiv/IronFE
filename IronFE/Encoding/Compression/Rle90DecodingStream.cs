@@ -8,8 +8,6 @@ namespace IronFE.Encoding.Compression
         private const byte RleMarker = 0x90;
 
         private readonly bool bufferLiteralMarker;
-        private readonly BinaryReader reader;
-
         private byte[]? bufferedBytes = null;
 
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker)
@@ -21,7 +19,6 @@ namespace IronFE.Encoding.Compression
             : base(stream, leaveOpen)
         {
             this.bufferLiteralMarker = bufferLiteralMarker;
-            reader = new BinaryReader(BaseStream, System.Text.Encoding.Default, leaveOpen);
         }
 
         protected override int ReadInternal(byte[] buffer, int offset, int count)
@@ -52,11 +49,12 @@ namespace IronFE.Encoding.Compression
             while (bytesRead < count)
             {
                 byte currentByte;
-                try
+                int b;
+                if ((b = BaseStream.ReadByte()) != -1)
                 {
-                    currentByte = reader.ReadByte();
+                    currentByte = (byte)b;
                 }
-                catch (EndOfStreamException)
+                else
                 {
                     // Nothing left to read, return what we have
                     return bytesRead;
@@ -66,11 +64,11 @@ namespace IronFE.Encoding.Compression
                 if (currentByte == RleMarker)
                 {
                     byte runLength;
-                    try
+                    if ((b = BaseStream.ReadByte()) != -1)
                     {
-                        runLength = reader.ReadByte();
+                        runLength = (byte)b;
                     }
-                    catch (EndOfStreamException)
+                    else
                     {
                         throw new InvalidDataException(Properties.Strings.Rle90EosExpectedRunLength);
                     }
