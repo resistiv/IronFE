@@ -10,6 +10,7 @@ namespace IronFE.Encoding
     {
         private readonly bool leaveOpen;
         private readonly Stream stream;
+        private bool disposed = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DecodingStream"/> class over a specified <see cref="Stream"/>, which will close the underlying stream when disposed.
@@ -89,6 +90,22 @@ namespace IronFE.Encoding
         /// <inheritdoc/>
         public override void Write(byte[] buffer, int offset, int count)
             => throw new NotSupportedException(Properties.Strings.DecodingStreamNotSupported);
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing && !leaveOpen)
+                {
+                    stream.Dispose();
+                }
+
+                disposed = true;
+            }
+
+            base.Dispose(disposing);
+        }
 
         /// <summary>
         /// Reads a sequence of bytes through an internal decoding operation on the underlying <see cref="Stream"/> object.
