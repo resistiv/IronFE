@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace IronFE.Encoding.Compression
@@ -14,17 +13,15 @@ namespace IronFE.Encoding.Compression
         private byte[]? bufferedBytes = null;
 
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker)
-            : base(stream)
+            : this(stream, false, bufferLiteralMarker)
         {
-            this.bufferLiteralMarker = bufferLiteralMarker;
-            reader = new BinaryReader(BaseStream, System.Text.Encoding.Default, true);
         }
 
-        public Rle90DecodingStream(Stream stream, bool leaveOpen, bool bufferLiteralMarker)
+        public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker, bool leaveOpen)
             : base(stream, leaveOpen)
         {
             this.bufferLiteralMarker = bufferLiteralMarker;
-            reader = new BinaryReader(BaseStream, System.Text.Encoding.Default, true);
+            reader = new BinaryReader(BaseStream, System.Text.Encoding.Default, leaveOpen);
         }
 
         protected override int ReadInternal(byte[] buffer, int offset, int count)
@@ -92,23 +89,38 @@ namespace IronFE.Encoding.Compression
                     // Encoded run
                     else
                     {
-                        while (bytesRead < count && --runLength > 0)
+                        // We have already output one byte (lastByte) in the run
+                        runLength--;
+
+                        // Read to output buffer while we have space
+                        byte i;
+                        for (i = 0; i < runLength && bytesRead < count; i++)
                         {
                             buffer[offset + (bytesRead++)] = lastByte;
                         }
+                        runLength -= i;
 
                         // Excess bytes, read into internal buffer
                         if (runLength != 0)
                         {
                             bufferedBytes = new byte[runLength];
-                            while (runLength-- > 0)
+                            for (i = 0; i < runLength; i++)
                             {
-                                // IMPLEMENT ME
+                                bufferedBytes[i] = lastByte;
                             }
                         }
                     }
                 }
+
+                // Literal
+                else
+                {
+                    buffer[offset + (bytesRead++)] = currentByte;
+                    lastByte = currentByte;
+                }
             }
+
+            return bytesRead;
         }
     }
 }
