@@ -3,6 +3,9 @@ using System.IO;
 
 namespace IronFE.Encoding.Compression
 {
+    /// <summary>
+    /// Decodes RLE90-encoded data from an underlying <see cref="Stream"/>.
+    /// </summary>
     public sealed class Rle90DecodingStream : DecodingStream
     {
         private const byte RleMarker = 0x90;
@@ -11,17 +14,29 @@ namespace IronFE.Encoding.Compression
         private byte[]? bufferedBytes = null;
         private byte lastByte = 0x00;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rle90DecodingStream"/> class over a specified <see cref="Stream"/>, which will close the underlying stream when disposed.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing RLE90-encoded data to be decoded.</param>
+        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding (<c>true</c> for BinHex, <c>false</c> for ARC).</param>
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker)
             : this(stream, bufferLiteralMarker, false)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rle90DecodingStream"/> class over a specified <see cref="Stream"/>, which can be closed or left open upon disposal.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing RLE90-encoded data to be decoded.</param>
+        /// <param name="bufferLiteralMarker">Whether or not to buffer a literal RLE marker as the previous byte when decoding (<c>true</c> for BinHex, <c>false</c> for ARC).</param>
+        /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this instance is disposed.</param>
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker, bool leaveOpen)
             : base(stream, leaveOpen)
         {
             this.bufferLiteralMarker = bufferLiteralMarker;
         }
 
+        /// <inheritdoc/>
         protected override int ReadInternal(byte[] buffer, int offset, int count)
         {
             int bytesRead = 0;
