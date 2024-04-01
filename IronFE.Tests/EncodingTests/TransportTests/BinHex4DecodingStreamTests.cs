@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace IronFE.Tests.EncodingTests.TransportTests
 {
     /// <summary>
-    /// Tests functionality of the <see cref="BinHex4Decoder"/> class.
+    /// Tests functionality of the <see cref="BinHex4DecodingStream"/> class.
     /// </summary>
     [TestClass]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4Encoded.bin", "TestData")]
