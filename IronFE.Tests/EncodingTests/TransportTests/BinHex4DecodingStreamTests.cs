@@ -28,7 +28,8 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             byte[] buffer = new byte[InputData.Length];
             using (BinHex4DecodingStream decoder = new(binhex4File))
             {
-                decoder.Read(buffer, 0, InputData.Length);
+                int result = decoder.Read(buffer, 0, InputData.Length);
+                Assert.AreEqual(InputData.Length, result);
             }
 
             CollectionAssert.AreEqual(InputData, buffer);
@@ -51,6 +52,26 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             }
 
             CollectionAssert.AreEqual(InputData, buffer);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles overreading.
+        /// </summary>
+        [TestMethod]
+        public void DecodeBinHex4Overread()
+        {
+            int overreadAmount = 256;
+
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
+            byte[] buffer = new byte[InputData.Length + overreadAmount];
+            using (BinHex4DecodingStream decoder = new(binhex4File))
+            {
+                // Specifically overread data, should not cause an error
+                int result = decoder.Read(buffer, 0, InputData.Length + overreadAmount);
+                Assert.AreEqual(InputData.Length, result);
+            }
+
+            CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
         }
     }
 }
