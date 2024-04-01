@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using IronFE.Encoding.Compression;
+using IronFE.Encoding.Transport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronFE.Tests.EncodingTests.CompressionTests
@@ -104,6 +105,26 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             }
 
             CollectionAssert.AreEqual(InputData, buffer);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles overreading.
+        /// </summary>
+        [TestMethod]
+        public void DecodeRl90Overread()
+        {
+            int overreadAmount = 256;
+
+            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
+            byte[] buffer = new byte[InputData.Length + overreadAmount];
+            using (Rle90DecodingStream decoder = new(rle90File, true))
+            {
+                // Specifically overread data, should not cause an error
+                int result = decoder.Read(buffer, 0, InputData.Length + overreadAmount);
+                Assert.AreEqual(InputData.Length, result);
+            }
+
+            CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
         }
     }
 }
