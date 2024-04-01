@@ -61,6 +61,33 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expected BinHex 4.0 stream marker at the beginning of stream..
+        /// </summary>
+        internal static string BinHex4ExpectedMarkerAtBeginning {
+            get {
+                return ResourceManager.GetString("BinHex4ExpectedMarkerAtBeginning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected character &apos;{0}&apos; in BinHex 4.0 stream..
+        /// </summary>
+        internal static string BinHex4UnexpectedCharacter {
+            get {
+                return ResourceManager.GetString("BinHex4UnexpectedCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encountered unexpected end of stream in BinHex 4.0 stream..
+        /// </summary>
+        internal static string BinHex4UnexpectedEndOfStream {
+            get {
+                return ResourceManager.GetString("BinHex4UnexpectedEndOfStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CRC initial value must fit within the provided bit width ({0} bits)..
         /// </summary>
         internal static string CrcParametersInitialValueOutOfRange {

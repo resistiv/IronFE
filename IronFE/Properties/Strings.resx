@@ -117,6 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BinHex4ExpectedMarkerAtBeginning" xml:space="preserve">
+    <value>Expected BinHex 4.0 stream marker at the beginning of stream.</value>
+  </data>
+  <data name="BinHex4UnexpectedCharacter" xml:space="preserve">
+    <value>Unexpected character '{0}' in BinHex 4.0 stream.</value>
+    <comment>{0} substituted for character that caused the error.</comment>
+  </data>
+  <data name="BinHex4UnexpectedEndOfStream" xml:space="preserve">
+    <value>Encountered unexpected end of stream in BinHex 4.0 stream.</value>
+  </data>
   <data name="CrcParametersInitialValueOutOfRange" xml:space="preserve">
     <value>CRC initial value must fit within the provided bit width ({0} bits).</value>
     <comment>{0} substituted for the user-supplied bit width, "width" parameter.</comment>
