@@ -12,7 +12,7 @@ namespace IronFE.Encoding.Compression
         private byte lastByte = 0x00;
 
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker)
-            : this(stream, false, bufferLiteralMarker)
+            : this(stream, bufferLiteralMarker, false)
         {
         }
 
@@ -96,6 +96,7 @@ namespace IronFE.Encoding.Compression
                         {
                             buffer[offset + (bytesRead++)] = lastByte;
                         }
+
                         runLength -= i;
 
                         // Excess bytes, read into internal buffer
