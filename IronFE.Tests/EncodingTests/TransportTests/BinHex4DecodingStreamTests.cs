@@ -47,7 +47,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             {
                 for (int i = 0; i < InputData.Length; i++)
                 {
-                    buffer[i] = (byte)decoder.ReadByte();
+                    decoder.Read(buffer, i, 1);
                 }
             }
 
@@ -72,6 +72,24 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             }
 
             CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles reading after encountering the EOS marker.
+        /// </summary>
+        [TestMethod]
+        public void DecodeBinHex4EndOfStream()
+        {
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
+            using BinHex4DecodingStream decoder = new(binhex4File);
+
+            // Read entire file
+            int result = decoder.Read(_ = new byte[InputData.Length], 0, InputData.Length);
+            Assert.AreEqual(InputData.Length, result);
+
+            // Attempt to read past end of stream, handle gracefully, should return 0 bytes read
+            result = decoder.Read(_ = new byte[1], 0, 1);
+            Assert.AreEqual(0, result);
         }
     }
 }
