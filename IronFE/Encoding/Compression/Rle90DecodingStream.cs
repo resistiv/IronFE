@@ -72,15 +72,7 @@ namespace IronFE.Encoding.Compression
                 else
                 {
                     // Nothing left to read...
-                    // If we had nothing, we're trying to read after the stream is done
-                    if (bytesRead == 0)
-                    {
-                        throw new EndOfStreamException();
-                    }
-                    else
-                    {
-                        return bytesRead;
-                    }
+                    return bytesRead;
                 }
 
                 // Encoded run
