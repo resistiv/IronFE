@@ -26,7 +26,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * was stripped of the ARC header and archive end marker.
              */
 
-            FileStream rle90File = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.OpenRead("TestData/Rle90ArcEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, false))
             {
@@ -45,7 +45,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         [TestMethod]
         public void DecodeRle90ArcPiecewise()
         {
-            FileStream rle90File = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.OpenRead("TestData/Rle90ArcEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, false))
             {
@@ -74,7 +74,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * (output method 3 and buffer RLE marker when compressing).
              */
 
-            FileStream rle90File = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, true))
             {
@@ -93,7 +93,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         [TestMethod]
         public void DecodeRle90BinHexPiecewise()
         {
-            FileStream rle90File = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, true))
             {
