@@ -26,9 +26,9 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * was stripped of the ARC header and archive end marker.
              */
 
-            FileStream rle90file = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
             byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90file, false))
+            using (Rle90DecodingStream decoder = new(rle90File, false))
             {
                 decoder.Read(buffer, 0, InputData.Length);
             }
@@ -45,9 +45,9 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         [TestMethod]
         public void DecodeRle90ArcPiecewise()
         {
-            FileStream rle90file = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.Open("TestData/Rle90ArcEncoded.bin", FileMode.Open);
             byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90file, false))
+            using (Rle90DecodingStream decoder = new(rle90File, false))
             {
                 for (int i = 0; i < InputData.Length; i++)
                 {
@@ -74,9 +74,9 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
              * (output method 3 and buffer RLE marker when compressing).
              */
 
-            FileStream rle90file = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
             byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90file, true))
+            using (Rle90DecodingStream decoder = new(rle90File, true))
             {
                 decoder.Read(buffer, 0, InputData.Length);
             }
@@ -93,9 +93,9 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         [TestMethod]
         public void DecodeRle90BinHexPiecewise()
         {
-            FileStream rle90file = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
+            FileStream rle90File = File.Open("TestData/Rle90BinHexEncoded.bin", FileMode.Open);
             byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90file, true))
+            using (Rle90DecodingStream decoder = new(rle90File, true))
             {
                 for (int i = 0; i < InputData.Length; i++)
                 {
