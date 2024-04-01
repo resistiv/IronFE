@@ -71,22 +71,21 @@ namespace IronFE.Encoding.Transport
             {
                 byte currentByte;
                 int b;
-                if ((b = BaseStream.ReadByte()) != -1)
+                if (!eosEncountered && (b = BaseStream.ReadByte()) != -1)
                 {
                     currentByte = (byte)b;
                 }
                 else
                 {
-                    // End of stream
+                    // We've already read everything!
                     if (eosEncountered)
                     {
-                        // We've already read everything!
-                        throw new EndOfStreamException();
+                        return bytesRead;
                     }
                     else
                     {
                         // We haven't read everything, but we hit the end anyways...
-                        throw new InvalidDataException(Properties.Strings.BinHex4UnexpectedEndOfStream);
+                        throw new EndOfStreamException(Properties.Strings.BinHex4UnexpectedEndOfStream);
                     }
                 }
 
