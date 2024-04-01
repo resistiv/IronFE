@@ -107,7 +107,7 @@ namespace IronFE.Encoding.Transport
                         int bits = SixBitTable[currentByte];
                         if (bits == InvalidTableEntry)
                         {
-                            throw new InvalidDataException(Properties.Strings.BinHex4UnexpectedCharacter);
+                            throw new InvalidDataException(string.Format(Properties.Strings.BinHex4UnexpectedCharacter, (char)currentByte));
                         }
 
                         // Load in the new bits
