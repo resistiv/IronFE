@@ -117,7 +117,7 @@ namespace IronFE.Encoding.Compression
                         byte i;
                         for (i = 0; i < runLength && bytesRead < count; i++)
                         {
-                            buffer[offset + (bytesRead++)] = lastByte;
+                            buffer[offset + bytesRead++] = lastByte;
                         }
 
                         runLength -= i;
