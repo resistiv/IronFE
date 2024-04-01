@@ -9,6 +9,7 @@ namespace IronFE.Encoding.Compression
 
         private readonly bool bufferLiteralMarker;
         private byte[]? bufferedBytes = null;
+        private byte lastByte = 0x00;
 
         public Rle90DecodingStream(Stream stream, bool bufferLiteralMarker)
             : this(stream, false, bufferLiteralMarker)
@@ -45,7 +46,6 @@ namespace IronFE.Encoding.Compression
                 }
             }
 
-            byte lastByte = 0x00;
             while (bytesRead < count)
             {
                 byte currentByte;
