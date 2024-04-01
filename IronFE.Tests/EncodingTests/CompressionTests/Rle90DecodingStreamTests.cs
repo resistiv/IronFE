@@ -111,7 +111,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles overreading.
         /// </summary>
         [TestMethod]
-        public void DecodeRl90Overread()
+        public void DecodeRle90Overread()
         {
             int overreadAmount = 256;
 
