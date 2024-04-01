@@ -2,6 +2,9 @@
 
 namespace IronFE.Encoding.Transport
 {
+    /// <summary>
+    /// Decodes BinHex 4.0-encoded data from an underlying <see cref="Stream"/>.
+    /// </summary>
     public sealed class BinHex4DecodingStream : DecodingStream
     {
         private const byte StreamMarker = 0x3A; // ':'
@@ -34,11 +37,20 @@ namespace IronFE.Encoding.Transport
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinHex4DecodingStream"/> class over a specified <see cref="Stream"/>, which will close the underlying stream when disposed.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing BinHex 4.0-encoded data to be decoded.</param>
         public BinHex4DecodingStream(Stream stream)
             : this(stream, false)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinHex4DecodingStream"/> class over a specified <see cref="Stream"/>, which can be closed or left open upon disposal.
+        /// </summary>
+        /// <param name="stream">A <see cref="Stream"/> containing BinHex 4.0-encoded data to be decoded.</param>
+        /// <param name="leaveOpen">Whether or not to leave <paramref name="stream"/> open when this instance is disposed.</param>
         public BinHex4DecodingStream(Stream stream, bool leaveOpen)
             : base(stream, leaveOpen)
         {
@@ -50,6 +62,7 @@ namespace IronFE.Encoding.Transport
             }
         }
 
+        /// <inheritdoc/>
         protected override int ReadInternal(byte[] buffer, int offset, int count)
         {
             int bytesRead = 0;
