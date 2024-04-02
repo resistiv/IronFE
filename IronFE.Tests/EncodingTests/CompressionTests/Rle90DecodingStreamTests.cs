@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using IronFE.Encoding.Compression;
-using IronFE.Encoding.Transport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronFE.Tests.EncodingTests.CompressionTests
@@ -52,7 +51,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             {
                 for (int i = 0; i < InputData.Length; i++)
                 {
-                    buffer[i] = (byte)decoder.ReadByte();
+                    decoder.Read(buffer, i, 1);
                 }
             }
 
@@ -100,7 +99,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             {
                 for (int i = 0; i < InputData.Length; i++)
                 {
-                    buffer[i] = (byte)decoder.ReadByte();
+                    decoder.Read(buffer, i, 1);
                 }
             }
 
