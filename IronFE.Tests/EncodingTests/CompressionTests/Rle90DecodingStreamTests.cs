@@ -46,16 +46,14 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         public void DecodeRle90ArcPiecewise()
         {
             FileStream rle90File = File.OpenRead("TestData/Rle90ArcEncoded.bin");
-            byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90File, false))
-            {
-                for (int i = 0; i < InputData.Length; i++)
-                {
-                    decoder.Read(buffer, i, 1);
-                }
-            }
+            byte[] buffer = new byte[1];
+            using Rle90DecodingStream decoder = new(rle90File, false);
 
-            CollectionAssert.AreEqual(InputData, buffer);
+            for (int i = 0; i < InputData.Length; i++)
+            {
+                decoder.Read(buffer, 0, 1);
+                Assert.AreEqual(InputData[i], buffer[0]);
+            }
         }
 
         /// <summary>
@@ -94,16 +92,14 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         public void DecodeRle90BinHexPiecewise()
         {
             FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
-            byte[] buffer = new byte[InputData.Length];
-            using (Rle90DecodingStream decoder = new(rle90File, true))
-            {
-                for (int i = 0; i < InputData.Length; i++)
-                {
-                    decoder.Read(buffer, i, 1);
-                }
-            }
+            byte[] buffer = new byte[1];
+            using Rle90DecodingStream decoder = new(rle90File, true);
 
-            CollectionAssert.AreEqual(InputData, buffer);
+            for (int i = 0; i < InputData.Length; i++)
+            {
+                decoder.Read(buffer, 0, 1);
+                Assert.AreEqual(InputData[i], buffer[0]);
+            }
         }
 
         /// <summary>

@@ -42,16 +42,14 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         public void DecodeBinHex4Piecewise()
         {
             FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
-            byte[] buffer = new byte[InputData.Length];
-            using (BinHex4DecodingStream decoder = new(binhex4File))
-            {
-                for (int i = 0; i < InputData.Length; i++)
-                {
-                    decoder.Read(buffer, i, 1);
-                }
-            }
+            byte[] buffer = new byte[1];
+            using BinHex4DecodingStream decoder = new(binhex4File);
 
-            CollectionAssert.AreEqual(InputData, buffer);
+            for (int i = 0; i < InputData.Length; i++)
+            {
+                decoder.Read(buffer, 0, 1);
+                Assert.AreEqual(InputData[i], buffer[0]);
+            }
         }
 
         /// <summary>
