@@ -98,7 +98,7 @@ namespace IronFE.Encoding
             {
                 if (disposing && !leaveOpen)
                 {
-                    stream.Dispose();
+                    stream.Close();
                 }
 
                 disposed = true;
