@@ -203,5 +203,14 @@ namespace IronFE.Properties {
                 return ResourceManager.GetString("Rle90EosExpectedRunLength", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encountered a run before buffering a literal byte in RLE90 stream..
+        /// </summary>
+        internal static string Rle90RunBeforeLiteral {
+            get {
+                return ResourceManager.GetString("Rle90RunBeforeLiteral", resourceCulture);
+            }
+        }
     }
 }

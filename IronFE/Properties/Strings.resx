@@ -173,4 +173,7 @@
   <data name="Rle90EosExpectedRunLength" xml:space="preserve">
     <value>Expected run length in RLE90 stream, but encountered end of stream.</value>
   </data>
+  <data name="Rle90RunBeforeLiteral" xml:space="preserve">
+    <value>Encountered a run before buffering a literal byte in RLE90 stream.</value>
+  </data>
 </root>

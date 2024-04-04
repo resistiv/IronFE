@@ -12,7 +12,7 @@ namespace IronFE.Encoding.Compression
 
         private readonly bool bufferLiteralMarker;
         private byte[]? bufferedBytes = null;
-        private byte lastByte = 0x00;
+        private int lastByte = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Rle90DecodingStream"/> class over a specified <see cref="Stream"/>, which will close the underlying stream when disposed.
@@ -102,6 +102,12 @@ namespace IronFE.Encoding.Compression
                     // Encoded run
                     else
                     {
+                        // Have we actually buffered a byte to run yet?
+                        if (lastByte == -1)
+                        {
+                            throw new InvalidDataException(Properties.Strings.Rle90RunBeforeLiteral);
+                        }
+
                         // We have already output one byte (lastByte) in the run
                         runLength--;
 
@@ -109,7 +115,7 @@ namespace IronFE.Encoding.Compression
                         byte i;
                         for (i = 0; i < runLength && bytesRead < count; i++)
                         {
-                            buffer[offset + bytesRead++] = lastByte;
+                            buffer[offset + bytesRead++] = (byte)lastByte;
                         }
 
                         runLength -= i;
@@ -120,7 +126,7 @@ namespace IronFE.Encoding.Compression
                             bufferedBytes = new byte[runLength];
                             for (i = 0; i < runLength; i++)
                             {
-                                bufferedBytes[i] = lastByte;
+                                bufferedBytes[i] = (byte)lastByte;
                             }
                         }
                     }
