@@ -11,6 +11,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     [DeploymentItem("TestData/Encoding/Compression/Rle90ArcEncoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Compression/Rle90BinHexEncoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Compression/Rle90RunBeforeLiteral.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Compression/Rle90NoRunLength.bin", "TestData")]
     public class Rle90DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -135,6 +136,20 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             using Rle90DecodingStream decoder = new(rle90File, true);
             InvalidDataException exception = Assert.ThrowsException<InvalidDataException>(() => decoder.Read(buffer, 0, 1));
             Assert.AreEqual(Properties.Strings.Rle90RunBeforeLiteral, exception.Message);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method given data with a run without a run length (pre-mature EOS).
+        /// </summary>
+        [TestMethod]
+        public void DecodeRle90NoRunLength()
+        {
+            FileStream rle90File = File.OpenRead("TestData/Rle90NoRunLength.bin");
+            byte[] buffer = new byte[2];
+
+            using Rle90DecodingStream decoder = new(rle90File, true);
+            InvalidDataException exception = Assert.ThrowsException<InvalidDataException>(() => decoder.Read(buffer, 0, 2));
+            Assert.AreEqual(Properties.Strings.Rle90EosExpectedRunLength, exception.Message);
         }
     }
 }
