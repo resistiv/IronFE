@@ -113,16 +113,17 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
         {
             int overreadAmount = 256;
 
-            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
-            byte[] buffer = new byte[InputData.Length + overreadAmount];
-            using (Rle90DecodingStream decoder = new(rle90File, true))
-            {
-                // Specifically overread data, should not cause an error
-                int result = decoder.Read(buffer, 0, InputData.Length + overreadAmount);
-                Assert.AreEqual(InputData.Length, result);
-            }
+            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            byte[] buffer = new byte[4 + overreadAmount];
 
-            CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
+            // No need for exception checking, the assumption is that
+            // the Rle90DecodingStream will catch the EOS and simply return
+            // the proper amount of bytes read. In this case, we don't
+            // compare output because the Arc & BinHex test families cover
+            // that.
+            using Rle90DecodingStream decoder = new(rle90File, true);
+            int result = decoder.Read(buffer, 0, 4 + overreadAmount);
+            Assert.AreEqual(4, result);
         }
 
         /// <summary>
