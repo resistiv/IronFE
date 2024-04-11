@@ -22,7 +22,7 @@ namespace IronFE.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace IronFE.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IronFE.Properties.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace IronFE.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Expected BinHex 4.0 stream marker at the beginning of stream..
         /// </summary>
-        internal static string BinHex4ExpectedMarkerAtBeginning {
+        public static string BinHex4ExpectedMarkerAtBeginning {
             get {
                 return ResourceManager.GetString("BinHex4ExpectedMarkerAtBeginning", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unexpected character &apos;{0}&apos; in BinHex 4.0 stream..
         /// </summary>
-        internal static string BinHex4UnexpectedCharacter {
+        public static string BinHex4UnexpectedCharacter {
             get {
                 return ResourceManager.GetString("BinHex4UnexpectedCharacter", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Encountered unexpected end of stream in BinHex 4.0 stream..
         /// </summary>
-        internal static string BinHex4UnexpectedEndOfStream {
+        public static string BinHex4UnexpectedEndOfStream {
             get {
                 return ResourceManager.GetString("BinHex4UnexpectedEndOfStream", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CRC initial value must fit within the provided bit width ({0} bits)..
         /// </summary>
-        internal static string CrcParametersInitialValueOutOfRange {
+        public static string CrcParametersInitialValueOutOfRange {
             get {
                 return ResourceManager.GetString("CrcParametersInitialValueOutOfRange", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CRC name must not be null..
         /// </summary>
-        internal static string CrcParametersNameNull {
+        public static string CrcParametersNameNull {
             get {
                 return ResourceManager.GetString("CrcParametersNameNull", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CRC output XOR mask must fit within the provided bit width ({0} bits)..
         /// </summary>
-        internal static string CrcParametersOutputXorOutOfRange {
+        public static string CrcParametersOutputXorOutOfRange {
             get {
                 return ResourceManager.GetString("CrcParametersOutputXorOutOfRange", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CRC polynomial must fit within the provided bit width ({0} bits)..
         /// </summary>
-        internal static string CrcParametersPolynomialOutOfRange {
+        public static string CrcParametersPolynomialOutOfRange {
             get {
                 return ResourceManager.GetString("CrcParametersPolynomialOutOfRange", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CRC width must be between 8 and 64 bits, inclusive..
         /// </summary>
-        internal static string CrcParametersWidthOutOfRange {
+        public static string CrcParametersWidthOutOfRange {
             get {
                 return ResourceManager.GetString("CrcParametersWidthOutOfRange", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This operation is not supported within a DecodingStream..
         /// </summary>
-        internal static string DecodingStreamNotSupported {
+        public static string DecodingStreamNotSupported {
             get {
                 return ResourceManager.GetString("DecodingStreamNotSupported", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DecodingStream class does not support unreadable Stream objects..
         /// </summary>
-        internal static string DecodingStreamNotSupportedUnreadableStream {
+        public static string DecodingStreamNotSupportedUnreadableStream {
             get {
                 return ResourceManager.GetString("DecodingStreamNotSupportedUnreadableStream", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Invalid DosDateTimeOrder value..
         /// </summary>
-        internal static string DosDateTimeInvalidDosDateTimeOrder {
+        public static string DosDateTimeInvalidDosDateTimeOrder {
             get {
                 return ResourceManager.GetString("DosDateTimeInvalidDosDateTimeOrder", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot convert a DateTime later than {0:G} to DOS format..
         /// </summary>
-        internal static string DosDateTimeOutOfRangeMax {
+        public static string DosDateTimeOutOfRangeMax {
             get {
                 return ResourceManager.GetString("DosDateTimeOutOfRangeMax", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot convert a DateTime earlier than {0:G} to DOS format..
         /// </summary>
-        internal static string DosDateTimeOutOfRangeMin {
+        public static string DosDateTimeOutOfRangeMin {
             get {
                 return ResourceManager.GetString("DosDateTimeOutOfRangeMin", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot convert a DateTime later than {0:G} to HFS+ format..
         /// </summary>
-        internal static string HfsPlusDateTimeOutOfRangeMax {
+        public static string HfsPlusDateTimeOutOfRangeMax {
             get {
                 return ResourceManager.GetString("HfsPlusDateTimeOutOfRangeMax", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot convert a DateTime earlier than {0:G} to HFS+ format..
         /// </summary>
-        internal static string HfsPlusDateTimeOutOfRangeMin {
+        public static string HfsPlusDateTimeOutOfRangeMin {
             get {
                 return ResourceManager.GetString("HfsPlusDateTimeOutOfRangeMin", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Expected run length in RLE90 stream, but encountered end of stream..
         /// </summary>
-        internal static string Rle90EosExpectedRunLength {
+        public static string Rle90EosExpectedRunLength {
             get {
                 return ResourceManager.GetString("Rle90EosExpectedRunLength", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace IronFE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Encountered a run before buffering a literal byte in RLE90 stream..
         /// </summary>
-        internal static string Rle90RunBeforeLiteral {
+        public static string Rle90RunBeforeLiteral {
             get {
                 return ResourceManager.GetString("Rle90RunBeforeLiteral", resourceCulture);
             }
