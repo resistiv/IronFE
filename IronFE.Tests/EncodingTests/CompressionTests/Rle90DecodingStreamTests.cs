@@ -12,6 +12,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     [DeploymentItem("TestData/Encoding/Compression/Rle90BinHexEncoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Compression/Rle90RunBeforeLiteral.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Compression/Rle90NoRunLength.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Compression/Rle90LiteralMarkerRun.bin", "TestData")]
     public class Rle90DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -150,6 +151,39 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             using Rle90DecodingStream decoder = new(rle90File, true);
             InvalidDataException exception = Assert.ThrowsException<InvalidDataException>(() => decoder.Read(buffer, 0, 2));
             Assert.AreEqual(Properties.Strings.Rle90EosExpectedRunLength, exception.Message);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method given data with a literal 0x90 marker with a run following it as the only data, using no marker buffering.
+        /// </summary>
+        [TestMethod]
+        public void DecodeRle90ArcLiteralMarkerRun()
+        {
+            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            byte[] buffer = new byte[4];
+
+            // Since this mode doesn't buffer the literal marker,
+            // this should result in the lastByte state variable not being updated,
+            // causing a subsequent run to throw an InvalidDataException.
+            using Rle90DecodingStream decoder = new(rle90File, false);
+            InvalidDataException exception = Assert.ThrowsException<InvalidDataException>(() => decoder.Read(buffer, 0, 4));
+            Assert.AreEqual(Properties.Strings.Rle90RunBeforeLiteral, exception.Message);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method given data with a literal 0x90 marker with a run following it as the only data, using marker buffering.
+        /// </summary>
+        [TestMethod]
+        public void DecodeRle90BinHexLiteralMarkerRun()
+        {
+            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            byte[] buffer = new byte[4];
+
+            // No need to check for exceptions, this should succeed
+            // since the literal marker should be buffered, allowing
+            // for a successful run.
+            using Rle90DecodingStream decoder = new(rle90File, true);
+            decoder.Read(buffer, 0, 4);
         }
     }
 }
