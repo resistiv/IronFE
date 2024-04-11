@@ -10,6 +10,7 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
     [TestClass]
     [DeploymentItem("TestData/Encoding/Compression/Rle90ArcEncoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Compression/Rle90BinHexEncoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Compression/Rle90RunBeforeLiteral.bin", "TestData")]
     public class Rle90DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -120,6 +121,20 @@ namespace IronFE.Tests.EncodingTests.CompressionTests
             }
 
             CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="Rle90DecodingStream.ReadInternal(byte[], int, int)"/> method given data with a run before a literal byte can be buffered.
+        /// </summary>
+        [TestMethod]
+        public void DecodeRle90RunBeforeLiteral()
+        {
+            FileStream rle90File = File.OpenRead("TestData/Rle90RunBeforeLiteral.bin");
+            byte[] buffer = new byte[1];
+
+            using Rle90DecodingStream decoder = new(rle90File, true);
+            InvalidDataException exception = Assert.ThrowsException<InvalidDataException>(() => decoder.Read(buffer, 0, 1));
+            Assert.AreEqual(Properties.Strings.Rle90RunBeforeLiteral, exception.Message);
         }
     }
 }
