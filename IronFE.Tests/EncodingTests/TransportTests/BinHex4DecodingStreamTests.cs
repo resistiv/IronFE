@@ -13,6 +13,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
     [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerStart.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerEnd.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4Small.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Transport/BinHex4AllInvalid.bin", "TestData")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -116,6 +117,25 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             // overread an extra byte with no end marker.
             byte[] buffer = new byte[4];
             Assert.ThrowsException<EndOfStreamException>(() => decoder.Read(buffer, 0, 4));
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't end with the required stream marker.
+        /// </summary>
+        [TestMethod]
+        public void DecodeBinHex4AllInvalid()
+        {
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4AllInvalid.bin");
+            using BinHex4DecodingStream decoder = new(binhex4File);
+
+            // Input data is all 189 invalid bytes, so just read them one by one and catch.
+            // This made me think a bit about how errors in the stream should be handled;
+            // in this case, they throw an exception on read and interrupt the read process,
+            // resulting in no data returned. I'm not sure if this is a good approach or not...
+            for (int i = 0; i < 189; i++)
+            {
+                Assert.ThrowsException<InvalidDataException>(() => decoder.Read(_ = new byte[1], 0, 1));
+            }
         }
     }
 }

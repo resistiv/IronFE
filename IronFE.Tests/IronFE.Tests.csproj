@@ -17,6 +17,7 @@
     <None Remove="TestData\Encoding\Compression\Rle90NoRunLength.bin" />
     <None Remove="TestData\Encoding\Compression\Rle90RunBeforeLiteral.bin" />
     <None Remove="TestData\Encoding\InputData.bin" />
+    <None Remove="TestData\Encoding\Transport\BinHex4AllInvalid.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4Encoded.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerEnd.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerStart.bin" />
@@ -40,6 +41,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Encoding\InputData.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Encoding\Transport\BinHex4AllInvalid.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Encoding\Transport\BinHex4Encoded.bin">
