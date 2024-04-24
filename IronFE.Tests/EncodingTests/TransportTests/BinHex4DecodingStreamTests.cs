@@ -11,6 +11,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
     [TestClass]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4Encoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerStart.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerEnd.bin", "TestData")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -101,6 +102,21 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             FileStream binhex4File = File.OpenRead("TestData/BinHex4NoMarkerStart.bin");
             BinHex4DecodingStream decoder;
             Assert.ThrowsException<InvalidDataException>(() => decoder = new(binhex4File));
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't end with the required stream marker.
+        /// </summary>
+        [TestMethod]
+        public void DecodeBinHex4NoMarkerEnd()
+        {
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4NoMarkerEnd.bin");
+            using BinHex4DecodingStream decoder = new(binhex4File);
+
+            // Input data is 4 bytes encoded, 3 bytes decoded, so attempt to
+            // overread an extra byte with no end marker.
+            byte[] buffer = new byte[4];
+            Assert.ThrowsException<EndOfStreamException>(() => decoder.Read(buffer, 0, 4));
         }
     }
 }
