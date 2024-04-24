@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using IronFE.Encoding.Transport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,6 +10,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
     /// </summary>
     [TestClass]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4Encoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerStart.bin", "TestData")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -88,6 +90,17 @@ namespace IronFE.Tests.EncodingTests.TransportTests
             // Attempt to read past end of stream, handle gracefully, should return 0 bytes read
             result = decoder.Read(_ = new byte[1], 0, 1);
             Assert.AreEqual(0, result);
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't start with the required stream marker.
+        /// </summary>
+        [TestMethod]
+        public void DecodeBinHex4NoMarkerStart()
+        {
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4NoMarkerStart.bin");
+            BinHex4DecodingStream decoder;
+            Assert.ThrowsException<InvalidDataException>(() => decoder = new(binhex4File));
         }
     }
 }
