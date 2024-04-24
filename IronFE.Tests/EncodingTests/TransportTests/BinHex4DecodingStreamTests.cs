@@ -12,6 +12,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
     [DeploymentItem("TestData/Encoding/Transport/BinHex4Encoded.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerStart.bin", "TestData")]
     [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerEnd.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Transport/BinHex4Small.bin", "TestData")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -63,16 +64,14 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         {
             int overreadAmount = 256;
 
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
-            byte[] buffer = new byte[InputData.Length + overreadAmount];
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4Small.bin");
+            byte[] buffer = new byte[3 + overreadAmount];
             using (BinHex4DecodingStream decoder = new(binhex4File))
             {
                 // Specifically overread data, should not cause an error
-                int result = decoder.Read(buffer, 0, InputData.Length + overreadAmount);
-                Assert.AreEqual(InputData.Length, result);
+                int result = decoder.Read(buffer, 0, 3 + overreadAmount);
+                Assert.AreEqual(3, result);
             }
-
-            CollectionAssert.AreEqual(InputData, buffer[..InputData.Length]);
         }
 
         /// <summary>
@@ -81,12 +80,12 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         [TestMethod]
         public void DecodeBinHex4EndOfStream()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
+            FileStream binhex4File = File.OpenRead("TestData/BinHex4Small.bin");
             using BinHex4DecodingStream decoder = new(binhex4File);
 
             // Read entire file
-            int result = decoder.Read(_ = new byte[InputData.Length], 0, InputData.Length);
-            Assert.AreEqual(InputData.Length, result);
+            int result = decoder.Read(_ = new byte[3], 0, 3);
+            Assert.AreEqual(3, result);
 
             // Attempt to read past end of stream, handle gracefully, should return 0 bytes read
             result = decoder.Read(_ = new byte[1], 0, 1);

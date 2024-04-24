@@ -20,6 +20,7 @@
     <None Remove="TestData\Encoding\Transport\BinHex4Encoded.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerEnd.bin" />
     <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerStart.bin" />
+    <None Remove="TestData\Encoding\Transport\BinHex4Small.bin" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Encoding\Transport\BinHex4NoMarkerStart.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Encoding\Transport\BinHex4Small.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
