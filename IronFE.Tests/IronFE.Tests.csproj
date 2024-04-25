@@ -11,51 +11,51 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TestData\Encoding\Compression\Rle90ArcEncoded.bin" />
-    <None Remove="TestData\Encoding\Compression\Rle90BinHexEncoded.bin" />
-    <None Remove="TestData\Encoding\Compression\Rle90LiteralMarkerRun.bin" />
-    <None Remove="TestData\Encoding\Compression\Rle90NoRunLength.bin" />
-    <None Remove="TestData\Encoding\Compression\Rle90RunBeforeLiteral.bin" />
+    <None Remove="TestData\Encoding\Rle90\Rle90ArcEncoded.bin" />
+    <None Remove="TestData\Encoding\Rle90\Rle90BinHexEncoded.bin" />
+    <None Remove="TestData\Encoding\Rle90\Rle90LiteralMarkerRun.bin" />
+    <None Remove="TestData\Encoding\Rle90\Rle90NoRunLength.bin" />
+    <None Remove="TestData\Encoding\Rle90\Rle90RunBeforeLiteral.bin" />
     <None Remove="TestData\Encoding\InputData.bin" />
-    <None Remove="TestData\Encoding\Transport\BinHex4AllInvalid.bin" />
-    <None Remove="TestData\Encoding\Transport\BinHex4Encoded.bin" />
-    <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerEnd.bin" />
-    <None Remove="TestData\Encoding\Transport\BinHex4NoMarkerStart.bin" />
-    <None Remove="TestData\Encoding\Transport\BinHex4Small.bin" />
+    <None Remove="TestData\Encoding\BinHex4\BinHex4AllInvalid.bin" />
+    <None Remove="TestData\Encoding\BinHex4\BinHex4Encoded.bin" />
+    <None Remove="TestData\Encoding\BinHex4\BinHex4NoMarkerEnd.bin" />
+    <None Remove="TestData\Encoding\BinHex4\BinHex4NoMarkerStart.bin" />
+    <None Remove="TestData\Encoding\BinHex4\BinHex4Small.bin" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TestData\Encoding\Compression\Rle90ArcEncoded.bin">
+    <Content Include="TestData\Encoding\Rle90\Rle90ArcEncoded.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Compression\Rle90BinHexEncoded.bin">
+    <Content Include="TestData\Encoding\Rle90\Rle90BinHexEncoded.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Compression\Rle90LiteralMarkerRun.bin">
+    <Content Include="TestData\Encoding\Rle90\Rle90LiteralMarkerRun.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Compression\Rle90NoRunLength.bin">
+    <Content Include="TestData\Encoding\Rle90\Rle90NoRunLength.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Compression\Rle90RunBeforeLiteral.bin">
+    <Content Include="TestData\Encoding\Rle90\Rle90RunBeforeLiteral.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Encoding\InputData.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Transport\BinHex4AllInvalid.bin">
+    <Content Include="TestData\Encoding\BinHex4\BinHex4AllInvalid.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Transport\BinHex4Encoded.bin">
+    <Content Include="TestData\Encoding\BinHex4\BinHex4Encoded.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Transport\BinHex4NoMarkerEnd.bin">
+    <Content Include="TestData\Encoding\BinHex4\BinHex4NoMarkerEnd.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Transport\BinHex4NoMarkerStart.bin">
+    <Content Include="TestData\Encoding\BinHex4\BinHex4NoMarkerStart.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Encoding\Transport\BinHex4Small.bin">
+    <Content Include="TestData\Encoding\BinHex4\BinHex4Small.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

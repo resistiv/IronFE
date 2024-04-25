@@ -1,18 +1,18 @@
 ﻿using System.IO;
-using IronFE.Encoding.Transport;
+using IronFE.Encoding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IronFE.Tests.EncodingTests.TransportTests
+namespace IronFE.Tests.EncodingTests
 {
     /// <summary>
     /// Tests functionality of the <see cref="BinHex4DecodingStream"/> class.
     /// </summary>
     [TestClass]
-    [DeploymentItem("TestData/Encoding/Transport/BinHex4Encoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerStart.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Transport/BinHex4NoMarkerEnd.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Transport/BinHex4Small.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Transport/BinHex4AllInvalid.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Encoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerStart.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerEnd.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Small.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4AllInvalid.bin", "TestData")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>

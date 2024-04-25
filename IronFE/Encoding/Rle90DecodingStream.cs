@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace IronFE.Encoding.Compression
+namespace IronFE.Encoding
 {
     /// <summary>
     /// Decodes RLE90-encoded data from an underlying <see cref="Stream"/>.

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace IronFE.Encoding.Transport
+namespace IronFE.Encoding
 {
     /// <summary>
     /// Decodes BinHex 4.0-encoded data from an underlying <see cref="Stream"/>.
@@ -111,14 +111,14 @@ namespace IronFE.Encoding.Transport
                         }
 
                         // Load in the new bits
-                        bitBuffer = (bitBuffer << 6) | bits;
+                        bitBuffer = bitBuffer << 6 | bits;
                         bitsLeft += 6;
 
                         // Do we have enough for a byte?
                         if (bitsLeft >= 8)
                         {
                             bitsLeft -= 8;
-                            buffer[offset + bytesRead++] = (byte)((bitBuffer >> bitsLeft) & 0xFF);
+                            buffer[offset + bytesRead++] = (byte)(bitBuffer >> bitsLeft & 0xFF);
                             bitBuffer &= (1 << bitsLeft) - 1;
                         }
 

@@ -1,18 +1,18 @@
 ﻿using System.IO;
-using IronFE.Encoding.Compression;
+using IronFE.Encoding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IronFE.Tests.EncodingTests.CompressionTests
+namespace IronFE.Tests.EncodingTests
 {
     /// <summary>
     /// Tests functionality of the <see cref="Rle90DecodingStream"/> class.
     /// </summary>
     [TestClass]
-    [DeploymentItem("TestData/Encoding/Compression/Rle90ArcEncoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Compression/Rle90BinHexEncoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Compression/Rle90RunBeforeLiteral.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Compression/Rle90NoRunLength.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Compression/Rle90LiteralMarkerRun.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90ArcEncoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90BinHexEncoded.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90RunBeforeLiteral.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90NoRunLength.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin", "TestData")]
     public class Rle90DecodingStreamTests : EncodingTests
     {
         /// <summary>
