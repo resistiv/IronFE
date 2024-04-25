@@ -94,7 +94,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         }
 
         /// <summary>
-        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't start with the required stream marker.
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't start with the required stream marker.
         /// </summary>
         [TestMethod]
         public void DecodeBinHex4NoMarkerStart()
@@ -105,7 +105,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         }
 
         /// <summary>
-        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that doesn't end with the required stream marker.
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles a BinHex 4 stream that doesn't end with the required stream marker.
         /// </summary>
         [TestMethod]
         public void DecodeBinHex4NoMarkerEnd()
@@ -120,7 +120,7 @@ namespace IronFE.Tests.EncodingTests.TransportTests
         }
 
         /// <summary>
-        /// Tests the functionality of the <see cref="BinHex4DecodingStream.BinHex4DecodingStream(Stream)"/> method and how it handles a BinHex 4 stream that includes invalid characters.
+        /// Tests the functionality of the <see cref="BinHex4DecodingStream.ReadInternal(byte[], int, int)"/> method and how it handles a BinHex 4 stream that includes invalid characters.
         /// </summary>
         [TestMethod]
         public void DecodeBinHex4AllInvalid()
