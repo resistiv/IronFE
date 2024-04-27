@@ -70,11 +70,11 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected character &apos;{0}&apos; in BinHex 4.0 stream..
+        ///   Looks up a localized string similar to Unexpected byte 0x{0:X} in BinHex 4.0 stream..
         /// </summary>
-        public static string BinHex4UnexpectedCharacter {
+        public static string BinHex4UnexpectedByte {
             get {
-                return ResourceManager.GetString("BinHex4UnexpectedCharacter", resourceCulture);
+                return ResourceManager.GetString("BinHex4UnexpectedByte", resourceCulture);
             }
         }
         

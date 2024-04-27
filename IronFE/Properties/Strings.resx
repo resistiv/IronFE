@@ -120,9 +120,9 @@
   <data name="BinHex4ExpectedMarkerAtBeginning" xml:space="preserve">
     <value>Expected BinHex 4.0 stream marker at the beginning of stream.</value>
   </data>
-  <data name="BinHex4UnexpectedCharacter" xml:space="preserve">
-    <value>Unexpected character '{0}' in BinHex 4.0 stream.</value>
-    <comment>{0} substituted for character that caused the error.</comment>
+  <data name="BinHex4UnexpectedByte" xml:space="preserve">
+    <value>Unexpected byte 0x{0:X} in BinHex 4.0 stream.</value>
+    <comment>{0:X} substituted for the byte that caused the error.</comment>
   </data>
   <data name="BinHex4UnexpectedEndOfStream" xml:space="preserve">
     <value>Encountered unexpected end of stream in BinHex 4.0 stream.</value>
