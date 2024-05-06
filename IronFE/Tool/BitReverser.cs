@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-
-namespace IronFE.Tool
+﻿namespace IronFE.Tool
 {
     /// <summary>
     /// Handles bit reversing across primitive data types.
