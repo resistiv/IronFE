@@ -66,12 +66,11 @@ namespace IronFE.Tests.EncodingTests
 
             FileStream binhex4File = File.OpenRead("TestData/BinHex4Small.bin");
             byte[] buffer = new byte[3 + overreadAmount];
-            using (BinHex4DecodingStream decoder = new(binhex4File))
-            {
-                // Specifically overread data, should not cause an error
-                int result = decoder.Read(buffer, 0, 3 + overreadAmount);
-                Assert.AreEqual(3, result);
-            }
+            using BinHex4DecodingStream decoder = new(binhex4File);
+
+            // Specifically overread data, should not cause an error
+            int result = decoder.Read(buffer, 0, 3 + overreadAmount);
+            Assert.AreEqual(3, result);
         }
 
         /// <summary>
