@@ -43,6 +43,8 @@ namespace IronFE.Files
         /// <summary>
         /// Gets or sets the name of this <see cref="FileEntryBase"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when setting with a name that would conflict with a sibling <see cref="FileEntryBase"/>'s name.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when setting with a value that is <see langword="null"/>.</exception>
         public string Name
         {
             get
@@ -52,6 +54,9 @@ namespace IronFE.Files
 
             set
             {
+                // Need to have a name!
+                ArgumentNullException.ThrowIfNull(value);
+
                 // Ensure the rename does not result in siblings with the same names
                 if (parentEntry is not null)
                 {
