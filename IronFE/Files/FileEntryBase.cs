@@ -11,7 +11,7 @@ namespace IronFE.Files
     public abstract class FileEntryBase
     {
         // Private members
-        private readonly List<FileEntryBase> childEntries = [];
+        private readonly LinkedList<FileEntryBase> childEntries = [];
         private readonly bool isDir = false;
         private readonly Stream? sourceStream;
         private string entryName;
@@ -113,7 +113,7 @@ namespace IronFE.Files
 
             CheckSiblingNameConflict(entry.Name, childEntries);
 
-            childEntries.Add(entry);
+            childEntries.AddLast(entry);
             entry.Parent = this;
         }
 
@@ -171,7 +171,7 @@ namespace IronFE.Files
         /// <param name="name">A possible entry name to check for conflicts.</param>
         /// <param name="siblings">A <see cref="List{T}"/> of sibling <see cref="FileEntryBase"/> objects.</param>
         /// <exception cref="InvalidOperationException">Thrown if there exists a sibling <see cref="FileEntryBase"/> that is already named <paramref name="name"/>.</exception>
-        private static void CheckSiblingNameConflict(string name, List<FileEntryBase> siblings)
+        private static void CheckSiblingNameConflict(string name, LinkedList<FileEntryBase> siblings)
         {
             if (siblings.Any(c => c.Name.Equals(name)))
             {
