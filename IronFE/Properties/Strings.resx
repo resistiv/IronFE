@@ -162,6 +162,18 @@
     <value>Cannot convert a DateTime earlier than {0:G} to DOS format.</value>
     <comment>{0:G} substituted for the minimum DOS date, 1980-01-01 00:00:00, in the local culture.</comment>
   </data>
+  <data name="FileEntryBaseAddAncestorAsChild" xml:space="preserve">
+    <value>Cannot add an entry's direct ancestor to itself as a child.</value>
+  </data>
+  <data name="FileEntryBaseDirectoryOperationNotSupported" xml:space="preserve">
+    <value>This operation is not supported on non-directory entries.</value>
+  </data>
+  <data name="FileEntryBaseFileOperationNotSupported" xml:space="preserve">
+    <value>This operation is not supported on directory entries.</value>
+  </data>
+  <data name="FileEntryBaseSiblingNameConflict" xml:space="preserve">
+    <value>The name of an entry cannot be the same as one of its siblings.</value>
+  </data>
   <data name="HfsPlusDateTimeOutOfRangeMax" xml:space="preserve">
     <value>Cannot convert a DateTime later than {0:G} to HFS+ format.</value>
     <comment>{0:G} substituted for the maximum HFS+ date, 2040-02-06 06:28:15, in the local culture.</comment>

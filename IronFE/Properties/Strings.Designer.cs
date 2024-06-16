@@ -178,6 +178,42 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot add an entry&apos;s direct ancestor to itself as a child..
+        /// </summary>
+        public static string FileEntryBaseAddAncestorAsChild {
+            get {
+                return ResourceManager.GetString("FileEntryBaseAddAncestorAsChild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This operation is not supported on non-directory entries..
+        /// </summary>
+        public static string FileEntryBaseDirectoryOperationNotSupported {
+            get {
+                return ResourceManager.GetString("FileEntryBaseDirectoryOperationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This operation is not supported on directory entries..
+        /// </summary>
+        public static string FileEntryBaseFileOperationNotSupported {
+            get {
+                return ResourceManager.GetString("FileEntryBaseFileOperationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of an entry cannot be the same as one of its siblings..
+        /// </summary>
+        public static string FileEntryBaseSiblingNameConflict {
+            get {
+                return ResourceManager.GetString("FileEntryBaseSiblingNameConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot convert a DateTime later than {0:G} to HFS+ format..
         /// </summary>
         public static string HfsPlusDateTimeOutOfRangeMax {
