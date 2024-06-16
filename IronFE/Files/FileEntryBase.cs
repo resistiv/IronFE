@@ -41,6 +41,11 @@ namespace IronFE.Files
         }
 
         /// <summary>
+        /// Gets the path separator used by this <see cref="FileEntryBase"/>.
+        /// </summary>
+        public abstract string PathSeparator { get; }
+
+        /// <summary>
         /// Gets or sets the name of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when setting with a name that would conflict with a sibling <see cref="FileEntryBase"/>'s name.</exception>
@@ -64,6 +69,17 @@ namespace IronFE.Files
                 }
 
                 entryName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the virtual full path of this <see cref="FileEntryBase"/>.
+        /// </summary>
+        public string FullPath
+        {
+            get
+            {
+                return $"{(parentEntry is null ? string.Empty : parentEntry.FullPath)}{PathSeparator}{Name}";
             }
         }
 
