@@ -13,7 +13,7 @@ namespace IronFE.Tests.EncodingTests
         /// <summary>
         /// Contains a basic set of un-encoded data to test decoded output against.
         /// </summary>
-        protected static readonly byte[] InputData = Array.Empty<byte>();
+        protected static readonly byte[] InputData = [];
 
         static EncodingTests()
         {
