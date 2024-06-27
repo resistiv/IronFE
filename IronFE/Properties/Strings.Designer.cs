@@ -187,6 +187,15 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot add a root entry as the child of another entry..
+        /// </summary>
+        public static string FileEntryBaseCannotAddRootAsChild {
+            get {
+                return ResourceManager.GetString("FileEntryBaseCannotAddRootAsChild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This operation is not supported on non-directory entries..
         /// </summary>
         public static string FileEntryBaseDirectoryOperationNotSupported {

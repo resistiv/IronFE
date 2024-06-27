@@ -12,10 +12,25 @@ namespace IronFE.Files
     {
         // Private members
         private readonly LinkedList<FileEntryBase> childEntries = [];
-        private readonly bool isDir = false;
+        private readonly bool isDir;
+        private readonly bool isRoot;
         private readonly Stream? sourceStream;
         private string entryName;
         private FileEntryBase? parentEntry = null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileEntryBase"/> class as a root entry.
+        /// </summary>
+        /// <remarks>
+        /// Root entries behave such that they do not require a name, they cannot be added as a child to another node (<see cref="Parent"/> must always be <see langword="null"/>), and they aren't required to be included in <see cref="FullPath"/>.
+        /// </remarks>
+        public FileEntryBase()
+        {
+            entryName = string.Empty;
+            sourceStream = null;
+            isDir = true;
+            isRoot = true;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileEntryBase"/> class as a directory.
@@ -26,6 +41,7 @@ namespace IronFE.Files
             entryName = directoryName;
             sourceStream = null;
             isDir = true;
+            isRoot = false;
         }
 
         /// <summary>
@@ -38,6 +54,7 @@ namespace IronFE.Files
             entryName = fileName;
             this.sourceStream = sourceStream;
             isDir = false;
+            isRoot = false;
         }
 
         /// <summary>
@@ -46,10 +63,26 @@ namespace IronFE.Files
         public abstract string PathSeparator { get; }
 
         /// <summary>
+        /// Gets a string to prefix the root <see cref="FileEntryBase"/> name with.
+        /// </summary>
+        public abstract string RootPrefix { get; }
+
+        /// <summary>
+        /// Gets a string to append to the root <see cref="FileEntryBase"/> name.
+        /// </summary>
+        public abstract string RootSuffix { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a directory if it is the last item in the full path of this <see cref="FileEntryBase"/>.
+        /// </summary>
+        public abstract bool UseSeparatorAfterTerminalDirectories { get; }
+
+        /// <summary>
         /// Gets or sets the name of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when setting with a name that would conflict with a sibling <see cref="FileEntryBase"/>'s name.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when setting with a value that is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when setting on a root entry with a value that is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when setting on an entry with a value that is <see langword="null"/> or empty.</exception>
         public string Name
         {
             get
@@ -59,8 +92,16 @@ namespace IronFE.Files
 
             set
             {
-                // Need to have a name!
-                ArgumentNullException.ThrowIfNull(value);
+                if (isRoot)
+                {
+                    // For root, just needs to not be null
+                    ArgumentNullException.ThrowIfNull(value);
+                }
+                else
+                {
+                    // For file or directory, must be not null and have a value
+                    ArgumentException.ThrowIfNullOrEmpty(value);
+                }
 
                 // Ensure the rename does not result in siblings with the same names
                 if (parentEntry is not null)
@@ -79,7 +120,7 @@ namespace IronFE.Files
         {
             get
             {
-                return $"{(parentEntry is null ? string.Empty : parentEntry.FullPath)}{PathSeparator}{Name}";
+                return GetFullPath(this, true);
             }
         }
 
@@ -89,19 +130,20 @@ namespace IronFE.Files
         public bool IsDirectory => isDir;
 
         /// <summary>
+        /// Gets a value indicating whether this <see cref="FileEntryBase"/> is designated as a root entry.
+        /// </summary>
+        public bool IsRoot => isRoot;
+
+        /// <summary>
         /// Gets the underlying data <see cref="System.IO.Stream"/> of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="NotSupportedException">Thrown when accessed on a <see cref="FileEntryBase"/> that is a directory.</exception>
         public Stream Stream => !isDir ? sourceStream : throw new NotSupportedException(Properties.Strings.FileEntryBaseFileOperationNotSupported);
 
         /// <summary>
-        /// Gets or sets the parent <see cref="FileEntryBase"/> of this <see cref="FileEntryBase"/>.
+        /// Gets the parent <see cref="FileEntryBase"/> of this <see cref="FileEntryBase"/>, if there is one.
         /// </summary>
-        public FileEntryBase? Parent
-        {
-            get { return parentEntry; }
-            set { parentEntry = value; }
-        }
+        public FileEntryBase? Parent => parentEntry;
 
         /// <summary>
         /// Gets the children of this <see cref="FileEntryBase"/>.
@@ -113,9 +155,15 @@ namespace IronFE.Files
         /// </summary>
         /// <param name="entry">A <see cref="FileEntryBase"/> to add to the children of this <see cref="FileEntryBase"/>.</param>
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> is a root entry, or if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
         public void AddChild(FileEntryBase entry)
         {
+            // Root check
+            if (entry.IsRoot)
+            {
+                throw new InvalidOperationException(Properties.Strings.FileEntryBaseCannotAddRootAsChild);
+            }
+
             CheckSupportsDirectoryOperation();
 
             // Ensure no direct ancestor of this entry is being added,
@@ -134,8 +182,10 @@ namespace IronFE.Files
 
             CheckSiblingNameConflict(entry.Name, childEntries);
 
+            // Deattach from parent, add to this entry
+            entry.Parent?.childEntries.Remove(entry);
+            entry.parentEntry = this;
             childEntries.AddLast(entry);
-            entry.Parent = this;
         }
 
         /// <summary>
@@ -169,7 +219,7 @@ namespace IronFE.Files
             }
             else
             {
-                return childEntries.Remove(child);
+                return RemoveChild(child);
             }
         }
 
@@ -183,10 +233,72 @@ namespace IronFE.Files
         {
             CheckSupportsDirectoryOperation();
 
-            return childEntries.Remove(child);
+            bool result = childEntries.Remove(child);
+            if (result)
+            {
+                // Only if the remove was successful do we de-parent this entry
+                child.parentEntry = null;
+            }
+
+            return result;
         }
 
         /// <summary>
+        /// Recursively constructs the full path of a <see cref="FileEntryBase"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from <see cref="FullPath"/> in order to identify what element is last in the path (see <paramref name="isOriginEntry"/>).
+        /// </remarks>
+        /// <param name="fileEntry">The <see cref="FileEntryBase"/> to get the full path of.</param>
+        /// <param name="isOriginEntry">Whether <paramref name="fileEntry"/> is the entry that the <see cref="FullPath"/> call originated from.</param>
+        /// <returns>The full path of <paramref name="fileEntry"/>.</returns>
+        private static string GetFullPath(FileEntryBase fileEntry, bool isOriginEntry)
+        {
+            string path = string.Empty;
+
+            // Root rules (end of the line, no need for any other calls)
+            if (fileEntry.IsRoot)
+            {
+                path += fileEntry.RootPrefix;
+                path += fileEntry.Name;
+                path += fileEntry.RootSuffix;
+
+                // Return without recursing
+                return path;
+            }
+
+            // Next, directory rules
+            else if (fileEntry.IsDirectory)
+            {
+                path += fileEntry.Name;
+
+                // For most cases, directories will take the form Name + PathSeparator
+                // However, if a directory entry is the origin and doesn't include a
+                // separator, then this condition will be skipped.
+                if (!isOriginEntry || fileEntry.UseSeparatorAfterTerminalDirectories)
+                {
+                    path += fileEntry.PathSeparator;
+                }
+            }
+
+            // Otherwise, just a file
+            else
+            {
+                path += fileEntry.Name;
+            }
+
+            // Finally: if there are parent entries to traverse, work upwards!
+            if (fileEntry.Parent is not null)
+            {
+                return GetFullPath(fileEntry.Parent, false) + path;
+            }
+            else
+            {
+                return path;
+            }
+        }
+
+/// <summary>
         /// Checks <paramref name="name"/> against sibling <see cref="FileEntryBase"/> names and throws an exception if there is a conflict.
         /// </summary>
         /// <param name="name">A possible entry name to check for conflicts.</param>

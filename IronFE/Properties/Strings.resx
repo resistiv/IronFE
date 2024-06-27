@@ -165,6 +165,9 @@
   <data name="FileEntryBaseAddAncestorAsChild" xml:space="preserve">
     <value>Cannot add an entry's direct ancestor to itself as a child.</value>
   </data>
+  <data name="FileEntryBaseCannotAddRootAsChild" xml:space="preserve">
+    <value>Cannot add a root entry as the child of another entry.</value>
+  </data>
   <data name="FileEntryBaseDirectoryOperationNotSupported" xml:space="preserve">
     <value>This operation is not supported on non-directory entries.</value>
   </data>
