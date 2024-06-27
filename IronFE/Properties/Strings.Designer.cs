@@ -214,6 +214,15 @@ namespace IronFE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This operation is not supported on root entries..
+        /// </summary>
+        public static string FileEntryBaseRootOperationNotSupported {
+            get {
+                return ResourceManager.GetString("FileEntryBaseRootOperationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The name of an entry cannot be the same as one of its siblings..
         /// </summary>
         public static string FileEntryBaseSiblingNameConflict {

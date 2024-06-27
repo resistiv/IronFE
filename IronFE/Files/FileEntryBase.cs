@@ -58,26 +58,6 @@ namespace IronFE.Files
         }
 
         /// <summary>
-        /// Gets the path separator used by this <see cref="FileEntryBase"/>.
-        /// </summary>
-        public abstract string PathSeparator { get; }
-
-        /// <summary>
-        /// Gets a string to prefix the root <see cref="FileEntryBase"/> name with.
-        /// </summary>
-        public abstract string RootPrefix { get; }
-
-        /// <summary>
-        /// Gets a string to append to the root <see cref="FileEntryBase"/> name.
-        /// </summary>
-        public abstract string RootSuffix { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a directory if it is the last item in the full path of this <see cref="FileEntryBase"/>.
-        /// </summary>
-        public abstract bool UseSeparatorAfterTerminalDirectories { get; }
-
-        /// <summary>
         /// Gets or sets the name of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when setting with a name that would conflict with a sibling <see cref="FileEntryBase"/>'s name.</exception>
@@ -143,12 +123,37 @@ namespace IronFE.Files
         /// <summary>
         /// Gets the parent <see cref="FileEntryBase"/> of this <see cref="FileEntryBase"/>, if there is one.
         /// </summary>
-        public FileEntryBase? Parent => parentEntry;
+        public FileEntryBase? Parent => !isRoot ? parentEntry : throw new NotSupportedException(Properties.Strings.FileEntryBaseRootOperationNotSupported);
 
         /// <summary>
         /// Gets the children of this <see cref="FileEntryBase"/>.
         /// </summary>
-        public FileEntryBase[] Children => [.. childEntries];
+        public FileEntryBase[] Children => isDir ? [.. childEntries] : throw new NotSupportedException(Properties.Strings.FileEntryBaseDirectoryOperationNotSupported);
+
+        /// <summary>
+        /// Gets the path separator used by this <see cref="FileEntryBase"/>.
+        /// </summary>
+        protected abstract string PathSeparator { get; }
+
+        /// <summary>
+        /// Gets a string to prefix the root <see cref="FileEntryBase"/> name with.
+        /// </summary>
+        protected abstract string RootPrefix { get; }
+
+        /// <summary>
+        /// Gets a string to append to the root <see cref="FileEntryBase"/> name.
+        /// </summary>
+        protected abstract string RootSuffix { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a directory if it is the last item in the full path of this <see cref="FileEntryBase"/>.
+        /// </summary>
+        protected abstract bool UseSeparatorAfterTerminalDirectories { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a the root <see cref="FileEntryBase"/>.
+        /// </summary>
+        protected abstract bool UseSeparatorAfterRoot { get; }
 
         /// <summary>
         /// Adds a <see cref="FileEntryBase"/> to this <see cref="FileEntryBase"/>'s children, while setting this <see cref="FileEntryBase"/> as its parent.
@@ -177,7 +182,15 @@ namespace IronFE.Files
                     throw new InvalidOperationException(Properties.Strings.FileEntryBaseAddAncestorAsChild);
                 }
 
-                ancestor = ancestor.Parent;
+                // Continue traversing upwards until we hit root
+                if (!ancestor.IsRoot)
+                {
+                    ancestor = ancestor.Parent;
+                }
+                else
+                {
+                    break;
+                }
             }
 
             CheckSiblingNameConflict(entry.Name, childEntries);
@@ -262,6 +275,11 @@ namespace IronFE.Files
                 path += fileEntry.RootPrefix;
                 path += fileEntry.Name;
                 path += fileEntry.RootSuffix;
+
+                if (fileEntry.UseSeparatorAfterRoot)
+                {
+                    path += fileEntry.PathSeparator;
+                }
 
                 // Return without recursing
                 return path;
