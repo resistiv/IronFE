@@ -27,15 +27,18 @@ namespace IronFE.Tests.FilesTests
         }
 
         /// <inheritdoc/>
-        public override string PathSeparator => FileEntryBaseTests.PathSeparator;
+        protected override string PathSeparator => FileEntryBaseTests.PathSeparator;
 
         /// <inheritdoc/>
-        public override string RootPrefix => FileEntryBaseTests.RootPrefix;
+        protected override string RootPrefix => FileEntryBaseTests.RootPrefix;
 
         /// <inheritdoc/>
-        public override string RootSuffix => FileEntryBaseTests.RootSuffix;
+        protected override string RootSuffix => FileEntryBaseTests.RootSuffix;
 
         /// <inheritdoc/>
-        public override bool UseSeparatorAfterTerminalDirectories => FileEntryBaseTests.UseSeparatorAfterTerminalDirectories;
+        protected override bool UseSeparatorAfterTerminalDirectories => FileEntryBaseTests.UseSeparatorAfterTerminalDirectories;
+
+        /// <inheritdoc/>
+        protected override bool UseSeparatorAfterRoot => false;
     }
 }

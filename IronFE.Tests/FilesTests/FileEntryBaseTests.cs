@@ -171,6 +171,89 @@ namespace IronFE.Tests.FilesTests
         }
 
         /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.IsDirectory"/> property.
+        /// </summary>
+        [TestMethod]
+        public void IsDirectory()
+        {
+            Assert.IsTrue(root.IsDirectory);
+            Assert.IsTrue(directoryA.IsDirectory);
+            Assert.IsTrue(directoryB.IsDirectory);
+            Assert.IsTrue(directoryC.IsDirectory);
+            Assert.IsFalse(fileA.IsDirectory);
+            Assert.IsFalse(fileB.IsDirectory);
+            Assert.IsFalse(fileC.IsDirectory);
+        }
+
+        /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.IsRoot"/> property.
+        /// </summary>
+        [TestMethod]
+        public void IsRoot()
+        {
+            Assert.IsTrue(root.IsRoot);
+            Assert.IsFalse(directoryA.IsRoot);
+            Assert.IsFalse(directoryB.IsRoot);
+            Assert.IsFalse(directoryC.IsRoot);
+            Assert.IsFalse(fileA.IsRoot);
+            Assert.IsFalse(fileB.IsRoot);
+            Assert.IsFalse(fileC.IsRoot);
+        }
+
+        /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.Stream"/> property.
+        /// </summary>
+        [TestMethod]
+        public void Stream()
+        {
+            Assert.ThrowsException<NotSupportedException>(() => root.Stream);
+            Assert.ThrowsException<NotSupportedException>(() => directoryA.Stream);
+            Assert.ThrowsException<NotSupportedException>(() => directoryB.Stream);
+            Assert.ThrowsException<NotSupportedException>(() => directoryC.Stream);
+            Assert.IsNotNull(fileA.Stream);
+            Assert.IsNotNull(fileB.Stream);
+            Assert.IsNotNull(fileC.Stream);
+        }
+
+        /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.Parent"/> property.
+        /// </summary>
+        [TestMethod]
+        public void Parent()
+        {
+            Assert.ThrowsException<NotSupportedException>(() => root.Parent);
+            Assert.ReferenceEquals(root, directoryA.Parent);
+            Assert.ReferenceEquals(directoryA, directoryB.Parent);
+            Assert.ReferenceEquals(directoryB, directoryC.Parent);
+            Assert.ReferenceEquals(directoryC, fileA.Parent);
+            Assert.ReferenceEquals(directoryC, fileB.Parent);
+            Assert.ReferenceEquals(directoryC, fileC.Parent);
+        }
+
+        /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.Children"/> property.
+        /// </summary>
+        [TestMethod]
+        public void Children()
+        {
+            CollectionAssert.AreEqual(new FileEntryBase[] { directoryA }, root.Children);
+            CollectionAssert.AreEqual(new FileEntryBase[] { directoryB }, directoryA.Children);
+            CollectionAssert.AreEqual(new FileEntryBase[] { directoryC }, directoryB.Children);
+            CollectionAssert.AreEqual(new FileEntryBase[] { fileA, fileB, fileC }, directoryC.Children);
+        }
+
+        /// <summary>
+        /// Tests the functionality of getting the <see cref="FileEntryBase.Children"/> property invalidly from a file entry.
+        /// </summary>
+        [TestMethod]
+        public void ChildrenInvalidOnFile()
+        {
+            Assert.ThrowsException<NotSupportedException>(() => fileA.Children);
+            Assert.ThrowsException<NotSupportedException>(() => fileB.Children);
+            Assert.ThrowsException<NotSupportedException>(() => fileC.Children);
+        }
+
+        /// <summary>
         /// Tests the functionality of the <see cref="FileEntryBase.AddChild(FileEntryBase)"/> method when invalidly adding a child entry to a file entry.
         /// </summary>
         [TestMethod]
