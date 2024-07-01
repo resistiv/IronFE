@@ -298,10 +298,10 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void AddChildInvalidNameConflict()
         {
-            ExampleFileEntry fileEntry = new("a.file", new MemoryStream());
+            ExampleFileEntry fileEntry = new(FileAName, new MemoryStream());
             Assert.ThrowsException<InvalidOperationException>(() => directoryC.AddChild(fileEntry));
 
-            ExampleFileEntry dirEntry = new("DirA");
+            ExampleFileEntry dirEntry = new(DirAName);
             Assert.ThrowsException<InvalidOperationException>(() => root.AddChild(dirEntry));
         }
 
@@ -523,6 +523,22 @@ namespace IronFE.Tests.FilesTests
             Assert.ThrowsException<NotSupportedException>(() => fileA.RemoveChild(FileAName));
             Assert.ThrowsException<NotSupportedException>(() => fileB.RemoveChild(DirAName));
             Assert.ThrowsException<NotSupportedException>(() => fileC.RemoveChild(RootName));
+        }
+
+        /// <summary>
+        /// Tests the functionality of the <see cref="FileEntryBase.InsertChild(FileEntryBase, int)"/> method.
+        /// </summary>
+        /// <remarks>There aren't any other InsertChild() tests because all functionality is covered within the AddChild() tests; AddChild() is just a wrapper for inserting a child to the end of a list.</remarks>
+        [TestMethod]
+        public void InsertChild()
+        {
+            ExampleFileEntry fileZ = new("z.file", new MemoryStream());
+            directoryC.InsertChild(fileZ, 2);
+            Assert.AreEqual(2, Array.IndexOf(directoryC.Children, fileZ));
+
+            ExampleFileEntry dirZ = new("DirZ");
+            root.InsertChild(dirZ, 1);
+            Assert.AreEqual(1, Array.IndexOf(root.Children, dirZ));
         }
     }
 }
