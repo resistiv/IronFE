@@ -11,7 +11,7 @@ namespace IronFE.Files
     public abstract class FileEntryBase
     {
         // Private members
-        private readonly LinkedList<FileEntryBase> childEntries = [];
+        private readonly List<FileEntryBase> childEntries = [];
         private readonly bool isDir;
         private readonly bool isRoot;
         private readonly Stream? sourceStream;
@@ -156,49 +156,32 @@ namespace IronFE.Files
         protected abstract bool UseSeparatorAfterRoot { get; }
 
         /// <summary>
-        /// Adds a <see cref="FileEntryBase"/> to this <see cref="FileEntryBase"/>'s children, while setting this <see cref="FileEntryBase"/> as its parent.
+        /// Adds a <see cref="FileEntryBase"/> to the end of this <see cref="FileEntryBase"/>'s children, while setting this <see cref="FileEntryBase"/> as its parent.
         /// </summary>
         /// <param name="entry">A <see cref="FileEntryBase"/> to add to the children of this <see cref="FileEntryBase"/>.</param>
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> is a root entry, or if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
         public void AddChild(FileEntryBase entry)
+            => InsertChild(entry, childEntries.Count);
+
+        /// <summary>
+        /// Adds a <see cref="FileEntryBase"/> to this <see cref="FileEntryBase"/>'s children at a given position, while setting this <see cref="FileEntryBase"/> as its parent.
+        /// </summary>
+        /// <param name="entry">A <see cref="FileEntryBase"/> to add to the children of this <see cref="FileEntryBase"/>.</param>
+        /// <param name="position">A position at which to insert the new child entry.</param>
+        /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> is a root entry, or if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
+        public void InsertChild(FileEntryBase entry, int position)
         {
-            // Root check
-            if (entry.IsRoot)
-            {
-                throw new InvalidOperationException(Properties.Strings.FileEntryBaseCannotAddRootAsChild);
-            }
-
-            CheckSupportsDirectoryOperation();
-
-            // Ensure no direct ancestor of this entry is being added,
-            // as parent re-assignment will result in a loop in the virtual
-            // file system.
-            FileEntryBase? ancestor = this;
-            while (ancestor is not null)
-            {
-                if (ReferenceEquals(ancestor, entry))
-                {
-                    throw new InvalidOperationException(Properties.Strings.FileEntryBaseAddAncestorAsChild);
-                }
-
-                // Continue traversing upwards until we hit root
-                if (!ancestor.IsRoot)
-                {
-                    ancestor = ancestor.Parent;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
+            CheckIsDirectory(this);
+            CheckChildIsNotRoot(entry);
+            CheckChildIsNotDirectAncestor(this, entry);
             CheckSiblingNameConflict(entry.Name, childEntries);
 
             // Deattach from parent, add to this entry
-            entry.Parent?.childEntries.Remove(entry);
+            entry.Parent?.InternalRemoveChild(entry);
             entry.parentEntry = this;
-            childEntries.AddLast(entry);
+            childEntries.Insert(position, entry);
         }
 
         /// <summary>
@@ -209,9 +192,8 @@ namespace IronFE.Files
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
         public FileEntryBase? GetChild(string childName)
         {
-            CheckSupportsDirectoryOperation();
-
-            return childEntries.FirstOrDefault(f => f.Name == childName);
+            CheckIsDirectory(this);
+            return InternalGetChild(childName);
         }
 
         /// <summary>
@@ -222,17 +204,17 @@ namespace IronFE.Files
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
         public bool RemoveChild(string childName)
         {
-            CheckSupportsDirectoryOperation();
+            CheckIsDirectory(this);
 
             // First attempt to fetch the child by name, then remove if present
-            FileEntryBase? child = GetChild(childName);
+            FileEntryBase? child = InternalGetChild(childName);
             if (child is null)
             {
                 return false;
             }
             else
             {
-                return RemoveChild(child);
+                return InternalRemoveChild(child);
             }
         }
 
@@ -244,16 +226,8 @@ namespace IronFE.Files
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
         public bool RemoveChild(FileEntryBase child)
         {
-            CheckSupportsDirectoryOperation();
-
-            bool result = childEntries.Remove(child);
-            if (result)
-            {
-                // Only if the remove was successful do we de-parent this entry
-                child.parentEntry = null;
-            }
-
-            return result;
+            CheckIsDirectory(this);
+            return InternalRemoveChild(child);
         }
 
         /// <summary>
@@ -322,7 +296,7 @@ namespace IronFE.Files
         /// <param name="name">A possible entry name to check for conflicts.</param>
         /// <param name="siblings">A <see cref="List{T}"/> of sibling <see cref="FileEntryBase"/> objects.</param>
         /// <exception cref="InvalidOperationException">Thrown if there exists a sibling <see cref="FileEntryBase"/> that is already named <paramref name="name"/>.</exception>
-        private static void CheckSiblingNameConflict(string name, LinkedList<FileEntryBase> siblings)
+        private static void CheckSiblingNameConflict(string name, List<FileEntryBase> siblings)
         {
             if (siblings.Any(c => c.Name.Equals(name)))
             {
@@ -331,15 +305,85 @@ namespace IronFE.Files
         }
 
         /// <summary>
-        /// Checks if the current <see cref="FileEntryBase"/> supports directory operations (add/get/remove children, etc.).
+        /// Checks if a <see cref="FileEntryBase"/> supports directory operations (add/get/remove children, etc.).
         /// </summary>
+        /// <param name="entry">A <see cref="FileEntryBase"/> to check for its directory flag.</param>
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not designated as a directory.</exception>
-        private void CheckSupportsDirectoryOperation()
+        private static void CheckIsDirectory(FileEntryBase entry)
         {
-            if (!isDir)
+            if (!entry.isDir)
             {
                 throw new NotSupportedException(Properties.Strings.FileEntryBaseDirectoryOperationNotSupported);
             }
         }
+
+        /// <summary>
+        /// Checks if a potential child <see cref="FileEntryBase"/> is not a root entry.
+        /// </summary>
+        /// <param name="entry">A <see cref="FileEntryBase"/> to check for its root flag.</param>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="entry"/> is a root <see cref="FileEntryBase"/>.</exception>
+        private static void CheckChildIsNotRoot(FileEntryBase entry)
+        {
+            if (entry.IsRoot)
+            {
+                throw new InvalidOperationException(Properties.Strings.FileEntryBaseCannotAddRootAsChild);
+            }
+        }
+
+        /// <summary>
+        /// Checks if a potential child <see cref="FileEntryBase"/> is not a direct ancestor of the entry it is being added to.
+        /// </summary>
+        /// <param name="startingAncestor">The first direct ancestor <see cref="FileEntryBase"/> to traverse upwards from.</param>
+        /// <param name="child">A <see cref="FileEntryBase"/> to check against ancestors.</param>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="child"/> is equal to a direct ancestor.</exception>
+        private static void CheckChildIsNotDirectAncestor(FileEntryBase startingAncestor, FileEntryBase child)
+        {
+            // Ensure no direct ancestor of this entry is being added,
+            // as parent re-assignment will result in a loop in the virtual
+            // file system.
+            FileEntryBase? ancestor = startingAncestor;
+            while (ancestor is not null)
+            {
+                if (ReferenceEquals(ancestor, child))
+                {
+                    throw new InvalidOperationException(Properties.Strings.FileEntryBaseAddAncestorAsChild);
+                }
+
+                // Continue traversing upwards until we hit root
+                if (!ancestor.IsRoot)
+                {
+                    ancestor = ancestor.Parent;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+/// <summary>
+        /// Removes a child <see cref="FileEntryBase"/> from this <see cref="FileEntryBase"/>, without any checks.
+        /// </summary>
+        /// <param name="child">The child <see cref="FileEntryBase"/> to remove.</param>
+        /// <returns><see langword="true"/> if <paramref name="child"/> was successfully removed; otherwise, <see langword="false"/>.</returns>
+        private bool InternalRemoveChild(FileEntryBase child)
+        {
+            bool result = childEntries.Remove(child);
+            if (result)
+            {
+                // Only if the remove was successful do we de-parent this entry
+                child.parentEntry = null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets a child <see cref="FileEntryBase"/> with the name <paramref name="childName"/> from this <see cref="FileEntryBase"/>, without any checks.
+        /// </summary>
+        /// <param name="childName">The name of the child <see cref="FileEntryBase"/> to get.</param>
+        /// <returns>A child <see cref="FileEntryBase"/>, or <see langword="null"/> if a child with the name <paramref name="childName"/> was not found.</returns>
+        private FileEntryBase? InternalGetChild(string childName)
+            => childEntries.FirstOrDefault(f => f.Name == childName);
     }
 }
