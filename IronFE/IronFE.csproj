@@ -6,7 +6,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Authors>resistiv</Authors>
+    <Authors>Kai NeSmith</Authors>
     <Title>IronFE</Title>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/resistiv/IronFE</RepositoryUrl>
@@ -14,6 +14,10 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Copyright>Copyright (c) Kai NeSmith 2024</Copyright>
+    <Description>IronFE is a .NET library for parsing and extracting files. Its implementation focuses on a combination of video game file formats and generally old or obscure transport formats.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
