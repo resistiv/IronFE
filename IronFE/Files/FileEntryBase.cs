@@ -235,6 +235,22 @@ namespace IronFE.Files
         }
 
         /// <summary>
+        /// Saves the data of this <see cref="FileEntryBase"/> to a file with a given path.
+        /// </summary>
+        /// <param name="filePath">The path of the resulting output file to write data to.</param>
+        public virtual void SaveToFile(string filePath)
+        {
+            FileStream outputFile = File.OpenWrite(filePath);
+            SaveToStream(outputFile);
+        }
+
+        /// <summary>
+        /// Saves the data of this <see cref="FileEntryBase"/> to a <see cref="System.IO.Stream"/>.
+        /// </summary>
+        /// <param name="outputStream">A <see cref="System.IO.Stream"/> to write data to.</param>
+        public abstract void SaveToStream(Stream outputStream);
+
+        /// <summary>
         /// Recursively constructs the full path of a <see cref="FileEntryBase"/>.
         /// </summary>
         /// <remarks>

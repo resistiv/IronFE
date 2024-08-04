@@ -40,5 +40,11 @@ namespace IronFE.Tests.FilesTests
 
         /// <inheritdoc/>
         protected override bool UseSeparatorAfterRoot => false;
+
+        /// <inheritdoc/>
+        public override void SaveToStream(Stream outputStream)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
