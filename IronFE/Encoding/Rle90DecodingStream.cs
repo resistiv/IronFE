@@ -53,7 +53,8 @@ namespace IronFE.Encoding
                 }
 
                 // We can take a bit from the buffer, but will still need to read
-                else // if (bufferedBytes.Length < count)
+                // bufferedBytes.Length < count
+                else
                 {
                     Array.Copy(bufferedBytes, 0, buffer, offset, bufferedBytes.Length);
                     bytesRead += bufferedBytes.Length;

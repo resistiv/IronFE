@@ -118,7 +118,11 @@ namespace IronFE.Files
         /// Gets the underlying data <see cref="System.IO.Stream"/> of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="NotSupportedException">Thrown when accessed on a <see cref="FileEntryBase"/> that is a directory.</exception>
+#pragma warning disable CS8603 // Possible null reference return.
         public Stream Stream => !isDir ? sourceStream : throw new NotSupportedException(Properties.Strings.FileEntryBaseFileOperationNotSupported);
+#pragma warning restore CS8603 // Possible null reference return.
+        // The above warning is disabled, as sourceStream is only null when
+        // this file entry is a directory, which is handled by an exception.
 
         /// <summary>
         /// Gets the parent <see cref="FileEntryBase"/> of this <see cref="FileEntryBase"/>, if there is one.
