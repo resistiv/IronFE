@@ -12,8 +12,6 @@ namespace IronFE.Files
     {
         // Private members
         private readonly List<FileEntryBase> childEntries = [];
-        private readonly bool isDir;
-        private readonly bool isRoot;
         private readonly Stream? sourceStream;
         private string entryName;
         private FileEntryBase? parentEntry = null;
@@ -28,8 +26,8 @@ namespace IronFE.Files
         {
             entryName = string.Empty;
             sourceStream = null;
-            isDir = true;
-            isRoot = true;
+            IsDirectory = true;
+            IsRoot = true;
         }
 
         /// <summary>
@@ -40,8 +38,8 @@ namespace IronFE.Files
         {
             entryName = directoryName;
             sourceStream = null;
-            isDir = true;
-            isRoot = false;
+            IsDirectory = true;
+            IsRoot = false;
         }
 
         /// <summary>
@@ -53,8 +51,8 @@ namespace IronFE.Files
         {
             entryName = fileName;
             this.sourceStream = sourceStream;
-            isDir = false;
-            isRoot = false;
+            IsDirectory = false;
+            IsRoot = false;
         }
 
         /// <summary>
@@ -72,7 +70,7 @@ namespace IronFE.Files
 
             set
             {
-                if (isRoot)
+                if (IsRoot)
                 {
                     // For root, just needs to not be null
                     ArgumentNullException.ThrowIfNull(value);
@@ -107,19 +105,19 @@ namespace IronFE.Files
         /// <summary>
         /// Gets a value indicating whether this <see cref="FileEntryBase"/> is designated as a directory.
         /// </summary>
-        public bool IsDirectory => isDir;
+        public bool IsDirectory { get; }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="FileEntryBase"/> is designated as a root entry.
         /// </summary>
-        public bool IsRoot => isRoot;
+        public bool IsRoot { get; }
 
         /// <summary>
         /// Gets the underlying data <see cref="System.IO.Stream"/> of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="NotSupportedException">Thrown when accessed on a <see cref="FileEntryBase"/> that is a directory.</exception>
 #pragma warning disable CS8603 // Possible null reference return.
-        public Stream Stream => !isDir ? sourceStream : throw new NotSupportedException(Properties.Strings.FileEntryBaseFileOperationNotSupported);
+        public Stream Stream => !IsDirectory ? sourceStream : throw new NotSupportedException(Properties.Strings.FileEntryBaseFileOperationNotSupported);
 #pragma warning restore CS8603 // Possible null reference return.
         // The above warning is disabled, as sourceStream is only null when
         // this file entry is a directory, which is handled by an exception.
@@ -127,37 +125,28 @@ namespace IronFE.Files
         /// <summary>
         /// Gets the parent <see cref="FileEntryBase"/> of this <see cref="FileEntryBase"/>, if there is one.
         /// </summary>
-        public FileEntryBase? Parent => !isRoot ? parentEntry : throw new NotSupportedException(Properties.Strings.FileEntryBaseRootOperationNotSupported);
+        public FileEntryBase? Parent
+        {
+            get
+            {
+                return !IsRoot ? parentEntry : throw new NotSupportedException(Properties.Strings.FileEntryBaseRootOperationNotSupported);
+            }
+
+            private set
+            {
+                parentEntry = value;
+            }
+        }
 
         /// <summary>
         /// Gets the children of this <see cref="FileEntryBase"/>.
         /// </summary>
-        public FileEntryBase[] Children => isDir ? [.. childEntries] : throw new NotSupportedException(Properties.Strings.FileEntryBaseDirectoryOperationNotSupported);
+        public FileEntryBase[] Children => IsDirectory ? [.. childEntries] : throw new NotSupportedException(Properties.Strings.FileEntryBaseDirectoryOperationNotSupported);
 
         /// <summary>
-        /// Gets the path separator used by this <see cref="FileEntryBase"/>.
+        /// Gets the <see cref="PathConfiguration"/> object used by this <see cref="FileEntryBase"/>.
         /// </summary>
-        protected abstract string PathSeparator { get; }
-
-        /// <summary>
-        /// Gets a string to prefix the root <see cref="FileEntryBase"/> name with.
-        /// </summary>
-        protected abstract string RootPrefix { get; }
-
-        /// <summary>
-        /// Gets a string to append to the root <see cref="FileEntryBase"/> name.
-        /// </summary>
-        protected abstract string RootSuffix { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a directory if it is the last item in the full path of this <see cref="FileEntryBase"/>.
-        /// </summary>
-        protected abstract bool UseSeparatorAfterTerminalDirectories { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether to append a <see cref="PathSeparator"/> to a the root <see cref="FileEntryBase"/>.
-        /// </summary>
-        protected abstract bool UseSeparatorAfterRoot { get; }
+        protected internal abstract PathConfiguration PathConfiguration { get; }
 
         /// <summary>
         /// Adds a <see cref="FileEntryBase"/> to the end of this <see cref="FileEntryBase"/>'s children, while setting this <see cref="FileEntryBase"/> as its parent.
@@ -184,7 +173,7 @@ namespace IronFE.Files
 
             // Deattach from parent, add to this entry
             entry.Parent?.InternalRemoveChild(entry);
-            entry.parentEntry = this;
+            entry.Parent = this;
             childEntries.Insert(position, entry);
         }
 
@@ -242,6 +231,7 @@ namespace IronFE.Files
         {
             FileStream outputFile = File.OpenWrite(filePath);
             SaveToStream(outputFile);
+            outputFile.Close();
         }
 
         /// <summary>
@@ -262,17 +252,18 @@ namespace IronFE.Files
         private static string GetFullPath(FileEntryBase fileEntry, bool isOriginEntry)
         {
             string path = string.Empty;
+            PathConfiguration config = fileEntry.PathConfiguration;
 
-            // Root rules (end of the line, no need for any other calls)
+            // Root rules (return here, since there are should be no entries higher than root)
             if (fileEntry.IsRoot)
             {
-                path += fileEntry.RootPrefix;
+                path += config.RootPrefix;
                 path += fileEntry.Name;
-                path += fileEntry.RootSuffix;
+                path += config.RootSuffix;
 
-                if (fileEntry.UseSeparatorAfterRoot)
+                if (config.UseSeparatorAfterRoot)
                 {
-                    path += fileEntry.PathSeparator;
+                    path += config.PathSeparator;
                 }
 
                 // Return without recursing
@@ -287,13 +278,13 @@ namespace IronFE.Files
                 // For most cases, directories will take the form Name + PathSeparator
                 // However, if a directory entry is the origin and doesn't include a
                 // separator, then this condition will be skipped.
-                if (!isOriginEntry || fileEntry.UseSeparatorAfterTerminalDirectories)
+                if (!isOriginEntry || config.UseSeparatorAfterTerminalDirectories)
                 {
-                    path += fileEntry.PathSeparator;
+                    path += config.PathSeparator;
                 }
             }
 
-            // Otherwise, just a file
+            // Otherwise, file rules
             else
             {
                 path += fileEntry.Name;
@@ -331,7 +322,7 @@ namespace IronFE.Files
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not designated as a directory.</exception>
         private static void CheckIsDirectory(FileEntryBase entry)
         {
-            if (!entry.isDir)
+            if (!entry.IsDirectory)
             {
                 throw new NotSupportedException(Properties.Strings.FileEntryBaseDirectoryOperationNotSupported);
             }
@@ -392,7 +383,7 @@ namespace IronFE.Files
             if (result)
             {
                 // Only if the remove was successful do we de-parent this entry
-                child.parentEntry = null;
+                child.Parent = null;
             }
 
             return result;
