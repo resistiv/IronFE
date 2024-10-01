@@ -14,3 +14,10 @@ This library was created to isolate [KNFE](https://github.com/resistiv/KNFE)'s b
 * Easier usage & adaptability for end users
 * Maintain a lightweight memory footprint
 * Non-copyrighted, extensive unit testing
+
+## Planned Functionality
+- [X] DecodingStream as a derived class of Stream to allow for standardized usage
+- [ ] Seeking on DecodingStream to allow for proper support of nested encodings
+- [ ] File format identification based on file data patterns
+- [ ] Unified common DecodingStream variants via base classes (e.g. LzssDecodingStream with support for different parameters)
+- [ ] Image format identification and support
