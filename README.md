@@ -21,3 +21,6 @@ This library was created to isolate [KNFE](https://github.com/resistiv/KNFE)'s b
 - [ ] File format identification based on file data patterns
 - [ ] Unified common DecodingStream variants via base classes (e.g. LzssDecodingStream with support for different parameters)
 - [ ] Image format identification and support
+
+## License
+This project is licensed under the [MIT License](LICENSE).
