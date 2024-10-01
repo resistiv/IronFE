@@ -1,0 +1,4 @@
+### VibRipper v1.2 TOC File ###
+SINGLE_ROOT_FILE.PAK
+1
+FILE_A.BIN

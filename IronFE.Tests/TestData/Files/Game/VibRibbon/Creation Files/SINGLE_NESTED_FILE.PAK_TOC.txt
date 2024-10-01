@@ -1,0 +1,4 @@
+### VibRipper v1.2 TOC File ###
+SINGLE_NESTED_FILE.PAK
+1
+DIR_A/FILE_B.BIN

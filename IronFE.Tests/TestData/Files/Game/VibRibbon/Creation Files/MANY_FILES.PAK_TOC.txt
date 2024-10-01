@@ -1,0 +1,6 @@
+### VibRipper v1.2 TOC File ###
+MANY_FILES.PAK
+3
+FILE_A.BIN
+DIR_A/FILE_B.BIN
+DIR_A/DIR_B/FILE_C.BIN
