@@ -8,21 +8,6 @@ namespace IronFE.Tests.FilesTests
     /// </summary>
     internal class ExampleFileEntry : FileEntryBase
     {
-        private static readonly PathConfiguration EfePathConfiguration = new()
-        {
-            PathSeparator = FileEntryBaseTests.PathSeparator,
-            RootPrefix = FileEntryBaseTests.RootPrefix,
-            RootSuffix = FileEntryBaseTests.RootSuffix,
-            UseSeparatorAfterTerminalDirectories = FileEntryBaseTests.UseSeparatorAfterTerminalDirectories,
-
-        };
-
-        /// <inheritdoc/>
-        public ExampleFileEntry()
-            : base()
-        {
-        }
-
         /// <inheritdoc/>
         public ExampleFileEntry(string directoryName)
             : base(directoryName)
@@ -34,9 +19,6 @@ namespace IronFE.Tests.FilesTests
             : base(fileName, sourceStream)
         {
         }
-
-        /// <inheritdoc/>
-        protected override PathConfiguration PathConfiguration => EfePathConfiguration;
 
         /// <inheritdoc/>
         public override void SaveToStream(Stream outputStream)

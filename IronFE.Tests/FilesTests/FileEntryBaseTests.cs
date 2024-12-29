@@ -12,7 +12,6 @@ namespace IronFE.Tests.FilesTests
     public class FileEntryBaseTests
     {
         // Constants
-        private const string RootName = "ROOT";
         private const string DirAName = "DirA";
         private const string DirBName = "DirB";
         private const string DirCName = "DirC";
@@ -21,7 +20,6 @@ namespace IronFE.Tests.FilesTests
         private const string FileCName = "c.file";
 
         // Private members
-        private ExampleFileEntry root;
         private ExampleFileEntry directoryA;
         private ExampleFileEntry directoryB;
         private ExampleFileEntry directoryC;
@@ -30,37 +28,11 @@ namespace IronFE.Tests.FilesTests
         private ExampleFileEntry fileC;
 
         /// <summary>
-        /// Gets the path separator used in <see cref="FileEntryBaseTests"/>.
-        /// </summary>
-        public static string PathSeparator => "/";
-
-        /// <summary>
-        /// Gets the root prefix used in <see cref="FileEntryBaseTests"/>.
-        /// </summary>
-        public static string RootPrefix => "]";
-
-        /// <summary>
-        /// Gets the root suffix used in <see cref="FileEntryBaseTests"/>.
-        /// </summary>
-        public static string RootSuffix => "://";
-
-        /// <summary>
-        /// Gets a value indicating whether separators after terminal directories are used in <see cref="FileEntryBaseTests"/>.
-        /// </summary>
-        public static bool UseSeparatorAfterTerminalDirectories => false;
-
-        /// <summary>
         /// Initializes a nested virtual file system of <see cref="ExampleFileEntry"/> objects for usage in tests.
         /// </summary>
         [TestInitialize]
         public void CreateVirtualFileSystem()
         {
-            // Create root
-            root = new ExampleFileEntry()
-            {
-                Name = RootName,
-            };
-
             // Create entries
             directoryA = new ExampleFileEntry(DirAName);
             directoryB = new ExampleFileEntry(DirBName);
@@ -70,7 +42,6 @@ namespace IronFE.Tests.FilesTests
             fileC = new ExampleFileEntry(FileCName, new MemoryStream());
 
             // Nest them!
-            root.AddChild(directoryA);
             directoryA.AddChild(directoryB);
             directoryB.AddChild(directoryC);
             directoryC.AddChild(fileA);
@@ -84,9 +55,6 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void NameGet()
         {
-            // Root
-            Assert.AreEqual(RootName, root.Name);
-
             // Directories
             Assert.AreEqual(DirAName, directoryA.Name);
             Assert.AreEqual(DirBName, directoryB.Name);
@@ -104,10 +72,6 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void NameSetValid()
         {
-            // Root (hehe)
-            root.Name = "TOOT";
-            Assert.AreEqual("TOOT", root.Name);
-
             // Directories
             directoryA.Name = "DirD";
             directoryB.Name = "DirE";
@@ -131,9 +95,6 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void NameSetNull()
         {
-            // Root
-            Assert.ThrowsException<ArgumentNullException>(() => root.Name = null);
-
             // Directories
             Assert.ThrowsException<ArgumentNullException>(() => directoryA.Name = null);
             Assert.ThrowsException<ArgumentNullException>(() => directoryB.Name = null);
@@ -151,20 +112,16 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void FullPath()
         {
-            // Root
-            string expectedRootName = $"{RootPrefix}{RootName}{RootSuffix}";
-            Assert.AreEqual(expectedRootName, root.FullPath);
-
             // Directories
-            string expectedDirA = $"{expectedRootName}{DirAName}{(UseSeparatorAfterTerminalDirectories ? PathSeparator : string.Empty)}";
-            string expectedDirB = $"{expectedRootName}{DirAName}{PathSeparator}{DirBName}{(UseSeparatorAfterTerminalDirectories ? PathSeparator : string.Empty)}";
-            string expectedDirC = $"{expectedRootName}{DirAName}{PathSeparator}{DirBName}{PathSeparator}{DirCName}{(UseSeparatorAfterTerminalDirectories ? PathSeparator : string.Empty)}";
+            string expectedDirA = $"{DirAName}";
+            string expectedDirB = $"{DirAName}{FileEntryBase.PathSeparator}{DirBName}";
+            string expectedDirC = $"{DirAName}{FileEntryBase.PathSeparator}{DirBName}{FileEntryBase.PathSeparator}{DirCName}";
             Assert.AreEqual(expectedDirA, directoryA.FullPath);
             Assert.AreEqual(expectedDirB, directoryB.FullPath);
             Assert.AreEqual(expectedDirC, directoryC.FullPath);
 
             // Files
-            string expectedFileBase = $"{expectedRootName}{DirAName}{PathSeparator}{DirBName}{PathSeparator}{DirCName}{PathSeparator}";
+            string expectedFileBase = $"{DirAName}{FileEntryBase.PathSeparator}{DirBName}{FileEntryBase.PathSeparator}{DirCName}{FileEntryBase.PathSeparator}";
             Assert.AreEqual($"{expectedFileBase}{FileAName}", fileA.FullPath);
             Assert.AreEqual($"{expectedFileBase}{FileBName}", fileB.FullPath);
             Assert.AreEqual($"{expectedFileBase}{FileCName}", fileC.FullPath);
@@ -176,7 +133,6 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void IsDirectory()
         {
-            Assert.IsTrue(root.IsDirectory);
             Assert.IsTrue(directoryA.IsDirectory);
             Assert.IsTrue(directoryB.IsDirectory);
             Assert.IsTrue(directoryC.IsDirectory);
@@ -186,27 +142,11 @@ namespace IronFE.Tests.FilesTests
         }
 
         /// <summary>
-        /// Tests the functionality of getting the <see cref="FileEntryBase.IsRoot"/> property.
-        /// </summary>
-        [TestMethod]
-        public void IsRoot()
-        {
-            Assert.IsTrue(root.IsRoot);
-            Assert.IsFalse(directoryA.IsRoot);
-            Assert.IsFalse(directoryB.IsRoot);
-            Assert.IsFalse(directoryC.IsRoot);
-            Assert.IsFalse(fileA.IsRoot);
-            Assert.IsFalse(fileB.IsRoot);
-            Assert.IsFalse(fileC.IsRoot);
-        }
-
-        /// <summary>
         /// Tests the functionality of getting the <see cref="FileEntryBase.Stream"/> property.
         /// </summary>
         [TestMethod]
         public void Stream()
         {
-            Assert.ThrowsException<NotSupportedException>(() => root.Stream);
             Assert.ThrowsException<NotSupportedException>(() => directoryA.Stream);
             Assert.ThrowsException<NotSupportedException>(() => directoryB.Stream);
             Assert.ThrowsException<NotSupportedException>(() => directoryC.Stream);
@@ -221,8 +161,7 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void Parent()
         {
-            Assert.ThrowsException<NotSupportedException>(() => root.Parent);
-            Assert.ReferenceEquals(root, directoryA.Parent);
+            Assert.IsNull(directoryA.Parent);
             Assert.ReferenceEquals(directoryA, directoryB.Parent);
             Assert.ReferenceEquals(directoryB, directoryC.Parent);
             Assert.ReferenceEquals(directoryC, fileA.Parent);
@@ -236,7 +175,6 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void Children()
         {
-            CollectionAssert.AreEqual(new FileEntryBase[] { directoryA }, root.Children);
             CollectionAssert.AreEqual(new FileEntryBase[] { directoryB }, directoryA.Children);
             CollectionAssert.AreEqual(new FileEntryBase[] { directoryC }, directoryB.Children);
             CollectionAssert.AreEqual(new FileEntryBase[] { fileA, fileB, fileC }, directoryC.Children);
@@ -266,19 +204,6 @@ namespace IronFE.Tests.FilesTests
         }
 
         /// <summary>
-        /// Tests the functionality of the <see cref="FileEntryBase.AddChild(FileEntryBase)"/> method when invalidly adding a root entry to another entry.
-        /// </summary>
-        [TestMethod]
-        public void AddChildInvalidRootChild()
-        {
-            ExampleFileEntry rootEntry = new();
-            Assert.ThrowsException<InvalidOperationException>(() => root.AddChild(rootEntry));
-            Assert.ThrowsException<InvalidOperationException>(() => directoryA.AddChild(rootEntry));
-            Assert.ThrowsException<InvalidOperationException>(() => directoryB.AddChild(rootEntry));
-            Assert.ThrowsException<InvalidOperationException>(() => directoryC.AddChild(rootEntry));
-        }
-
-        /// <summary>
         /// Tests the functionality of the <see cref="FileEntryBase.AddChild(FileEntryBase)"/> method when invalidly adding a director ancestor to another entry.
         /// </summary>
         [TestMethod]
@@ -301,8 +226,8 @@ namespace IronFE.Tests.FilesTests
             ExampleFileEntry fileEntry = new(FileAName, new MemoryStream());
             Assert.ThrowsException<InvalidOperationException>(() => directoryC.AddChild(fileEntry));
 
-            ExampleFileEntry dirEntry = new(DirAName);
-            Assert.ThrowsException<InvalidOperationException>(() => root.AddChild(dirEntry));
+            ExampleFileEntry dirEntry = new(DirBName);
+            Assert.ThrowsException<InvalidOperationException>(() => directoryA.AddChild(dirEntry));
         }
 
         /// <summary>
@@ -312,7 +237,6 @@ namespace IronFE.Tests.FilesTests
         public void GetChild()
         {
             // Directories
-            Assert.ReferenceEquals(directoryA, root.GetChild(DirAName));
             Assert.ReferenceEquals(directoryB, directoryA.GetChild(DirBName));
             Assert.ReferenceEquals(directoryC, directoryB.GetChild(DirCName));
 
@@ -329,12 +253,11 @@ namespace IronFE.Tests.FilesTests
         public void GetChildNotPresent()
         {
             // Directories (not directly a child of the called node)
-            Assert.IsNull(root.GetChild(DirBName));
-            Assert.IsNull(root.GetChild(DirCName));
+            Assert.IsNull(directoryA.GetChild(DirCName));
 
             // Directories (non-existent)
-            Assert.IsNull(root.GetChild("DirX"));
-            Assert.IsNull(directoryA.GetChild("DirY"));
+            Assert.IsNull(directoryA.GetChild("DirX"));
+            Assert.IsNull(directoryB.GetChild("DirY"));
             Assert.IsNull(directoryB.GetChild("DirZ"));
 
             // Files (not a direct child)
@@ -357,8 +280,8 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void GetChildInvalidName()
         {
-            Assert.IsNull(root.GetChild(string.Empty));
-            Assert.IsNull(root.GetChild(null));
+            Assert.IsNull(directoryA.GetChild(string.Empty));
+            Assert.IsNull(directoryA.GetChild(null));
         }
 
         /// <summary>
@@ -386,10 +309,6 @@ namespace IronFE.Tests.FilesTests
             Assert.IsTrue(directoryA.RemoveChild(directoryB));
             Assert.IsNull(directoryA.GetChild(DirBName));
             Assert.IsNull(directoryB.Parent);
-
-            Assert.IsTrue(root.RemoveChild(directoryA));
-            Assert.IsNull(root.GetChild(DirAName));
-            Assert.IsNull(directoryA.Parent);
         }
 
         /// <summary>
@@ -414,13 +333,13 @@ namespace IronFE.Tests.FilesTests
             Assert.IsNotNull(directoryB.GetChild(DirCName));
             Assert.IsNotNull(directoryC.Parent);
 
-            Assert.IsFalse(root.RemoveChild(directoryB));
+            Assert.IsFalse(directoryB.RemoveChild(directoryB));
             Assert.IsNotNull(directoryA.GetChild(DirBName));
             Assert.IsNotNull(directoryB.Parent);
 
-            Assert.IsFalse(directoryB.RemoveChild(directoryA));
-            Assert.IsNotNull(root.GetChild(DirAName));
-            Assert.IsNotNull(directoryA.Parent);
+            Assert.IsFalse(directoryC.RemoveChild(directoryB));
+            Assert.IsNotNull(directoryA.GetChild(DirBName));
+            Assert.IsNotNull(directoryB.Parent);
         }
 
         /// <summary>
@@ -429,7 +348,7 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void RemoveChildFileEntryBaseNull()
         {
-            Assert.IsFalse(root.RemoveChild((FileEntryBase)null));
+            Assert.IsFalse(directoryA.RemoveChild((FileEntryBase)null));
         }
 
         /// <summary>
@@ -440,7 +359,6 @@ namespace IronFE.Tests.FilesTests
         {
             Assert.ThrowsException<NotSupportedException>(() => fileA.RemoveChild(fileA));
             Assert.ThrowsException<NotSupportedException>(() => fileB.RemoveChild(directoryA));
-            Assert.ThrowsException<NotSupportedException>(() => fileC.RemoveChild(root));
         }
 
         /// <summary>
@@ -468,10 +386,6 @@ namespace IronFE.Tests.FilesTests
             Assert.IsTrue(directoryA.RemoveChild(DirBName));
             Assert.IsNull(directoryA.GetChild(DirBName));
             Assert.IsNull(directoryB.Parent);
-
-            Assert.IsTrue(root.RemoveChild(DirAName));
-            Assert.IsNull(root.GetChild(DirAName));
-            Assert.IsNull(directoryA.Parent);
         }
 
         /// <summary>
@@ -496,13 +410,13 @@ namespace IronFE.Tests.FilesTests
             Assert.IsNotNull(directoryB.GetChild(DirCName));
             Assert.IsNotNull(directoryC.Parent);
 
-            Assert.IsFalse(root.RemoveChild(DirBName));
+            Assert.IsFalse(directoryB.RemoveChild(DirBName));
             Assert.IsNotNull(directoryA.GetChild(DirBName));
             Assert.IsNotNull(directoryB.Parent);
 
-            Assert.IsFalse(directoryB.RemoveChild(DirAName));
-            Assert.IsNotNull(root.GetChild(DirAName));
-            Assert.IsNotNull(directoryA.Parent);
+            Assert.IsFalse(directoryC.RemoveChild(DirBName));
+            Assert.IsNotNull(directoryA.GetChild(DirBName));
+            Assert.IsNotNull(directoryB.Parent);
         }
 
         /// <summary>
@@ -511,7 +425,7 @@ namespace IronFE.Tests.FilesTests
         [TestMethod]
         public void RemoveChildStringNull()
         {
-            Assert.IsFalse(root.RemoveChild((string)null));
+            Assert.IsFalse(directoryA.RemoveChild((string)null));
         }
 
         /// <summary>
@@ -522,7 +436,6 @@ namespace IronFE.Tests.FilesTests
         {
             Assert.ThrowsException<NotSupportedException>(() => fileA.RemoveChild(FileAName));
             Assert.ThrowsException<NotSupportedException>(() => fileB.RemoveChild(DirAName));
-            Assert.ThrowsException<NotSupportedException>(() => fileC.RemoveChild(RootName));
         }
 
         /// <summary>
@@ -537,8 +450,8 @@ namespace IronFE.Tests.FilesTests
             Assert.AreEqual(2, Array.IndexOf(directoryC.Children, fileZ));
 
             ExampleFileEntry dirZ = new("DirZ");
-            root.InsertChild(dirZ, 1);
-            Assert.AreEqual(1, Array.IndexOf(root.Children, dirZ));
+            directoryA.InsertChild(dirZ, 1);
+            Assert.AreEqual(1, Array.IndexOf(directoryA.Children, dirZ));
         }
     }
 }
