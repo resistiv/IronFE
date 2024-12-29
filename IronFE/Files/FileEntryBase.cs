@@ -48,7 +48,7 @@ namespace IronFE.Files
         /// Gets or sets the name of this <see cref="FileEntryBase"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when setting with a name that would conflict with a sibling <see cref="FileEntryBase"/>'s name.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when setting on a root entry with a value that is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when setting on an entry with a value that is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown when setting on an entry with a value that is <see langword="null"/> or empty.</exception>
         public string Name
         {
@@ -124,7 +124,7 @@ namespace IronFE.Files
         /// </summary>
         /// <param name="entry">A <see cref="FileEntryBase"/> to add to the children of this <see cref="FileEntryBase"/>.</param>
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> is a root entry, or if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
         public void AddChild(FileEntryBase entry)
             => InsertChild(entry, childEntries.Count);
 
@@ -134,7 +134,7 @@ namespace IronFE.Files
         /// <param name="entry">A <see cref="FileEntryBase"/> to add to the children of this <see cref="FileEntryBase"/>.</param>
         /// <param name="position">A position at which to insert the new child entry.</param>
         /// <exception cref="NotSupportedException">Thrown if this <see cref="FileEntryBase"/> is not a directory.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> is a root entry, or if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="entry"/> and a direct ancestor (including this <see cref="FileEntryBase"/>) are the same instance.</exception>
         public void InsertChild(FileEntryBase entry, int position)
         {
             CheckIsDirectory(this);
