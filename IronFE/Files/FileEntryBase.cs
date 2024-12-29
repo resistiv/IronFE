@@ -223,7 +223,8 @@ namespace IronFE.Files
         {
             string path = string.Empty;
 
-            if (fileEntry.IsDirectory) // Directory rules
+            // Directory rules
+            if (fileEntry.IsDirectory)
             {
                 path += fileEntry.Name;
 
@@ -234,7 +235,9 @@ namespace IronFE.Files
                     path += PathSeparator;
                 }
             }
-            else // File rules
+
+            // File rules
+            else
             {
                 path += fileEntry.Name;
             }
