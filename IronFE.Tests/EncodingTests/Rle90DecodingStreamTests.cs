@@ -8,11 +8,11 @@ namespace IronFE.Tests.EncodingTests
     /// Tests functionality of the <see cref="Rle90DecodingStream"/> class.
     /// </summary>
     [TestClass]
-    [DeploymentItem("TestData/Encoding/Rle90/Rle90ArcEncoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Rle90/Rle90BinHexEncoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Rle90/Rle90RunBeforeLiteral.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Rle90/Rle90NoRunLength.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90ArcEncoded.bin", "TestData/Encoding/Rle90")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90BinHexEncoded.bin", "TestData/Encoding/Rle90")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90RunBeforeLiteral.bin", "TestData/Encoding/Rle90")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90NoRunLength.bin", "TestData/Encoding/Rle90")]
+    [DeploymentItem("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin", "TestData/Encoding/Rle90")]
     public class Rle90DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -29,7 +29,7 @@ namespace IronFE.Tests.EncodingTests
              * was stripped of the ARC header and archive end marker.
              */
 
-            FileStream rle90File = File.OpenRead("TestData/Rle90ArcEncoded.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90ArcEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, false))
             {
@@ -48,7 +48,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90ArcPiecewise()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90ArcEncoded.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90ArcEncoded.bin");
             byte[] buffer = new byte[1];
             using Rle90DecodingStream decoder = new(rle90File, false);
 
@@ -75,7 +75,7 @@ namespace IronFE.Tests.EncodingTests
              * (output method 3 and buffer RLE marker when compressing).
              */
 
-            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90BinHexEncoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (Rle90DecodingStream decoder = new(rle90File, true))
             {
@@ -94,7 +94,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90BinHexPiecewise()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90BinHexEncoded.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90BinHexEncoded.bin");
             byte[] buffer = new byte[1];
             using Rle90DecodingStream decoder = new(rle90File, true);
 
@@ -113,7 +113,7 @@ namespace IronFE.Tests.EncodingTests
         {
             int overreadAmount = 256;
 
-            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin");
             byte[] buffer = new byte[4 + overreadAmount];
 
             // No need for exception checking, the assumption is that
@@ -132,7 +132,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90RunBeforeLiteral()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90RunBeforeLiteral.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90RunBeforeLiteral.bin");
             byte[] buffer = new byte[1];
 
             using Rle90DecodingStream decoder = new(rle90File, true);
@@ -146,7 +146,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90NoRunLength()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90NoRunLength.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90NoRunLength.bin");
             byte[] buffer = new byte[2];
 
             using Rle90DecodingStream decoder = new(rle90File, true);
@@ -160,7 +160,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90ArcLiteralMarkerRun()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin");
             byte[] buffer = new byte[4];
 
             // Since this mode doesn't buffer the literal marker,
@@ -177,7 +177,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeRle90BinHexLiteralMarkerRun()
         {
-            FileStream rle90File = File.OpenRead("TestData/Rle90LiteralMarkerRun.bin");
+            FileStream rle90File = File.OpenRead("TestData/Encoding/Rle90/Rle90LiteralMarkerRun.bin");
             byte[] buffer = new byte[4];
 
             // No need to check for exceptions, this should succeed

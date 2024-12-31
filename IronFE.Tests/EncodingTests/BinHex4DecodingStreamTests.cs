@@ -8,11 +8,11 @@ namespace IronFE.Tests.EncodingTests
     /// Tests functionality of the <see cref="BinHex4DecodingStream"/> class.
     /// </summary>
     [TestClass]
-    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Encoded.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerStart.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerEnd.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Small.bin", "TestData")]
-    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4AllInvalid.bin", "TestData")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Encoded.bin", "TestData/Encoding/BinHex4")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerStart.bin", "TestData/Encoding/BinHex4")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4NoMarkerEnd.bin", "TestData/Encoding/BinHex4")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4Small.bin", "TestData/Encoding/BinHex4")]
+    [DeploymentItem("TestData/Encoding/BinHex4/BinHex4AllInvalid.bin", "TestData/Encoding/BinHex4")]
     public class BinHex4DecodingStreamTests : EncodingTests
     {
         /// <summary>
@@ -28,7 +28,7 @@ namespace IronFE.Tests.EncodingTests
              * the underlying data.
              */
 
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4Encoded.bin");
             byte[] buffer = new byte[InputData.Length];
             using (BinHex4DecodingStream decoder = new(binhex4File))
             {
@@ -45,7 +45,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeBinHex4Piecewise()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Encoded.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4Encoded.bin");
             byte[] buffer = new byte[1];
             using BinHex4DecodingStream decoder = new(binhex4File);
 
@@ -64,7 +64,7 @@ namespace IronFE.Tests.EncodingTests
         {
             int overreadAmount = 256;
 
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Small.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4Small.bin");
             byte[] buffer = new byte[3 + overreadAmount];
             using BinHex4DecodingStream decoder = new(binhex4File);
 
@@ -79,7 +79,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeBinHex4EndOfStream()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4Small.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4Small.bin");
             using BinHex4DecodingStream decoder = new(binhex4File);
 
             // Read entire file
@@ -97,7 +97,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeBinHex4NoMarkerStart()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4NoMarkerStart.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4NoMarkerStart.bin");
             BinHex4DecodingStream decoder;
             Assert.ThrowsException<InvalidDataException>(() => decoder = new(binhex4File));
         }
@@ -108,7 +108,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeBinHex4NoMarkerEnd()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4NoMarkerEnd.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4NoMarkerEnd.bin");
             using BinHex4DecodingStream decoder = new(binhex4File);
 
             // Input data is 4 bytes encoded, 3 bytes decoded, so attempt to
@@ -123,7 +123,7 @@ namespace IronFE.Tests.EncodingTests
         [TestMethod]
         public void DecodeBinHex4AllInvalid()
         {
-            FileStream binhex4File = File.OpenRead("TestData/BinHex4AllInvalid.bin");
+            FileStream binhex4File = File.OpenRead("TestData/Encoding/BinHex4/BinHex4AllInvalid.bin");
             using BinHex4DecodingStream decoder = new(binhex4File);
 
             // Input data is all 189 invalid bytes, so just read them one by one and catch.
